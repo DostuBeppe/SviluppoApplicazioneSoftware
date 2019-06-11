@@ -59,7 +59,7 @@ public class DataManager {
         connectionProps.put("serverTimezone", "UTC");
 
         conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/catering","root","");
+                "jdbc:mysql://localhost:3306/catering","root","1123581321");
 
         System.out.println("Connected to database");
         this.connection = conn;
