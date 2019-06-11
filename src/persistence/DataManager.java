@@ -7,7 +7,7 @@ import java.util.*;
 
 public class DataManager {
     private String userName = "root";
-    private String password = "";
+    private String password = "1123581321";//da cambiare
     private String serverName = "localhost";
     private String portNumber = "3306";
 
@@ -59,7 +59,7 @@ public class DataManager {
         connectionProps.put("serverTimezone", "UTC");
 
         conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/catering","root","1123581321");
+                "jdbc:mysql://"+serverName+":"+portNumber+"/catering",userName,password);
 
         System.out.println("Connected to database");
         this.connection = conn;
