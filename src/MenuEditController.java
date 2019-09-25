@@ -1,5 +1,5 @@
 import businesslogic.*;
-import businesslogic.Menu;
+import businesslogic.Event;
 import businesslogic.MenuItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +86,7 @@ public class MenuEditController {
     public MenuEditController() {
         editListeners = new ArrayList<>();
     }
-
+/*
     public void initialize() {
         sectionsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         itemsList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -107,7 +106,7 @@ public class MenuEditController {
     }
 
     public void setup() {
-        Menu m = CateringAppManager.menuManager.getCurrentMenu();
+        Event m = CateringAppManager.menuManager.getCurrentEvent();
 
         String title = m.getTitle();
         if (title == null || title.trim().length() == 0) this.menuTitle.setText("(senza titolo)");
@@ -127,7 +126,7 @@ public class MenuEditController {
 
     private void resetSections() {
 
-        sections = FXCollections.observableList(CateringAppManager.menuManager.getCurrentMenu().getSections());
+        sections = FXCollections.observableList(CateringAppManager.menuManager.getCurrentEvent().getSections());
         sections.add(0, new Section("(no section)"));
 
         sectionsList.setItems(sections);
@@ -146,7 +145,7 @@ public class MenuEditController {
             this.moveDownSectionButton.setDisable(true);
         }
         else if (index == 0) { // no section
-            items = FXCollections.observableList(CateringAppManager.menuManager.getCurrentMenu().getItemsWithoutSection());
+            items = FXCollections.observableList(CateringAppManager.menuManager.getCurrentEvent().getItemsWithoutSection());
             this.deleteSectionButton.setDisable(true);
             this.editSectionButton.setDisable(true);
             this.moveUpSectionButton.setDisable(true);
@@ -409,7 +408,7 @@ public class MenuEditController {
 
     @FXML
     private void onEditMenuTitle() {
-        String oldTitle = CateringAppManager.menuManager.getCurrentMenu().getTitle();
+        String oldTitle = CateringAppManager.menuManager.getCurrentEvent().getTitle();
         TextInputDialog dialog = new TextInputDialog(oldTitle);
         dialog.setTitle("Cambia titolo");
         dialog.setHeaderText(null);
@@ -419,9 +418,9 @@ public class MenuEditController {
         result.ifPresent(title -> {
             if (!title.equals(oldTitle))
             CateringAppManager.menuManager.setMenuTitle(title);
-            this.menuTitle.setText(CateringAppManager.menuManager.getCurrentMenu().getTitle());
+            this.menuTitle.setText(CateringAppManager.menuManager.getCurrentEvent().getTitle());
         });
 
     }
-
+*/
 }

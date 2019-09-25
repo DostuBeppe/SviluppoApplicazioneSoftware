@@ -1,30 +1,28 @@
 import businesslogic.CateringAppManager;
-import businesslogic.Menu;
+import businesslogic.Event;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class MenuListController {
+public class EventListController {
 
-    private List<Menu> menus;
-    private ObservableList<Menu> observableMenus;
-    private MenuEditController menuEditController;
-    private Menu selectedMenu;
+    private List<Event> events;
+    private ObservableList<Event> observableEvents;
+   // private MenuEditController menuEditController;
+    private Event selectedEvent;
 
     @FXML
-    private ListView<Menu> menuList;
+    private ListView<Event> eventList;
 
     @FXML
     private BorderPane mainContainer;
@@ -32,55 +30,54 @@ public class MenuListController {
     @FXML
     private BorderPane menuListPane;
 
-    private BorderPane menuEditPane;
+    private BorderPane eventEditPane;
 
-    @FXML
-    Button editMenuButton;
-
-    @FXML
-    Button copyMenuButton;
-
-    @FXML
-    Button deleteMenuButton;
 
     @FXML
     public void initialize() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("menuedit.fxml"));
-            menuEditPane = loader.load();
-            menuEditController = loader.getController();
+       /*  try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
+            eventEditPane = loader.load();
+           // menuEditController = loader.getController();
             menuEditController.listen((publish -> {
                 if (publish) {
                     CateringAppManager.menuManager.publish();
                 }
-                this.resetMenuList();
+                this.resetEventList();
                 mainContainer.setCenter(menuListPane);
             }));
 
         } catch (IOException exc) {
             exc.printStackTrace();
-        }
+        }*/
 
-        menuList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        this.resetMenuList();
+        eventList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        this.resetEventList();
 
 
-        menuList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
-            selectedMenu = menuList.getSelectionModel().getSelectedItem();
-            boolean ownershipOk = (selectedMenu != null) && (selectedMenu.getOwner().equals(CateringAppManager.userManager.getCurrentUser()));
-            boolean editable = (selectedMenu != null) && !selectedMenu.isInUse() && !selectedMenu.isPublished();
-            copyMenuButton.setDisable(selectedMenu == null);
+      /*eventList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
+            selectedEvent = eventList.getSelectionModel().getSelectedItem();
+            boolean ownershipOk = (selectedEvent != null) && (selectedEvent.getOwner().equals(CateringAppManager.userManager.getCurrentUser()));
+            boolean editable = (selectedEvent != null) && !selectedEvent.isInUse() && !selectedEvent.isPublished();
+            copyMenuButton.setDisable(selectedEvent == null);
             editMenuButton.setDisable(!ownershipOk || !editable);
             deleteMenuButton.setDisable(!ownershipOk || !editable);
-        });
+        });*/
     }
 
-    private void resetMenuList() {
-        menus = CateringAppManager.menuManager.getAllMenus();
-        observableMenus = FXCollections.observableList(menus);
-        menuList.setItems(observableMenus);
+    private void resetEventList() {
+        events = CateringAppManager.eventManager.getAllEvents();
+        System.out.println(events.size());
+        observableEvents = FXCollections.observableList(events);
+        eventList.setItems(observableEvents);
     }
-
+    private void loadEventList() {
+        eventList= new ListView<>();
+        events = CateringAppManager.eventManager.getAllEvents();
+        observableEvents = FXCollections.observableList(events);
+        eventList.setItems(observableEvents);
+    }
+/*
     @FXML
     private void newMenuAction() {
         TextInputDialog dialog = new TextInputDialog("");
@@ -98,14 +95,14 @@ public class MenuListController {
 
     @FXML
     private void editMenuAction() {
-        CateringAppManager.menuManager.chooseMenu(this.selectedMenu);
+        CateringAppManager.menuManager.chooseMenu(this.selectedEvent);
         menuEditController.setup();
         mainContainer.setCenter(menuEditPane);
     }
 
     @FXML
     private void copyMenuAction() {
-        CateringAppManager.menuManager.copyMenu(this.selectedMenu);
+        CateringAppManager.menuManager.copyMenu(this.selectedEvent);
         menuEditController.setup();
         mainContainer.setCenter(menuEditPane);
 
@@ -113,7 +110,7 @@ public class MenuListController {
 
     @FXML
     private void deleteMenuAction() {
-        CateringAppManager.menuManager.deleteMenu(this.selectedMenu);
+        CateringAppManager.menuManager.deleteMenu(this.selectedEvent);
         this.resetMenuList();
-    }
+    }*/
 }

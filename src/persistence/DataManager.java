@@ -7,7 +7,7 @@ import java.util.*;
 
 public class DataManager {
     private String userName = "root";
-    private String password = "";//da cambiare
+    private String password = "1123581321";//da cambiare
     private String serverName = "localhost";
     private String portNumber = "3306";
 
@@ -23,8 +23,8 @@ public class DataManager {
     private Map<Recipe, Integer> recipeObjects;
     private Map<Integer, Recipe> idToRecipeObject;
 
-    private Map<Menu, Integer> menuObjects;
-    private Map<Integer, Menu> idToMenuObject;
+    private Map<Event, Integer> eventObjects;
+    private Map<Integer, Event> idToEventObject;
 
     private Map<Section, Integer> sectionObjects;
     private Map<Integer, Section> idToSectionObject;
@@ -38,8 +38,8 @@ public class DataManager {
         this.idToUserObject = new HashMap<>();
         this.recipeObjects = new HashMap<>();
         this.idToRecipeObject = new HashMap<>();
-        this.menuObjects = new HashMap<>();
-        this.idToMenuObject = new HashMap<>();
+        this.eventObjects = new HashMap<>();
+        this.idToEventObject = new HashMap<>();
         this.sectionObjects = new HashMap<>();
         this.idToSectionObject = new HashMap<>();
         this.itemObjects = new HashMap<>();
@@ -65,12 +65,12 @@ public class DataManager {
         this.connection = conn;
 
 
-        CateringAppManager.menuManager.addReceiver(new MenuEventReceiver() {
+        /*CateringAppManager.menuManager.addReceiver(new EventManagerReceiver() {
             @Override
-            public void notifyMenuCreated(Menu m) {
+            public void notifyMenuCreated(Event m) {
                 int mid = writeNewMenu(m);
                 menuObjects.put(m, mid);
-                idToMenuObject.put(mid, m);
+                idToEventObject.put(mid, m);
                 List<Section> secs = m.getSections();
                 for (int i = 0; i < secs.size(); i++) {
                     Section s = secs.get(i);
@@ -98,7 +98,7 @@ public class DataManager {
             }
 
             @Override
-            public void notifySectionAdded(Menu m, Section s) {
+            public void notifySectionAdded(Event m, Section s) {
                 int mid = menuObjects.get(m);
                 int pos = m.getSectionPosition(s);
                 int sid = writeNewSection(mid, pos, s);
@@ -107,7 +107,7 @@ public class DataManager {
             }
 
             @Override
-            public void notifyItemAdded(Menu m, Section s, MenuItem it) {
+            public void notifyItemAdded(Event m, Section s, MenuItem it) {
                 int mid = menuObjects.get(m);
                 int sid, pos;
                 if (s != null) {
@@ -123,31 +123,31 @@ public class DataManager {
             }
 
             @Override
-            public void notifyMenuPublished(Menu m) {
+            public void notifyMenuPublished(Event m) {
                 writeMenuChanges(m);
 
             }
 
             @Override
-            public void notifyMenuDeleted(Menu m) {
+            public void notifyMenuDeleted(Event m) {
                 removeMenu(m);
             }
 
             @Override
-            public void notifySectionRemoved(Menu m, Section s) {
+            public void notifySectionRemoved(Event m, Section s) {
                 removeSection(s);
             }
 
 
             @Override
-            public void notifySectionNameChanged(Menu m, Section s) {
+            public void notifySectionNameChanged(Event m, Section s) {
                 int mid = menuObjects.get(m);
                 int pos = m.getSectionPosition(s);
                 writeSectionChanges(mid, pos, s);
             }
 
             @Override
-            public void notifySectionsRearranged(Menu m) {
+            public void notifySectionsRearranged(Event m) {
                 List<Section> sects = m.getSections();
                 int mid = menuObjects.get(m);
                 for (int i = 0; i < sects.size(); i++) {
@@ -157,7 +157,7 @@ public class DataManager {
             }
 
             @Override
-            public void notifyItemsRearranged(Menu m, Section s) {
+            public void notifyItemsRearranged(Event m, Section s) {
                 List<MenuItem> its = s.getItems();
                 int mid = menuObjects.get(m);
                 int sid = sectionObjects.get(s);
@@ -167,7 +167,7 @@ public class DataManager {
             }
 
             @Override
-            public void notifyItemsRearrangedInMenu(Menu m) {
+            public void notifyItemsRearrangedInMenu(Event m) {
                 List<MenuItem> its = m.getItemsWithoutSection();
                 int mid = menuObjects.get(m);
                 for (int i = 0; i < its.size(); i++) {
@@ -177,7 +177,7 @@ public class DataManager {
             }
 
             @Override
-            public void notifyItemMoved(Menu m, Section oldS, Section newS, MenuItem it) {
+            public void notifyItemMoved(Event m, Section oldS, Section newS, MenuItem it) {
                 int mid = menuObjects.get(m);
                 int sid = (newS == null ? 0 : sectionObjects.get(newS));
                 int itpos = (newS == null ? m.getItemPosition(it) : newS.getItemPosition(it));
@@ -185,7 +185,7 @@ public class DataManager {
             }
 
             @Override
-            public void notifyItemDescriptionChanged(Menu m, MenuItem it) {
+            public void notifyItemDescriptionChanged(Event m, MenuItem it) {
                 int mid = menuObjects.get(m);
                 Section s = m.getSection(it);
                 int sid = (s == null ? 0 : sectionObjects.get(s));
@@ -194,18 +194,19 @@ public class DataManager {
             }
 
             @Override
-            public void notifyItemDeleted(Menu m, MenuItem it) {
+            public void notifyItemDeleted(Event m, MenuItem it) {
                 removeItem(it);
             }
 
             @Override
-            public void notifyMenuTitleChanged(Menu m) {
+            public void notifyMenuTitleChanged(Event m) {
                 writeMenuChanges(m);
             }
-        });
+        });*/
     }
 
-    private int writeNewMenu(Menu m) {
+/*
+    private int writeNewMenu(Event m) {
 
         String sql = "INSERT INTO Menus(title, menuowner, published, fingerFood, " +
                 "cookRequired, hotDishes, kitchenRequired, buffet) "
@@ -244,7 +245,7 @@ public class DataManager {
         return id;
     }
 
-    private void writeMenuChanges(Menu m) {
+    private void writeMenuChanges(Event m) {
         int mid = menuObjects.get(m);
         int uid = userObjects.get(m.getOwner());
         String sql = "UPDATE Menus SET menuowner=?, published=?, fingerFood=?, cookRequired=?, hotDishes=?, "
@@ -275,7 +276,7 @@ public class DataManager {
         }
     }
 
-    private void removeMenu(Menu m) {
+    private void removeMenu(Event m) {
         int mId = menuObjects.get(m);
         String sqlItems = "DELETE FROM MenuItems WHERE menu=?";
         String sqlSections = "DELETE FROM Sections WHERE menu=?";
@@ -493,140 +494,17 @@ public class DataManager {
         }
     }
 
-    public User loadUser(String userName) {
-        PreparedStatement pst = null;
-        String sql = "SELECT Users.id, Users.name, UserRoles.role FROM Users LEFT JOIN UserRoles on Users.id = "
-                + "UserRoles.user where Users.name=?";
-        User u = null;
-
-        try {
-            pst = this.connection.prepareStatement(sql);
-            pst.setString(1, userName);
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
-                if (u == null) {
-                    u = new User(userName);
-                    int id = rs.getInt("id");
-                    this.userObjects.put(u, id);
-                    this.idToUserObject.put(id, u);
-                }
-
-                addUserRole(u, rs);
-
-            }
-            pst.close();
-        } catch (SQLException exc) {
-            exc.printStackTrace();
-        } finally {
-            try {
-                if (pst != null) pst.close();
-            } catch (SQLException exc2) {
-                exc2.printStackTrace();
-            }
-        }
-        return u;
-    }
-
-    public List<Recipe> loadRecipes() {
-        Statement st = null;
-        String query = "SELECT * FROM Recipes";
-        List<Recipe> ret = new ArrayList<>();
-
-        try {
-            st = this.connection.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()) {
-                String name = rs.getString("name");
-                char type = rs.getString("type").charAt(0);
-                int id = rs.getInt("id");
-
-                // Verifica se per caso l'ha già caricata
-                Recipe rec = this.idToRecipeObject.get(id);
-
-                if (rec == null) {
-                    rec = createRecipeWithType(name, type);
-
-                    if (rec != null) {
-                        ret.add(rec);
-                        this.recipeObjects.put(rec, id);
-                        this.idToRecipeObject.put(id, rec);
-                    }
-                }
-            }
-        } catch (SQLException exc) {
-            exc.printStackTrace();
-        } finally {
-            try {
-                if (st != null) st.close();
-            } catch (SQLException exc2) {
-                exc2.printStackTrace();
-            }
-        }
-        return ret;
-    }
-
-    public List<Menu> loadMenus() {
-        List<Menu> ret = new ArrayList<>();
-        Statement st = null;
-        String query = "SELECT * FROM Menus";
-
-        try {
-            st = this.connection.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            while (rs.next()) {
-                int id = rs.getInt("id");
-
-                // Verifica se per caso l'ha già caricato
-                Menu m = this.idToMenuObject.get(id);
-                if (m == null) {
-
-                    String title = rs.getString("title");
-
-                    int ownerid = rs.getInt("menuowner");
-                    User owner = this.innerLoadUser(ownerid);
-
-                    m = new Menu(owner, title);
-                    m.setPublished(rs.getBoolean("published"));
-                    m.setBuffet(rs.getBoolean("buffet"));
-                    m.setCookRequired(rs.getBoolean("cookRequired"));
-                    m.setFingerFood(rs.getBoolean("fingerFood"));
-                    m.setHotDishes(rs.getBoolean("hotDishes"));
-                    m.setKitchenRequired(rs.getBoolean("kitchenRequired"));
-
-                    // per sapere se il menu è in uso consulto la tabella degli eventi
-                    // NdR: un menu è in uso anche se l'evento che lo usa è concluso o annullato
-                    Statement st2 = this.connection.createStatement();
-                    String query2 = "SELECT Events.id FROM Events JOIN Menus M on Events.menu = M.id WHERE M.id=" + id;
-                    ResultSet rs2 = st2.executeQuery(query2);
-                    m.setInUse(rs2.next());
-                    st2.close();
-                    loadMenuSections(id, m);
-                    loadMenuItems(id, m);
 
 
-                    ret.add(m);
-                    this.menuObjects.put(m, id);
-                    this.idToMenuObject.put(id, m);
-                }
-            }
-        } catch (SQLException exc) {
-            exc.printStackTrace();
-        } finally {
-            try {
-                if (st != null) st.close();
-            } catch (SQLException exc2) {
-                exc2.printStackTrace();
-            }
-        }
-        return ret;
-    }
 
-    private void loadMenuItems(int id, Menu m) {
+
+
+    private void loadMenuItems(int id, Event m) {
         // Caricamento voci
         // Non verifichiamo se un MenuItem è già stato creato perché
-        // questo può avvenire solo nel contesto del caricamento di un Menu
-        // e il MenuItem può essere già creato solo se il Menu è stato creato;
-        // il controllo sul Menu avviene già in loadMenus
+        // questo può avvenire solo nel contesto del caricamento di un Event
+        // e il MenuItem può essere già creato solo se il Event è stato creato;
+        // il controllo sul Event avviene già in loadMenus
         Statement st = null;
         String query = "SELECT MenuItems.* FROM MenuItems WHERE MenuItems.menu=" + id
                 + " ORDER BY MenuItems.position";
@@ -705,12 +583,12 @@ public class DataManager {
         return null;
     }
 
-    private void loadMenuSections(int id, Menu m) {
+    private void loadMenuSections(int id, Event m) {
         // Caricamento sezioni
         // Non verifichiamo se una Section è già stata creata perché
-        // questo può avvenire solo nel contesto del caricamento di un Menu
-        // e la Section può essere già creata solo se il Menu è stato creato;
-        // il controllo sul Menu avviene già in loadMenus
+        // questo può avvenire solo nel contesto del caricamento di un Event
+        // e la Section può essere già creata solo se il Event è stato creato;
+        // il controllo sul Event avviene già in loadMenus
         Statement st = null;
         String query = "SELECT Sections.* FROM Sections WHERE Sections.menu=" + id + " ORDER BY Sections.position";
 
@@ -787,5 +665,133 @@ public class DataManager {
                 u.addRole(User.Role.Servizio);
                 break;
         }
+    }*/
+            public List<Event> loadChefEvents(int chef) {
+                List<Event> ret = new ArrayList<>();
+                Statement st = null;
+                String query = "SELECT * FROM Events WHERE Events.chef_id="+Integer.toString(chef);
+
+                try {
+                    st = this.connection.createStatement();
+                    ResultSet rs = st.executeQuery(query);
+                    while (rs.next()) {
+
+                        int eventId = rs.getInt("id");
+                        // Verifica se per caso l'ha già caricato
+                      //  Event e = this.idToEventObject.get(eventId);
+                        Event e= new Event();
+                        if (e != null) {
+
+                            String eventName = rs.getString("event_name");
+                            int menuId = rs.getInt("menu");
+                            String eventDate = rs.getString("event_date");
+                            int chefId = rs.getInt("chef_id");
+                            System.out.println("event name: "+eventName+" chef id:"+Integer.toString(chefId));
+                            e.setChefId(chefId);
+                            e.setDate(eventDate);
+                            e.setMenuId(menuId);
+                            e.setTitle(eventName);
+                   /* int ownerid = rs.getInt("menuowner");
+                    User owner = this.innerLoadUser(ownerid);*/
+
+                   /* m = new Event(owner, title);
+                    m.setPublished(rs.getBoolean("published"));
+                    m.setBuffet(rs.getBoolean("buffet"));
+                    m.setCookRequired(rs.getBoolean("cookRequired"));
+                    m.setFingerFood(rs.getBoolean("fingerFood"));
+                    m.setHotDishes(rs.getBoolean("hotDishes"));
+                    m.setKitchenRequired(rs.getBoolean("kitchenRequired"));*/
+
+                            // per sapere se il menu è in uso consulto la tabella degli eventi
+                            // NdR: un menu è in uso anche se l'evento che lo usa è concluso o annullato
+                   /* loadMenuSections(id, m);
+                    loadMenuItems(id, m);*/
+
+
+                            ret.add(e);
+                            this.eventObjects.put(e, eventId);
+                            this.idToEventObject.put(eventId, e);
+                        }
+                    }
+                } catch (SQLException exc) {
+                    exc.printStackTrace();
+                } finally {
+                    try {
+                        if (st != null) st.close();
+                    } catch (SQLException exc2) {
+                        exc2.printStackTrace();
+                    }
+                }
+                return ret;
+            }
+    public User loadUser(String userName) {
+        PreparedStatement pst = null;
+        String sql = "SELECT Users.id, Users.name, UserRoles.role FROM Users LEFT JOIN UserRoles on Users.id = "
+                + "UserRoles.user where Users.name=?";
+        User u = null;
+
+        try {
+            pst = this.connection.prepareStatement(sql);
+            pst.setString(1, userName);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                if (u == null) {
+                    u = new User(userName);
+                    int id = rs.getInt("id");
+                    this.userObjects.put(u, id);
+                    this.idToUserObject.put(id, u);
+                }
+
+                //addUserRole(u, rs);
+
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return u;
     }
-}
+    /*public List<Recipe> loadRecipes() {
+        Statement st = null;
+        String query = "SELECT * FROM Recipes";
+        List<Recipe> ret = new ArrayList<>();
+
+        try {
+            st = this.connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                String name = rs.getString("name");
+                char type = rs.getString("type").charAt(0);
+                int id = rs.getInt("id");
+
+                // Verifica se per caso l'ha già caricata
+                Recipe rec = this.idToRecipeObject.get(id);
+
+                if (rec == null) {
+                    rec = createRecipeWithType(name, type);
+
+                    if (rec != null) {
+                        ret.add(rec);
+                        this.recipeObjects.put(rec, id);
+                        this.idToRecipeObject.put(id, rec);
+                    }
+                }
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return ret;
+    }*/
+        }
