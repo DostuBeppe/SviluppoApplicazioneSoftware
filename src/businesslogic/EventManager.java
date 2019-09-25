@@ -36,7 +36,7 @@ public class EventManager {
     public List<Event> getAllEvents() {
         if (allEvents == null) {
             allEvents = new ArrayList<>();
-            allEvents.addAll(CateringAppManager.dataManager.loadChefEvents(2));
+            allEvents.addAll(CateringAppManager.dataManager.loadChefEvents(CateringAppManager.userManager.getCurrentUser().getUserId()));
         }
 
         // Restituisce una copia della propria lista per impedire ad altri oggetti di modificarne

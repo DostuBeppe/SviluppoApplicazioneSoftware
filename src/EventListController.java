@@ -55,14 +55,10 @@ public class EventListController {
         this.resetEventList();
 
 
-      /*eventList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
+      eventList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedEvent = eventList.getSelectionModel().getSelectedItem();
-            boolean ownershipOk = (selectedEvent != null) && (selectedEvent.getOwner().equals(CateringAppManager.userManager.getCurrentUser()));
-            boolean editable = (selectedEvent != null) && !selectedEvent.isInUse() && !selectedEvent.isPublished();
-            copyMenuButton.setDisable(selectedEvent == null);
-            editMenuButton.setDisable(!ownershipOk || !editable);
-            deleteMenuButton.setDisable(!ownershipOk || !editable);
-        });*/
+            System.out.println(selectedEvent.getMenuId());
+        });
     }
 
     private void resetEventList() {

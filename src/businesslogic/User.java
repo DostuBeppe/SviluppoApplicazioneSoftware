@@ -5,11 +5,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class User {
+
+
     public static enum Role {Cuoco, Chef, Organizzatore, Servizio};
 
     private String name;
     private Set<Role> roles;
-
+    private int userId;
     public User(String name) {
         this.name = name;
         this.roles = new HashSet<Role>();
@@ -25,5 +27,12 @@ public class User {
 
     public String toString() {
         return this.name;
+    }
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

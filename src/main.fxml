@@ -13,7 +13,7 @@
          <children>
             <Label text="Utente attuale:" />
             <TextField fx:id="userName" />
-            <Button fx:id="loginButton" mnemonicParsing="false" text="Login" />
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Login" />
          </children>
       </FlowPane>
    </top>

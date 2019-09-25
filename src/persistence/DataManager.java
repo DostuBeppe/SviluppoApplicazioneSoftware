@@ -738,6 +738,7 @@ public class DataManager {
                 if (u == null) {
                     u = new User(userName);
                     int id = rs.getInt("id");
+                    u.setUserId(id);
                     this.userObjects.put(u, id);
                     this.idToUserObject.put(id, u);
                 }

@@ -21,9 +21,9 @@ public class CateringAppManager {
     }
     private CateringAppManager() {
         CateringAppManager.dataManager = new DataManager();
-       /* CateringAppManager.userManager = new UserManager();
-        CateringAppManager.menuManager = new EventManager();
-        CateringAppManager.recipeManager = new RecipeManager();*/
+        CateringAppManager.userManager = new UserManager();
+       // CateringAppManager.menuManager = new EventManager();
+      //  CateringAppManager.recipeManager = new RecipeManager();
         CateringAppManager.eventManager = new EventManager();
         // Inizializza i GRASP controller e i servizi da utilizzare
 
@@ -33,8 +33,8 @@ public class CateringAppManager {
             // Rimando l'eccezione a terminale
             exc.printStackTrace();
         }
-      /*  CateringAppManager.userManager.initialize();
-        CateringAppManager.menuManager.initialize();*/
+        CateringAppManager.userManager.initialize();
+        //CateringAppManager.menuManager.initialize();
         CateringAppManager.eventManager.initialize();
     }
 
