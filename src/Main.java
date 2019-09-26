@@ -20,7 +20,6 @@ public class Main extends Application {
 
         this.primaryStage = primaryStage;
         this.app = CateringAppManager.getInstance();
-
         FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("main.fxml"));
         Parent main = mainLoader.load();
         Scene mainScene = new Scene(main);
@@ -32,10 +31,6 @@ public class Main extends Application {
         primaryStage.setHeight(600);
         // primaryStage.setMaximized(true);
         primaryStage.show();
-    }
-
-    public void openMenuEditing() {
-
     }
 
 

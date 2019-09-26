@@ -3,32 +3,49 @@ package businesslogic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Menu implements Cloneable {
+public class Event implements Cloneable {
 
     private User owner;
     private List<Section> sections;
     private List<MenuItem> itemsWithoutSection;
 
     private String title;
-    private boolean published;
-    private boolean inUse;
-    private boolean fingerFood;
-    private boolean cookRequired;
-    private boolean hotDishes;
-    private boolean kitchenRequired;
-    private boolean buffet;
+    private String date;
+    private int chefId;
+    private int eventId;
+    private int menuId;
 
-
-    public Menu(User owner) {
-        this(owner, "");
+    public Event(String title) {
+        this.title= title;
+    }
+    public Event() {
     }
 
-    public Menu(User owner, String title) {
-        this.owner = owner;
-        this.title = title;
-        this.sections = new ArrayList<>();
-        this.itemsWithoutSection = new ArrayList<>();
+    public String getDate() {
+        return date;
     }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getChefId() {
+        return chefId;
+    }
+
+    public void setChefId(int chefId) {
+        this.chefId = chefId;
+    }
+
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
+    }
+
+
 
 
     public Section addSection(String name) {
@@ -51,7 +68,26 @@ public class Menu implements Cloneable {
         return it;
     }
 
+    public int getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(int menuId) {
+        this.menuId = menuId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public String toString() {
+        return this.title ;
+    }
     // Accessor methods (set/get)
+    /*
     public boolean isPublished() {
         return published;
     }
@@ -112,10 +148,7 @@ public class Menu implements Cloneable {
         return owner;
     }
 
-    public String toString() {
-        return this.title + ", autore: " + this.owner.toString() +
-                (published ? ", pubblicato" : "") + (inUse ? ", in uso" : "");
-    }
+
 
     public String getTitle() {
         return title;
@@ -145,8 +178,8 @@ public class Menu implements Cloneable {
         this.owner = owner;
     }
 
-    public Menu clone() {
-        Menu copia = new Menu(this.owner, this.title);
+    public Event clone() {
+        Event copia = new Event(this.owner, this.title);
         copia.setPublished(this.published);
         copia.setInUse(false);
         copia.setKitchenRequired(this.kitchenRequired);
@@ -235,5 +268,5 @@ public class Menu implements Cloneable {
 
     public int getItemPosition(MenuItem it) {
         return itemsWithoutSection.indexOf(it);
-    }
+    }*/
 }
