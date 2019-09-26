@@ -1,5 +1,6 @@
 import businesslogic.CateringAppManager;
 import businesslogic.Event;
+import businesslogic.MenuItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,15 +17,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class EventListController {
+public class MenuController {
 
-    private List<Event> events;
-    private ObservableList<Event> observableEvents;
-   // private MenuEditController menuEditController;
-    private Event selectedEvent;
+    private List<MenuItem> items;
+    private ObservableList<MenuItem> observableEvents;
+    // private MenuEditController menuEditController;
+    private MenuItem selectedItem;
     private MainController main;
     @FXML
-    private ListView<Event> eventList;
+    private ListView<MenuItem> menuItemList;
 
     @FXML
     private BorderPane mainContainer;
@@ -39,29 +40,14 @@ public class EventListController {
     @FXML
     public void initialize(MainController main) {
         this.main=main;
-       /*  try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
-            eventEditPane = loader.load();
-           // menuEditController = loader.getController();
-            menuEditController.listen((publish -> {
-                if (publish) {
-                    CateringAppManager.menuManager.publish();
-                }
-                this.resetEventList();
-                mainContainer.setCenter(menuListPane);
-            }));
 
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }*/
-
-        eventList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        menuItemList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         this.resetEventList();
 
 
-      eventList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
-            selectedEvent = eventList.getSelectionModel().getSelectedItem();
-            System.out.println(selectedEvent.getMenuId());
+        menuItemList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
+            selectedItem = menuItemList.getSelectionModel().getSelectedItem();
+            System.out.println(selectedItem.getRecipe().getRecipeId());
         });
     }
 

@@ -678,10 +678,9 @@ public class DataManager {
 
                         int eventId = rs.getInt("id");
                         // Verifica se per caso l'ha già caricato
-                      //  Event e = this.idToEventObject.get(eventId);
-                        Event e= new Event();
-                        if (e != null) {
-
+                        Event e = this.idToEventObject.get(eventId);
+                        if(e==null){
+                            e= new Event();
                             String eventName = rs.getString("event_name");
                             int menuId = rs.getInt("menu");
                             String eventDate = rs.getString("event_date");
@@ -691,22 +690,6 @@ public class DataManager {
                             e.setDate(eventDate);
                             e.setMenuId(menuId);
                             e.setTitle(eventName);
-                   /* int ownerid = rs.getInt("menuowner");
-                    User owner = this.innerLoadUser(ownerid);*/
-
-                   /* m = new Event(owner, title);
-                    m.setPublished(rs.getBoolean("published"));
-                    m.setBuffet(rs.getBoolean("buffet"));
-                    m.setCookRequired(rs.getBoolean("cookRequired"));
-                    m.setFingerFood(rs.getBoolean("fingerFood"));
-                    m.setHotDishes(rs.getBoolean("hotDishes"));
-                    m.setKitchenRequired(rs.getBoolean("kitchenRequired"));*/
-
-                            // per sapere se il menu è in uso consulto la tabella degli eventi
-                            // NdR: un menu è in uso anche se l'evento che lo usa è concluso o annullato
-                   /* loadMenuSections(id, m);
-                    loadMenuItems(id, m);*/
-
 
                             ret.add(e);
                             this.eventObjects.put(e, eventId);
@@ -758,7 +741,69 @@ public class DataManager {
         }
         return u;
     }
-    /*public List<Recipe> loadRecipes() {
+    public List<MenuItem> loadMenuItems(int menuId) {
+        Statement st = null;
+        String query = "SELECT * FROM menuitems where menuitem.menu="+menuId;
+        List<MenuItem> ret = new ArrayList<>();
+
+        try {
+            st = this.connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                String name = rs.getString("name");
+                int id= rs.getInt("id");
+                int recipeId= rs.getInt("recipe");
+
+                // Verifica se per caso l'ha già caricata
+                MenuItem item = this.idToItemObject.get(id);
+                if (item == null) {
+                    item = new MenuItem();
+                    item.setDescription(name);
+                    item.setItemId(id);
+                    item.setRecipe(loadRecipe(recipeId));
+                }
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return ret;
+    }
+    public Recipe loadRecipe(int recipeId) {
+        Statement st = null;
+        Recipe rec=null;
+        String query = "SELECT * FROM recipe where recipe.id="+recipeId;
+        try {
+            st = this.connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                String name = rs.getString("name");
+                char type = rs.getString("type").charAt(0);
+                int id = rs.getInt("id");
+
+                // Verifica se per caso l'ha già caricata
+                if (rec == null) {
+                    rec = new Recipe(name);
+                    rec.setRecipeId(id);
+                }
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return rec;
+    }
+  /*  public List<Recipe> loadRecipes() {
         Statement st = null;
         String query = "SELECT * FROM Recipes";
         List<Recipe> ret = new ArrayList<>();

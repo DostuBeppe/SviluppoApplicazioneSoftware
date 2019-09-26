@@ -35,11 +35,15 @@ public class MainController {
                 FXMLLoader eventListLoader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
                 Parent eventList = eventListLoader.load();
                 EventListController eventListController = eventListLoader.getController();
+                eventListController.initialize(this);
                 mainPane.setCenter(eventList);
             } catch (IOException exc) {
                 exc.printStackTrace();
             }
         }
 
+    }
+    public void setMainPane(Parent main){
+        this.mainPane.setCenter(main);
     }
 }
