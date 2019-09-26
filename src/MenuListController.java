@@ -45,7 +45,7 @@ public class MenuListController {
 
     @FXML
     public void initialize() {
-        try {
+       /* try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("menuedit.fxml"));
             menuEditPane = loader.load();
             menuEditController = loader.getController();
@@ -59,7 +59,7 @@ public class MenuListController {
 
         } catch (IOException exc) {
             exc.printStackTrace();
-        }
+        }*/
 
         menuList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         this.resetMenuList();
