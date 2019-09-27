@@ -3,49 +3,32 @@ package businesslogic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Event implements Cloneable {
+public class Menu implements Cloneable {
 
     private User owner;
     private List<Section> sections;
     private List<MenuItem> itemsWithoutSection;
 
     private String title;
-    private String date;
-    private int chefId;
-    private int eventId;
-    private int menuId;
-    private Menu menu;
-    public Event(String title) {
-        this.title= title;
-    }
-    public Event() {
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public int getChefId() {
-        return chefId;
-    }
-
-    public void setChefId(int chefId) {
-        this.chefId = chefId;
-    }
-
-    public int getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
-    }
+    private boolean published;
+    private boolean inUse;
+    private boolean fingerFood;
+    private boolean cookRequired;
+    private boolean hotDishes;
+    private boolean kitchenRequired;
+    private boolean buffet;
 
 
+    public Menu(User owner) {
+        this(owner, "");
+    }
+
+    public Menu(User owner, String title) {
+        this.owner = owner;
+        this.title = title;
+        this.sections = new ArrayList<>();
+        this.itemsWithoutSection = new ArrayList<>();
+    }
 
 
     public Section addSection(String name) {
@@ -68,37 +51,7 @@ public class Event implements Cloneable {
         return it;
     }
 
-    public int getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(int menuId) {
-        this.menuId = menuId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public String toString() {
-        return this.title ;
-    }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
-    public void setMenu(){
-        this.menu= CateringAppManager.dataManager.loadMenuEvent(this.menuId);
-    }
     // Accessor methods (set/get)
-    /*
     public boolean isPublished() {
         return published;
     }
@@ -159,7 +112,10 @@ public class Event implements Cloneable {
         return owner;
     }
 
-
+    public String toString() {
+        return this.title + ", autore: " + this.owner.toString() +
+                (published ? ", pubblicato" : "") + (inUse ? ", in uso" : "");
+    }
 
     public String getTitle() {
         return title;
@@ -189,8 +145,8 @@ public class Event implements Cloneable {
         this.owner = owner;
     }
 
-    public Event clone() {
-        Event copia = new Event(this.owner, this.title);
+    public Menu clone() {
+        Menu copia = new Menu(this.owner, this.title);
         copia.setPublished(this.published);
         copia.setInUse(false);
         copia.setKitchenRequired(this.kitchenRequired);
@@ -279,5 +235,5 @@ public class Event implements Cloneable {
 
     public int getItemPosition(MenuItem it) {
         return itemsWithoutSection.indexOf(it);
-    }*/
+    }
 }

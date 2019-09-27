@@ -42,27 +42,27 @@ public class MenuController {
         this.main=main;
 
         menuItemList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        this.resetEventList();
+        this.resetItemList();
 
 
         menuItemList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedItem = menuItemList.getSelectionModel().getSelectedItem();
-            System.out.println(selectedItem.getRecipe().getRecipeId());
+
         });
     }
 
-    private void resetEventList() {
-        events = CateringAppManager.eventManager.getAllEvents();
-        System.out.println(events.size());
-        observableEvents = FXCollections.observableList(events);
-        eventList.setItems(observableEvents);
+    private void resetItemList() {
+        items = CateringAppManager.eventManager.getCurrentEvent().getMenu().getItemsWithoutSection();
+        System.out.println(items.size());
+        observableEvents = FXCollections.observableList(items);
+        menuItemList.setItems(observableEvents);
     }
-    private void loadEventList() {
+   /* private void loadEventList() {
         eventList= new ListView<>();
         events = CateringAppManager.eventManager.getAllEvents();
         observableEvents = FXCollections.observableList(events);
         eventList.setItems(observableEvents);
-    }
+    }*/
     @FXML
     private void handleButtonAction(ActionEvent event) {
 

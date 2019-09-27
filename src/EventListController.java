@@ -61,7 +61,8 @@ public class EventListController {
 
       eventList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedEvent = eventList.getSelectionModel().getSelectedItem();
-            System.out.println(selectedEvent.getMenuId());
+            CateringAppManager.eventManager.setCurrentEvent(selectedEvent);
+            System.out.println(selectedEvent.getEventId());
         });
     }
 
