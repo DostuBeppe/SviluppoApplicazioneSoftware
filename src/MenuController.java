@@ -1,5 +1,6 @@
 import businesslogic.CateringAppManager;
 import businesslogic.Event;
+import businesslogic.Menu;
 import businesslogic.MenuItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,10 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
@@ -26,7 +24,8 @@ public class MenuController {
     private MainController main;
     @FXML
     private ListView<MenuItem> menuItemList;
-
+    @FXML
+    private Label menuName;
     @FXML
     private BorderPane mainContainer;
 
@@ -40,7 +39,8 @@ public class MenuController {
     @FXML
     public void initialize(MainController main) {
         this.main=main;
-
+        System.out.println("menu name: "+CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
+        menuName.setText(CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
         menuItemList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         this.resetItemList();
 
@@ -49,11 +49,13 @@ public class MenuController {
             selectedItem = menuItemList.getSelectionModel().getSelectedItem();
 
         });
+        System.out.println("loaded menu controller");
     }
 
     private void resetItemList() {
+       // menuName.setText(CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
         items = CateringAppManager.eventManager.getCurrentEvent().getMenu().getItemsWithoutSection();
-        System.out.println(items.size());
+        System.out.println("item: "+items.size());
         observableEvents = FXCollections.observableList(items);
         menuItemList.setItems(observableEvents);
     }
@@ -66,18 +68,6 @@ public class MenuController {
     @FXML
     private void handleButtonAction(ActionEvent event) {
 
-        Button obj=(Button)event.getSource();
-        if(obj.getId().equals(selectEventButton.getId())){
-
-            try {
-                FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
-                Parent menu = menuLoader.load();
-                EventListController menuController = menuLoader.getController();
-                main.setMainPane(menu);
-            } catch (IOException exc) {
-                exc.printStackTrace();
-            }
-        }
 
     }
 /*

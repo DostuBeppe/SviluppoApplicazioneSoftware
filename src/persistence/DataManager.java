@@ -547,12 +547,13 @@ public class DataManager {
                     int menuId = rs.getInt("menu");
                     String eventDate = rs.getString("event_date");
                     int chefId = rs.getInt("chef_id");
-                    System.out.println("event name: "+eventName+" chef id:"+Integer.toString(chefId));
+                    System.out.println("event name: "+eventName+" chef id:"+Integer.toString(chefId)+" menu id: "+menuId);
                     e.setChefId(chefId);
                     e.setDate(eventDate);
                     e.setMenuId(menuId);
                     e.setTitle(eventName);
                     e.setEventId(eventId);
+                    e.setMenu(loadMenuEvent(menuId));
                     ret.add(e);
                     this.eventObjects.put(e, eventId);
                     this.idToEventObject.put(eventId, e);
@@ -572,43 +573,42 @@ public class DataManager {
     public Menu loadMenuEvent(int menuId){
         Menu m=null;
         Statement st = null;
-        String query = "SELECT * FROM Menus where menus.id="+menuId;
+        String query = "SELECT * FROM Menus where Menus.id="+menuId;
 
         try {
             st = this.connection.createStatement();
             ResultSet rs = st.executeQuery(query);
+
             while (rs.next()) {
                 int id = rs.getInt("id");
-
                 // Verifica se per caso l'ha già caricato
-                m = this.idToMenuObject.get(id);
-                if (m == null) {
 
-                    String title = rs.getString("title");
+                String title = rs.getString("title");
 
-                    int ownerid = rs.getInt("menuowner");
-                    User owner = this.innerLoadUser(ownerid);
+                int ownerid = rs.getInt("menuowner");
+                User owner = this.innerLoadUser(ownerid);
 
-                    m = new Menu(owner, title);
-                    m.setPublished(rs.getBoolean("published"));
-                    m.setBuffet(rs.getBoolean("buffet"));
-                    m.setCookRequired(rs.getBoolean("cookRequired"));
-                    m.setFingerFood(rs.getBoolean("fingerFood"));
-                    m.setHotDishes(rs.getBoolean("hotDishes"));
-                    m.setKitchenRequired(rs.getBoolean("kitchenRequired"));
+                m = new Menu(owner, title);
+                m.setPublished(rs.getBoolean("published"));
+                m.setBuffet(rs.getBoolean("buffet"));
+                m.setCookRequired(rs.getBoolean("cookRequired"));
+                m.setFingerFood(rs.getBoolean("fingerFood"));
+                m.setHotDishes(rs.getBoolean("hotDishes"));
+                m.setKitchenRequired(rs.getBoolean("kitchenRequired"));
+                m.setMenuId(id);
+                m.setTitle(title);
+                // per sapere se il menu è in uso consulto la tabella degli eventi
+                // NdR: un menu è in uso anche se l'evento che lo usa è concluso o annullato
+                /*Statement st2 = this.connection.createStatement();
+                String query2 = "SELECT Events.id FROM Events JOIN Menus M on Events.menu = M.id WHERE M.id=" + id;
+                ResultSet rs2 = st2.executeQuery(query2);
+                m.setInUse(rs2.next());
+                st2.close();*/
+                loadMenuSections(id, m);
+                loadMenuItems(id,m);
 
-                    // per sapere se il menu è in uso consulto la tabella degli eventi
-                    // NdR: un menu è in uso anche se l'evento che lo usa è concluso o annullato
-                    Statement st2 = this.connection.createStatement();
-                    String query2 = "SELECT Events.id FROM Events JOIN Menus M on Events.menu = M.id WHERE M.id=" + id;
-                    ResultSet rs2 = st2.executeQuery(query2);
-                    m.setInUse(rs2.next());
-                    st2.close();
-                    loadMenuSections(id, m);
-                    loadMenuItems(id,m);
 
 
-                }
             }
         } catch (SQLException exc) {
             exc.printStackTrace();
@@ -662,19 +662,15 @@ public class DataManager {
         // e il MenuItem può essere già creato solo se il Event è stato creato;
         // il controllo sul Event avviene già in loadMenus
         Statement st = null;
-        String query = "SELECT MenuItems.* FROM MenuItems WHERE MenuItems.menu=" + id
-                + " ORDER BY MenuItems.position";
+        String query = "SELECT * FROM MenuItems WHERE MenuItems.menu=" +id+" ORDER BY MenuItems.position";
         try {
             st = this.connection.createStatement();
-
             ResultSet rs = st.executeQuery(query);
-
             while (rs.next()) {
                 String description = rs.getString("description");
                 int idSec = rs.getInt("section");
                 int idIt = rs.getInt("id");
                 int idRec = rs.getInt("recipe");
-
                 Recipe rec = this.innerLoadRecipe(idRec);
 
                 Section sec = null;
@@ -686,6 +682,7 @@ public class DataManager {
                 this.itemObjects.put(it, idIt);
                 this.idToItemObject.put(idIt, it);
             }
+            System.out.println("item loaded: "+m.getItemsWithoutSectionCount());
         } catch (SQLException exc) {
             exc.printStackTrace();
         } finally {

@@ -18,13 +18,6 @@
             <ListView fx:id="eventList">
             </ListView>
         </center>
-        <bottom>
-            <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="5" style="-fx-border-color: transparent; -fx-border-width: 5 0 0 0;">
-               <children>
-                   <Button fx:id="selectEventButton" text="Seleziona" />
-               </children>
-            </FlowPane>
-        </bottom>
    <top>
       <Label text="Eventi assegnati" BorderPane.alignment="CENTER">
          <font>

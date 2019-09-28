@@ -44,6 +44,8 @@ public class MainController {
 
     }
     public void setMainPane(Parent main){
+
         this.mainPane.setCenter(main);
+        System.out.println("setted");
     }
 }

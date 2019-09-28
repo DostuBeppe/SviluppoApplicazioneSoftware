@@ -1,5 +1,6 @@
 import businesslogic.CateringAppManager;
 import businesslogic.Event;
+import businesslogic.Menu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,21 +40,7 @@ public class EventListController {
     @FXML
     public void initialize(MainController main) {
         this.main=main;
-       /*  try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
-            eventEditPane = loader.load();
-           // menuEditController = loader.getController();
-            menuEditController.listen((publish -> {
-                if (publish) {
-                    CateringAppManager.menuManager.publish();
-                }
-                this.resetEventList();
-                mainContainer.setCenter(menuListPane);
-            }));
 
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }*/
 
         eventList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         this.resetEventList();
@@ -62,8 +49,17 @@ public class EventListController {
       eventList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedEvent = eventList.getSelectionModel().getSelectedItem();
             CateringAppManager.eventManager.setCurrentEvent(selectedEvent);
-            System.out.println(selectedEvent.getEventId());
+          try {
+              FXMLLoader controlPanelLoader = new FXMLLoader(getClass().getResource("edit_panel_controller.fxml"));
+              Parent panel = controlPanelLoader.load();
+              EditPanelController panelController = controlPanelLoader.getController();
+              panelController.initialize(main);
+              main.setMainPane(panel);
+          } catch (IOException exc) {
+              exc.printStackTrace();
+          }
         });
+        System.out.println("loaded event list controller");
     }
 
     private void resetEventList() {

@@ -17,6 +17,7 @@ public class Menu implements Cloneable {
     private boolean hotDishes;
     private boolean kitchenRequired;
     private boolean buffet;
+    private int menuId;
 
 
     public Menu(User owner) {
@@ -235,5 +236,13 @@ public class Menu implements Cloneable {
 
     public int getItemPosition(MenuItem it) {
         return itemsWithoutSection.indexOf(it);
+    }
+
+    public int getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(int menuId) {
+        this.menuId = menuId;
     }
 }
