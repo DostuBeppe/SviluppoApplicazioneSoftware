@@ -1,6 +1,4 @@
 import businesslogic.CateringAppManager;
-import businesslogic.Event;
-import businesslogic.Menu;
 import businesslogic.MenuItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,9 +11,9 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
-public class MenuController {
+public class SummarySheetController {
+
 
     private List<MenuItem> items;
     private ObservableList<MenuItem> observableEvents;
@@ -39,7 +37,7 @@ public class MenuController {
     @FXML
     public void initialize(EditPanelController main) {
         this.main=main;
-        System.out.println("menu name: "+CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
+       /* System.out.println("menu name: "+ CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
         menuName.setText("Menu: "+CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
         menuItemList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         this.resetItemList();
@@ -48,23 +46,23 @@ public class MenuController {
         menuItemList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedItem = menuItemList.getSelectionModel().getSelectedItem();
 
-        });
-        System.out.println("loaded menu controller");
+        });*/
+        System.out.println("loaded summary sheet controller");
     }
 
     private void resetItemList() {
-       // menuName.setText(CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
+        // menuName.setText(CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
         items = CateringAppManager.eventManager.getCurrentEvent().getMenu().getItemsWithoutSection();
         System.out.println("item: "+items.size());
         observableEvents = FXCollections.observableList(items);
         menuItemList.setItems(observableEvents);
     }
-   /* private void loadEventList() {
-        eventList= new ListView<>();
-        events = CateringAppManager.eventManager.getAllEvents();
-        observableEvents = FXCollections.observableList(events);
-        eventList.setItems(observableEvents);
-    }*/
+    /* private void loadEventList() {
+         eventList= new ListView<>();
+         events = CateringAppManager.eventManager.getAllEvents();
+         observableEvents = FXCollections.observableList(events);
+         eventList.setItems(observableEvents);
+     }*/
     @FXML
     private void handleButtonAction(ActionEvent event) {
 

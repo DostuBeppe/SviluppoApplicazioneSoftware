@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="mainContainer" style="-fx-border-color: transparent; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="SummarySheetController">
+    <center>
+    <BorderPane fx:id="menuListPane">
+        <center>
+            <ListView fx:id="menuItemList">
+            </ListView>
+        </center>
+   <top>
+      <Label fx:id="menuName" text="Foglio riepilogtivo" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </top>
+    </BorderPane>
+    </center>
+    </BorderPane>

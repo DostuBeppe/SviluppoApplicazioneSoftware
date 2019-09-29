@@ -18,6 +18,10 @@ public class MainController {
     private TextField userName;
     @FXML
     private Button loginButton;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button forwardButton;
 
     @FXML
     public void initialize() {
@@ -25,7 +29,7 @@ public class MainController {
     }
     @FXML
     private void handleButtonAction(ActionEvent event) {
-
+        System.out.println("pressed");
         Button obj=(Button)event.getSource();
         if(obj.getId().equals(loginButton.getId())){
             String userText=userName.getText();
@@ -40,12 +44,14 @@ public class MainController {
             } catch (IOException exc) {
                 exc.printStackTrace();
             }
+        }else if(obj.getId().equals(backButton.getId())){
+            System.out.println("indietro");
+        }else if(obj.getId().equals(forwardButton.getId())){
+            System.out.println("avanti");
         }
 
     }
-    public void setMainPane(Parent main){
-
-        this.mainPane.setCenter(main);
-        System.out.println("setted");
+    public BorderPane getMainPane(){
+        return this.mainPane;
     }
 }

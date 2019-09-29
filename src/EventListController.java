@@ -54,7 +54,7 @@ public class EventListController {
               Parent panel = controlPanelLoader.load();
               EditPanelController panelController = controlPanelLoader.getController();
               panelController.initialize(main);
-              main.setMainPane(panel);
+              main.getMainPane().setCenter(panel);
           } catch (IOException exc) {
               exc.printStackTrace();
           }
@@ -79,15 +79,7 @@ public class EventListController {
 
         Button obj=(Button)event.getSource();
         if(obj.getId().equals(selectEventButton.getId())){
-
-            try {
-                FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
-                Parent menu = menuLoader.load();
-                EventListController menuController = menuLoader.getController();
-                main.setMainPane(menu);
-            } catch (IOException exc) {
-                exc.printStackTrace();
-            }
+            System.out.println("selsect");
         }
 
     }

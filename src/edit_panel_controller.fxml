@@ -11,13 +11,9 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainContainer" style="-fx-border-color: transparent; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditPanelController">
+<BorderPane fx:id="mainPane" style="-fx-border-color: transparent; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditPanelController">
     <center>
     <BorderPane fx:id="menuListPane">
-        <center>
-            <ListView fx:id="menuItemList">
-            </ListView>
-        </center>
    <top>
       <Label fx:id="menuName" text="Pannello di controllo" BorderPane.alignment="CENTER">
          <font>
@@ -28,7 +24,7 @@
          <left>
             <VBox prefHeight="400.0" prefWidth="118.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="createSheet" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="crea foglio" />
+                  <Button fx:id="createSheet" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="125.0" text="crea foglio" />
                   <Button fx:id="openSheet" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="apri foglio" />
                   <Button fx:id="editSheet" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="modifica foglio" />
                </children>

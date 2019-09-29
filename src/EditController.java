@@ -1,4 +1,3 @@
-import businesslogic.CateringAppManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class EditPanelController {
+public class EditController {
 
     @FXML
     private BorderPane mainPane;
@@ -31,7 +30,7 @@ public class EditPanelController {
         System.out.println(createSheet.getId());
     }
     @FXML
-    private void handlButtonAction(ActionEvent event) {
+    /*private void handlButtonAction(ActionEvent event) {
 
         Button obj=(Button)event.getSource();
         System.out.println("load title");
@@ -39,7 +38,7 @@ public class EditPanelController {
 
             try {
                 System.out.println("load title");
-                FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("title.fxml"));
+                FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("edit.fxml"));
                 Parent title = titleLoader.load();
                 TitleController titleController = titleLoader.getController();
                 titleController.initialize(this);
@@ -51,8 +50,8 @@ public class EditPanelController {
             }
         }
 
-    }
-    public BorderPane getMainPane(){
-        return this.mainPane;
+    }*/
+    public void setMainPane(Parent main){
+        mainPane.setCenter(main);
     }
 }

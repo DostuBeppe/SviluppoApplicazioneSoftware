@@ -17,22 +17,32 @@ public class TitleController {
     private TextField sheetName;
     @FXML
     private Button send;
-
+    private EditPanelController main;
     @FXML
-    public void initialize(MainController main) {
-
+    public void initialize(EditPanelController main) {
+        this.main=main;
     }
     @FXML
     private void handleButtonAction(ActionEvent event) {
 
         Button obj=(Button)event.getSource();
         if(obj.getId().equals(send.getId())){
+            try {
+                    FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
+                    Parent menu = menuLoader.load();
+                    MenuController menuController = menuLoader.getController();
+                    menuController.initialize(main);
+                    main.getMainPane().setLeft(menu);
 
-        try {
-                FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
-                Parent menu = menuLoader.load();
-                EventListController menuController = menuLoader.getController();
-
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                }
+            try {
+                FXMLLoader sheetLoader = new FXMLLoader(getClass().getResource("summary_sheet.fxml"));
+                Parent sheet = sheetLoader.load();
+                SummarySheetController sheetController = sheetLoader.getController();
+                sheetController.initialize(main);
+                main.getMainPane().setCenter(sheet);
 
             } catch (IOException exc) {
                 exc.printStackTrace();
