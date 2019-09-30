@@ -16,7 +16,9 @@ public class User {
         this.name = name;
         this.roles = new HashSet<Role>();
     }
-
+    public User(){
+        this.roles = new HashSet<Role>();
+    }
     public void addRole(Role role) {
         this.roles.add(role);
     }

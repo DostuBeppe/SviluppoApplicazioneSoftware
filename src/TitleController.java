@@ -27,6 +27,7 @@ public class TitleController {
 
         Button obj=(Button)event.getSource();
         if(obj.getId().equals(send.getId())){
+
             try {
                     FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
                     Parent menu = menuLoader.load();

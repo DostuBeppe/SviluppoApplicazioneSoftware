@@ -1,9 +1,6 @@
 package businesslogic;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Event implements Cloneable {
+public class Shift implements Cloneable {
 
     private User owner;
     private String title;
@@ -12,10 +9,10 @@ public class Event implements Cloneable {
     private int eventId;
     private int menuId;
     private Menu menu;
-    public Event(String title) {
+    public Shift(String title) {
         this.title= title;
     }
-    public Event() {
+    public Shift() {
     }
 
     public String getDate() {
