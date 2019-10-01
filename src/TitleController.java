@@ -33,7 +33,7 @@ public class TitleController {
                     Parent menu = menuLoader.load();
                     MenuController menuController = menuLoader.getController();
                     menuController.initialize(main);
-                    main.getMainPane().setLeft(menu);
+                    main.getControllPane().setLeft(menu);
 
                 } catch (IOException exc) {
                     exc.printStackTrace();
@@ -43,7 +43,7 @@ public class TitleController {
                 Parent sheet = sheetLoader.load();
                 SummarySheetController sheetController = sheetLoader.getController();
                 sheetController.initialize(main);
-                main.getMainPane().setCenter(sheet);
+                main.getControllPane().setCenter(sheet);
 
             } catch (IOException exc) {
                 exc.printStackTrace();

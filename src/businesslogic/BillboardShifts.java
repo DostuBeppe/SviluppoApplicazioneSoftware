@@ -12,7 +12,11 @@ public class BillboardShifts {
         loadShifts(eventDate);
     }
     public void loadShifts(String eventDate){
+        System.out.println("BS event date: >"+eventDate+"<");
         shifts= CateringAppManager.dataManager.loadShifts(eventDate);
+    }
+    public Map getShifts(){
+        return shifts;
     }
 
 

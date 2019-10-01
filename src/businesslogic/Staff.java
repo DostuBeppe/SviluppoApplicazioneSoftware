@@ -6,10 +6,10 @@ public class Staff extends User {
     private boolean cook;
     private int staffId;
     private Busy busy;
-    private List<Integer> selectedShifts;
+    private Map<Integer,Integer> selectedShifts;
     public Staff(){
         busy= new Busy();
-        selectedShifts= new ArrayList<>();
+        selectedShifts= new HashMap<>();
     }
 
     public boolean isCook() {
@@ -41,10 +41,13 @@ public class Staff extends User {
     public void setStaffId(int staffId) {
         this.staffId = staffId;
     }
-    public void addSelectedShifts(int shiftId){
-        selectedShifts.add(shiftId);
+    public void addSelectedShifts(Shift shift){
+        selectedShifts.put(shift.getShiftId(),shift.getNumber());
     }
-    public List<Integer> getSelectedShifts(){
+    public Map getSelectedShifts(){
         return selectedShifts;
+    }
+    public String toString(){
+        return getName();
     }
 }

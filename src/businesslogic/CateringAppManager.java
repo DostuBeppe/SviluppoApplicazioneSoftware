@@ -10,6 +10,7 @@ public class CateringAppManager {
     public static EventManager menuManager;
     public static RecipeManager recipeManager;
     public static EventManager eventManager;
+    public static BillboardManager billboardManager;
     // il data manager non è presente nel DSD perché non fa parte della business logic
     public static DataManager dataManager;
 
@@ -25,6 +26,7 @@ public class CateringAppManager {
        // CateringAppManager.menuManager = new EventManager();
       //  CateringAppManager.recipeManager = new RecipeManager();
         CateringAppManager.eventManager = new EventManager();
+        CateringAppManager.billboardManager= new BillboardManager();
         // Inizializza i GRASP controller e i servizi da utilizzare
 
         try {
@@ -36,6 +38,7 @@ public class CateringAppManager {
         CateringAppManager.userManager.initialize();
         //CateringAppManager.menuManager.initialize();
         CateringAppManager.eventManager.initialize();
+        CateringAppManager.billboardManager.initialize();
     }
 
 
