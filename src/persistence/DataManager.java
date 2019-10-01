@@ -4,6 +4,7 @@ import businesslogic.*;
 
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 public class DataManager {
     private String userName = "root";
@@ -36,6 +37,12 @@ public class DataManager {
     private Map<Event, Integer> eventObjects;
     private Map<Integer, Event> idToEventObject;
 
+    private Map<Integer, ShiftTask> idToShiftTaskObject;
+
+    private Map<Integer, Shift> idToShiftObject;
+
+    private Map<Integer, Task> idToTaskObject;
+
     public DataManager() {
 
         this.userObjects = new HashMap<>();
@@ -48,6 +55,9 @@ public class DataManager {
         this.idToSectionObject = new HashMap<>();
         this.itemObjects = new HashMap<>();
         this.idToItemObject = new HashMap<>();
+        this.idToShiftTaskObject= new HashMap<>();
+        this.idToTaskObject= new HashMap<>();
+        this.idToShiftObject= new HashMap<>();
 
 
     }
@@ -722,6 +732,34 @@ public class DataManager {
         }
         return rec;
     }
+    public Map<Integer,Shift> loadShifts(String eventDate){
+        Statement st = null;
+        Shift shift=null;
+        String query = "SELECT * FROM shifts where shifts.date="+eventDate;
+        try {
+            st = this.connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String date= rs.getString("date");
+                String start= rs.getString("start");
+                String end= rs.getString("end");
+                shift= new Shift(id,date,start,end);
+                idToShiftObject.put(id,shift);
+
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return idToShiftObject;
+    }
+    public
    /* public List<Menu> loadMenus() {
         List<Menu> ret = new ArrayList<>();
         Statement st = null;

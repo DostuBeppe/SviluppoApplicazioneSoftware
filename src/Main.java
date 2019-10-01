@@ -8,6 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 public class Main extends Application {
@@ -23,7 +27,9 @@ public class Main extends Application {
         FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("main.fxml"));
         Parent main = mainLoader.load();
         Scene mainScene = new Scene(main);
-
+        LocalDateTime time= LocalDateTime.of(2019,10,1,0,0);
+        DateTimeFormatter format= DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.println(time.format(format));
         MainController mainController = mainLoader.getController();
 
         primaryStage.setScene(mainScene);

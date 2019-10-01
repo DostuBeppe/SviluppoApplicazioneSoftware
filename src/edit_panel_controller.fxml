@@ -27,6 +27,8 @@
                   <Button fx:id="createSheet" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="125.0" text="crea foglio" />
                   <Button fx:id="openSheet" mnemonicParsing="false" prefHeight="25.0" prefWidth="122.0" text="apri foglio" />
                   <Button fx:id="editSheet" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="modifica foglio" />
+                  <Button fx:id="shifts" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="114.0" text="turni" />
+                  <Button fx:id="eventBillBoard" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="115.0" text="tabellone evento" />
                </children>
             </VBox>
          </left>

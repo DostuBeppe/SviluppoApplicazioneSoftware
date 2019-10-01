@@ -69,5 +69,9 @@ public class EventManager {
     public Menu getMenu(){
         return this.currentEvent.getMenu();
     }
+    public SummarySheet createSummarySheet(String title){
+        SummarySheet ss= currentEvent.createSummarySheet(title);
+        return ss;
+    }
 
 }

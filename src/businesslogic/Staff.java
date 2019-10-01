@@ -1,20 +1,23 @@
 package businesslogic;
 
-import java.util.Date;
+import java.util.*;
 
 public class Staff extends User {
     private boolean cook;
+    private int staffId;
     private Busy busy;
+    private List<Integer> selectedShifts;
     public Staff(){
         busy= new Busy();
+        selectedShifts= new ArrayList<>();
     }
 
     public boolean isCook() {
         return cook;
     }
 
-    public void setCook() {
-        this.cook = true;
+    public void setCook(int cook) {
+        this.cook = (cook==1)?true:false;
     }
     public void freeBusy(Date date){
         busy.getDate().remove(date.toString());
@@ -31,4 +34,17 @@ public class Staff extends User {
         }
     }
 
+    public int getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(int staffId) {
+        this.staffId = staffId;
+    }
+    public void addSelectedShifts(int shiftId){
+        selectedShifts.add(shiftId);
+    }
+    public List<Integer> getSelectedShifts(){
+        return selectedShifts;
+    }
 }
