@@ -745,6 +745,7 @@ public class DataManager {
                 String start= rs.getString("start");
                 String end= rs.getString("end");
                 shift= new Shift(id,date,start,end);
+                shift.loadStaff(loadStaff(id));
                 idToShiftObject.put(id,shift);
 
             }
@@ -759,7 +760,95 @@ public class DataManager {
         }
         return idToShiftObject;
     }
-    public
+    public Map<Integer,Staff> loadStaff(int shiftId){
+        Statement st = null;
+        Shift shift=null;
+        Map<Integer,Staff> staffMap= null;
+        String query = "SELECT staff_id FROM rel_shift_staff where rel_shift_staff.shift_id="+shiftId;
+        try {
+            st = this.connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                int staffId=rs.getInt("staff_id");
+                staffMap.put(staffId,loadSingleStaff(staffId));
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return staffMap;
+    }
+    public User loadUserFromId(int userId){
+        PreparedStatement pst = null;
+        String sql = "SELECT Users.id, Users.name FROM Users where Users.id="+userId;
+        User u = null;
+
+        try {
+            pst = this.connection.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                if (u == null) {
+                    u = new User(userName);
+                    int id = rs.getInt("id");
+                    String name= rs.getString("name");
+                    u.setUserId(id);
+                    u.setName(name);
+                    this.userObjects.put(u, id);
+                    this.idToUserObject.put(id, u);
+                }
+
+                //addUserRole(u, rs);
+
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return u;
+    }
+    public Staff loadSingleStaff(int staffId){
+        PreparedStatement pst = null;
+        String sql = "SELECT * FROM staff where Users.id="+staffId;
+        Staff staff = null;
+
+        try {
+            pst = this.connection.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int id= rs.getInt("id");
+                int userId= rs.getInt("user_id");
+                int cook= rs.getInt("cook");
+                User u= loadUserFromId(userId);
+                staff= new Staff();
+                staff.setStaffId(id);
+                staff.setCook(cook);
+                staff.setUserId(userId);
+                staff.setName(u.getName());
+
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return staff;
+    }
    /* public List<Menu> loadMenus() {
         List<Menu> ret = new ArrayList<>();
         Statement st = null;
