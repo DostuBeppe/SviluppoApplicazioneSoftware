@@ -10,7 +10,7 @@ public class MenuManager {
     private List<MenuEventReceiver> receivers;
 
     public MenuManager() {
-        receivers = new ArrayList<>();
+       /* receivers = new ArrayList<>();
         receivers.add(new BaseEventReceiver() {
             @Override
             public void notifyMenuCreated(Menu m) {
@@ -21,7 +21,7 @@ public class MenuManager {
             public void notifyMenuDeleted(Menu m) {
                 allMenus.remove(m);
             }
-        });
+        });*/
     };
 
     // Nota: nell'inizializzazione non carichiamo l'elenco di ricette
@@ -33,7 +33,7 @@ public class MenuManager {
     // l'UC che abbiamo analizzato partiva dal presupposto che l'utente
     // avesse già davanti la lista dei menu disponibili. Quindi questa
     // parte va aggiunta direttamente nel codice.
-    public List<Menu> getAllMenus() {
+   /* public List<Menu> getAllMenus() {
         if (allMenus == null) {
             allMenus = new ArrayList<>();
             allMenus.addAll(CateringAppManager.dataManager.loadMenus());
@@ -45,7 +45,7 @@ public class MenuManager {
         ret.addAll(allMenus);
         return ret;
 
-    }
+    }*/
 
     public Menu createMenu(String title) {
         User u = CateringAppManager.userManager.getCurrentUser();

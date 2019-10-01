@@ -1,72 +1,72 @@
 package businesslogic;
 
-public class BaseEventReceiver implements MenuEventReceiver {
-    @Override
-    public void notifyMenuCreated(Menu m) {
+public class BaseEventReceiver implements EventManagerReceiver {
+  /*  @Override
+    public void notifyMenuCreated(Event m) {
     }
 
     @Override
-    public void notifySectionAdded(Menu m, Section s) {
-
-    }
-
-    @Override
-    public void notifyItemAdded(Menu m, Section s, MenuItem it) {
+    public void notifySectionAdded(Event m, Section s) {
 
     }
 
     @Override
-    public void notifyMenuPublished(Menu m) {
+    public void notifyItemAdded(Event m, Section s, MenuItem it) {
 
     }
 
     @Override
-    public void notifyMenuDeleted(Menu m) {
+    public void notifyMenuPublished(Event m) {
 
     }
 
     @Override
-    public void notifySectionRemoved(Menu m, Section s) {
+    public void notifyMenuDeleted(Event m) {
 
     }
 
     @Override
-    public void notifySectionNameChanged(Menu m, Section s) {
+    public void notifySectionRemoved(Event m, Section s) {
 
     }
 
     @Override
-    public void notifySectionsRearranged(Menu m) {
+    public void notifySectionNameChanged(Event m, Section s) {
 
     }
 
     @Override
-    public void notifyItemsRearranged(Menu m, Section s) {
+    public void notifySectionsRearranged(Event m) {
 
     }
 
     @Override
-    public void notifyItemsRearrangedInMenu(Menu m) {
+    public void notifyItemsRearranged(Event m, Section s) {
 
     }
 
     @Override
-    public void notifyItemMoved(Menu m, Section oldS, Section newS, MenuItem it) {
+    public void notifyItemsRearrangedInMenu(Event m) {
 
     }
 
     @Override
-    public void notifyItemDescriptionChanged(Menu m, MenuItem it) {
+    public void notifyItemMoved(Event m, Section oldS, Section newS, MenuItem it) {
 
     }
 
     @Override
-    public void notifyItemDeleted(Menu m, MenuItem it) {
+    public void notifyItemDescriptionChanged(Event m, MenuItem it) {
 
     }
 
     @Override
-    public void notifyMenuTitleChanged(Menu m) {
+    public void notifyItemDeleted(Event m, MenuItem it) {
 
     }
+
+    @Override
+    public void notifyMenuTitleChanged(Event m) {
+
+    }*/
 }

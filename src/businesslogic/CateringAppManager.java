@@ -7,9 +7,9 @@ import java.sql.SQLException;
 public class CateringAppManager {
     private static CateringAppManager singleInstance;
     public static UserManager userManager;
-    public static MenuManager menuManager;
+    public static EventManager menuManager;
     public static RecipeManager recipeManager;
-
+    public static EventManager eventManager;
     // il data manager non è presente nel DSD perché non fa parte della business logic
     public static DataManager dataManager;
 
@@ -22,8 +22,9 @@ public class CateringAppManager {
     private CateringAppManager() {
         CateringAppManager.dataManager = new DataManager();
         CateringAppManager.userManager = new UserManager();
-        CateringAppManager.menuManager = new MenuManager();
-        CateringAppManager.recipeManager = new RecipeManager();
+       // CateringAppManager.menuManager = new EventManager();
+      //  CateringAppManager.recipeManager = new RecipeManager();
+        CateringAppManager.eventManager = new EventManager();
         // Inizializza i GRASP controller e i servizi da utilizzare
 
         try {
@@ -33,8 +34,8 @@ public class CateringAppManager {
             exc.printStackTrace();
         }
         CateringAppManager.userManager.initialize();
-        CateringAppManager.menuManager.initialize();
-        CateringAppManager.recipeManager.initialize();
+        //CateringAppManager.menuManager.initialize();
+        CateringAppManager.eventManager.initialize();
     }
 
 

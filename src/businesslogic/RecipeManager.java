@@ -9,7 +9,7 @@ public class RecipeManager {
 
     public RecipeManager() {
     }
-
+/*
     // Nota: nell'inizializzazione non carichiamo l'elenco di ricette
     // perché lo faremo "onDemand", ossia se viene richiesto da qualche altro oggetto
     // L'idea è evitare di caricare tutto se non serve.
@@ -28,4 +28,5 @@ public class RecipeManager {
         ret.addAll(recipes);
         return ret;
     }
+    */
 }
