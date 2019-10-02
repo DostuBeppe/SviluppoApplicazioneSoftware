@@ -17,4 +17,12 @@
          </children>
       </FlowPane>
    </top>
+   <bottom>
+      <HBox prefHeight="27.0" prefWidth="590.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="90.0" text="indietro" />
+            <Button fx:id="forwardButton" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="91.0" text="avanti" />
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

@@ -3,7 +3,7 @@ package businesslogic;
 public class MenuItem implements Cloneable {
     private Recipe recipe;
     private String description;
-
+    private int itemId;
     public MenuItem(Recipe rec, String desc) {
         this.recipe = rec;
         this.description = desc;
@@ -13,6 +13,7 @@ public class MenuItem implements Cloneable {
         this(rec, null);
         this.description = rec.getName();
     }
+    public MenuItem(){}
 
     public String toString() {
         return this.description;
@@ -37,5 +38,13 @@ public class MenuItem implements Cloneable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 }

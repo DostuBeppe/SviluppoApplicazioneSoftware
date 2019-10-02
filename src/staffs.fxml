@@ -11,15 +11,15 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainContainer" style="-fx-border-color: transparent; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EventListController">
+<BorderPane fx:id="mainContainer" style="-fx-border-color: transparent; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StaffController">
     <center>
     <BorderPane fx:id="menuListPane">
         <center>
-            <ListView fx:id="eventList">
+            <ListView fx:id="staffListView">
             </ListView>
         </center>
    <top>
-      <Label text="Eventi assegnati" BorderPane.alignment="CENTER">
+      <Label fx:id="menuName" text="Personale" BorderPane.alignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>

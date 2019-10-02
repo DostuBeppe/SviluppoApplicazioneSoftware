@@ -1,32 +1,31 @@
 import businesslogic.CateringAppManager;
 import businesslogic.Event;
 import businesslogic.Menu;
+import businesslogic.MenuItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class EventListController {
+public class MenuController {
 
-    private List<Event> events;
-    private ObservableList<Event> observableEvents;
-   // private MenuEditController menuEditController;
-    private Event selectedEvent;
-    private MainController main;
+    private List<MenuItem> items;
+    private ObservableList<MenuItem> observableEvents;
+    // private MenuEditController menuEditController;
+    private MenuItem selectedItem;
+    private EditPanelController main;
     @FXML
-    private ListView<Event> eventList;
-
+    private ListView<MenuItem> menuItemList;
+    @FXML
+    private Label menuName;
     @FXML
     private BorderPane mainContainer;
 
@@ -38,49 +37,37 @@ public class EventListController {
     private Button selectEventButton;
 
     @FXML
-    public void initialize(MainController main) {
+    public void initialize(EditPanelController main) {
         this.main=main;
+        System.out.println("menu name: "+CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
+        menuName.setText("Menu: "+CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
+        menuItemList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        this.resetItemList();
 
 
-        eventList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        this.resetEventList();
+        menuItemList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
+            selectedItem = menuItemList.getSelectionModel().getSelectedItem();
 
-
-      eventList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
-            selectedEvent = eventList.getSelectionModel().getSelectedItem();
-            CateringAppManager.eventManager.setCurrentEvent(selectedEvent);
-          try {
-              FXMLLoader controlPanelLoader = new FXMLLoader(getClass().getResource("edit_panel_controller.fxml"));
-              Parent panel = controlPanelLoader.load();
-              EditPanelController panelController = controlPanelLoader.getController();
-              panelController.initialize(main);
-              main.getMainPane().setCenter(panel);
-          } catch (IOException exc) {
-              exc.printStackTrace();
-          }
         });
-        System.out.println("loaded event list controller");
+        System.out.println("loaded menu controller");
     }
 
-    private void resetEventList() {
-        events = CateringAppManager.eventManager.getAllEvents();
-        System.out.println(events.size());
-        observableEvents = FXCollections.observableList(events);
-        eventList.setItems(observableEvents);
+    private void resetItemList() {
+       // menuName.setText(CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
+        items = CateringAppManager.eventManager.getCurrentEvent().getMenu().getItemsWithoutSection();
+        System.out.println("item: "+items.size());
+        observableEvents = FXCollections.observableList(items);
+        menuItemList.setItems(observableEvents);
     }
-    private void loadEventList() {
+   /* private void loadEventList() {
         eventList= new ListView<>();
         events = CateringAppManager.eventManager.getAllEvents();
         observableEvents = FXCollections.observableList(events);
         eventList.setItems(observableEvents);
-    }
+    }*/
     @FXML
     private void handleButtonAction(ActionEvent event) {
 
-        Button obj=(Button)event.getSource();
-        if(obj.getId().equals(selectEventButton.getId())){
-            System.out.println("selsect");
-        }
 
     }
 /*

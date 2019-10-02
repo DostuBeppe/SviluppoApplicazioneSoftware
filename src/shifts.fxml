@@ -11,22 +11,15 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainContainer" style="-fx-border-color: transparent; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EventListController">
+<BorderPane fx:id="mainContainer" style="-fx-border-color: transparent; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ShiftsController">
     <center>
     <BorderPane fx:id="menuListPane">
         <center>
-            <ListView fx:id="eventList">
+            <ListView fx:id="shiftList">
             </ListView>
         </center>
-        <bottom>
-            <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" hgap="5" style="-fx-border-color: transparent; -fx-border-width: 5 0 0 0;">
-               <children>
-                   <Button fx:id="selectEventButton" text="Seleziona" />
-               </children>
-            </FlowPane>
-        </bottom>
    <top>
-      <Label text="Eventi assegnati" BorderPane.alignment="CENTER">
+      <Label fx:id="menuName" text="Turni" BorderPane.alignment="CENTER">
          <font>
             <Font size="20.0" />
          </font>

@@ -1,6 +1,6 @@
 package businesslogic;
 
-public class BaseEventManagerReceiver implements EventManagerReceiver {
+public class BaseEventReceiver implements EventManagerReceiver {
   /*  @Override
     public void notifyMenuCreated(Event m) {
     }

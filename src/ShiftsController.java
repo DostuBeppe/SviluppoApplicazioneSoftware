@@ -1,6 +1,7 @@
 import businesslogic.CateringAppManager;
-import businesslogic.Event;
-import businesslogic.Menu;
+import businesslogic.MenuItem;
+import businesslogic.Shift;
+import businesslogic.Staff;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,25 +9,28 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
-public class EventListController {
+public class ShiftsController {
 
-    private List<Event> events;
-    private ObservableList<Event> observableEvents;
-   // private MenuEditController menuEditController;
-    private Event selectedEvent;
-    private MainController main;
+    private List<Shift> shifts;
+    private ObservableList<Shift> observableShifts;
+    // private MenuEditController menuEditController;
+    private Shift selectedShift;
+    private  String eventDate;
+    private EditPanelController main;
     @FXML
-    private ListView<Event> eventList;
-
+    private ListView<Shift> shiftList;
+    @FXML
+    private Label menuName;
     @FXML
     private BorderPane mainContainer;
 
@@ -38,49 +42,47 @@ public class EventListController {
     private Button selectEventButton;
 
     @FXML
-    public void initialize(MainController main) {
+    public void initialize(EditPanelController main) {
         this.main=main;
+        eventDate= CateringAppManager.eventManager.getCurrentEvent().getDateFormatted();
+        shiftList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        this.resetShiftList();
 
 
-        eventList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        this.resetEventList();
-
-
-      eventList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
-            selectedEvent = eventList.getSelectionModel().getSelectedItem();
-            CateringAppManager.eventManager.setCurrentEvent(selectedEvent);
-          try {
-              FXMLLoader controlPanelLoader = new FXMLLoader(getClass().getResource("edit_panel_controller.fxml"));
-              Parent panel = controlPanelLoader.load();
-              EditPanelController panelController = controlPanelLoader.getController();
-              panelController.initialize(main);
-              main.getMainPane().setCenter(panel);
-          } catch (IOException exc) {
-              exc.printStackTrace();
-          }
+        shiftList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
+            selectedShift = shiftList.getSelectionModel().getSelectedItem();
+            CateringAppManager.billboardManager.setCurrentShift(selectedShift);
+            try {
+                System.out.println("load staff");
+                FXMLLoader staffLoader = new FXMLLoader(getClass().getResource("staffs.fxml"));
+                Parent staff = staffLoader.load();
+                StaffController staffController = staffLoader.getController();
+                staffController.initialize(main);
+                main.getShiftPane().setRight(staff);
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
         });
-        System.out.println("loaded event list controller");
+        System.out.println("loaded shift controller");
     }
 
-    private void resetEventList() {
-        events = CateringAppManager.eventManager.getAllEvents();
-        System.out.println(events.size());
-        observableEvents = FXCollections.observableList(events);
-        eventList.setItems(observableEvents);
+    private void resetShiftList() {
+       // menuName.setText(CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
+        Map shiftMap = CateringAppManager.billboardManager.showShifts(eventDate);
+        shifts= new ArrayList<>(shiftMap.values());
+        System.out.println("shifts: "+shifts.size());
+        observableShifts = FXCollections.observableList(shifts);
+        shiftList.setItems(observableShifts);
     }
-    private void loadEventList() {
+   /* private void loadEventList() {
         eventList= new ListView<>();
         events = CateringAppManager.eventManager.getAllEvents();
         observableEvents = FXCollections.observableList(events);
         eventList.setItems(observableEvents);
-    }
+    }*/
     @FXML
     private void handleButtonAction(ActionEvent event) {
 
-        Button obj=(Button)event.getSource();
-        if(obj.getId().equals(selectEventButton.getId())){
-            System.out.println("selsect");
-        }
 
     }
 /*

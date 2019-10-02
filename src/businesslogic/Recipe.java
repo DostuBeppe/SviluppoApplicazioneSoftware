@@ -10,15 +10,26 @@ public class Recipe {
         return name;
     }
 
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
+
     public  enum Type {Preparation, Dish};
     private String name;
     private Type type;
+    private int recipeId;
 
     public Recipe(String name, Type t) {
         this.name = name;
         this.type = t;
     }
-
+    public Recipe(String name) {
+        this.name = name;
+    }
     public boolean isDish() {
         return this.type.equals(Type.Dish);
     }

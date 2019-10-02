@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Set 26, 2019 alle 09:32
+-- Creato il: Ott 02, 2019 alle 16:16
 -- Versione del server: 10.1.41-MariaDB-0+deb9u1
--- Versione PHP: 7.2.19-1+0~20190531112637.22+stretch~1.gbp75765b
+-- Versione PHP: 7.2.22-1+0~20190902.26+debian9~1.gbpd64eb7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,6 +23,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `busy`
+--
+
+CREATE TABLE `busy` (
+  `id` int(11) NOT NULL,
+  `staff_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `busy`
+--
+
+INSERT INTO `busy` (`id`, `staff_id`) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4);
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `Events`
 --
 
@@ -31,16 +52,17 @@ CREATE TABLE `Events` (
   `menu` int(11) DEFAULT NULL,
   `chef_id` int(11) DEFAULT NULL,
   `event_date` varchar(255) DEFAULT NULL,
-  `event_name` varchar(255) DEFAULT NULL
+  `event_name` varchar(255) DEFAULT NULL,
+  `summary_sheet_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dump dei dati per la tabella `Events`
 --
 
-INSERT INTO `Events` (`id`, `menu`, `chef_id`, `event_date`, `event_name`) VALUES
-(1, 1, 2, '25/09/2019', 'Primo evento'),
-(2, 3, 5, '26/09/2019', 'Secondo evento');
+INSERT INTO `Events` (`id`, `menu`, `chef_id`, `event_date`, `event_name`, `summary_sheet_id`) VALUES
+(1, 1, 2, '01/10/2019', 'Primo evento', NULL),
+(2, 3, 5, '01/10/2019', 'Secondo evento', NULL);
 
 -- --------------------------------------------------------
 
@@ -143,6 +165,72 @@ INSERT INTO `Recipes` (`id`, `name`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `rel_shift_busy`
+--
+
+CREATE TABLE `rel_shift_busy` (
+  `id` int(11) NOT NULL,
+  `shift_id` int(11) DEFAULT NULL,
+  `busy_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `rel_shift_busy`
+--
+
+INSERT INTO `rel_shift_busy` (`id`, `shift_id`, `busy_id`) VALUES
+(1, 1, 1),
+(2, 3, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `rel_shift_staff`
+--
+
+CREATE TABLE `rel_shift_staff` (
+  `id` int(11) NOT NULL,
+  `shift_id` int(11) DEFAULT NULL,
+  `staff_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `rel_shift_staff`
+--
+
+INSERT INTO `rel_shift_staff` (`id`, `shift_id`, `staff_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 2, 3),
+(4, 3, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `rel_shift_summary_sheet`
+--
+
+CREATE TABLE `rel_shift_summary_sheet` (
+  `id` int(11) NOT NULL,
+  `shift_id` int(11) DEFAULT NULL,
+  `summary_sheet_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `rel_shift_task`
+--
+
+CREATE TABLE `rel_shift_task` (
+  `id` int(11) NOT NULL,
+  `shift_id` int(11) DEFAULT NULL,
+  `shift_task_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `Roles`
 --
 
@@ -182,6 +270,92 @@ INSERT INTO `Sections` (`menu`, `id`, `name`, `position`) VALUES
 (3, 1, 'Primi', NULL),
 (3, 2, 'Secondi', NULL),
 (3, 3, 'Dessert', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `shifts`
+--
+
+CREATE TABLE `shifts` (
+  `id` int(11) NOT NULL,
+  `date` varchar(255) DEFAULT NULL,
+  `start` varchar(255) DEFAULT NULL,
+  `end` varchar(255) DEFAULT NULL,
+  `number` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `shifts`
+--
+
+INSERT INTO `shifts` (`id`, `date`, `start`, `end`, `number`) VALUES
+(1, '01/10/2019', '10:52', '11:52', 1),
+(2, '01/10/2019', '12:52', '13:52', 2),
+(3, '01/10/2019', '14:52', '15:52', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `shift_task`
+--
+
+CREATE TABLE `shift_task` (
+  `id` int(11) NOT NULL,
+  `task_id` int(11) DEFAULT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `date` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `staff`
+--
+
+CREATE TABLE `staff` (
+  `id` int(11) NOT NULL,
+  `cook` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `staff`
+--
+
+INSERT INTO `staff` (`id`, `cook`, `user_id`) VALUES
+(1, 1, 6),
+(2, 1, 7),
+(3, 1, 8),
+(4, 1, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `summary_sheets`
+--
+
+CREATE TABLE `summary_sheets` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `chaf_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` int(11) NOT NULL,
+  `item_id` int(11) DEFAULT NULL,
+  `estimate_time` int(11) DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -227,11 +401,21 @@ INSERT INTO `Users` (`id`, `name`) VALUES
 (2, 'Tony'),
 (3, 'Viola'),
 (4, 'Anna'),
-(5, 'Giovanni');
+(5, 'Giovanni'),
+(6, 'Anna'),
+(7, 'Roberto'),
+(8, 'Federico'),
+(9, 'Giuseppe');
 
 --
 -- Indici per le tabelle scaricate
 --
+
+--
+-- Indici per le tabelle `busy`
+--
+ALTER TABLE `busy`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indici per le tabelle `Events`
@@ -259,6 +443,30 @@ ALTER TABLE `Recipes`
   ADD UNIQUE KEY `id` (`id`);
 
 --
+-- Indici per le tabelle `rel_shift_busy`
+--
+ALTER TABLE `rel_shift_busy`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `rel_shift_staff`
+--
+ALTER TABLE `rel_shift_staff`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `rel_shift_summary_sheet`
+--
+ALTER TABLE `rel_shift_summary_sheet`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `rel_shift_task`
+--
+ALTER TABLE `rel_shift_task`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indici per le tabelle `Roles`
 --
 ALTER TABLE `Roles`
@@ -273,6 +481,36 @@ ALTER TABLE `Sections`
   ADD KEY `Sections_Menu_id_fk` (`menu`);
 
 --
+-- Indici per le tabelle `shifts`
+--
+ALTER TABLE `shifts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `shift_task`
+--
+ALTER TABLE `shift_task`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `staff`
+--
+ALTER TABLE `staff`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `summary_sheets`
+--
+ALTER TABLE `summary_sheets`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indici per le tabelle `Users`
 --
 ALTER TABLE `Users`
@@ -283,6 +521,11 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT per le tabelle scaricate
 --
 
+--
+-- AUTO_INCREMENT per la tabella `busy`
+--
+ALTER TABLE `busy`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT per la tabella `Events`
 --
@@ -304,15 +547,60 @@ ALTER TABLE `Menus`
 ALTER TABLE `Recipes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
+-- AUTO_INCREMENT per la tabella `rel_shift_busy`
+--
+ALTER TABLE `rel_shift_busy`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT per la tabella `rel_shift_staff`
+--
+ALTER TABLE `rel_shift_staff`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT per la tabella `rel_shift_summary_sheet`
+--
+ALTER TABLE `rel_shift_summary_sheet`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `rel_shift_task`
+--
+ALTER TABLE `rel_shift_task`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT per la tabella `Sections`
 --
 ALTER TABLE `Sections`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
+-- AUTO_INCREMENT per la tabella `shifts`
+--
+ALTER TABLE `shifts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT per la tabella `shift_task`
+--
+ALTER TABLE `shift_task`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `staff`
+--
+ALTER TABLE `staff`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT per la tabella `summary_sheets`
+--
+ALTER TABLE `summary_sheets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT per la tabella `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT per la tabella `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

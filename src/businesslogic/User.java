@@ -16,7 +16,9 @@ public class User {
         this.name = name;
         this.roles = new HashSet<Role>();
     }
-
+    public User(){
+        this.roles = new HashSet<Role>();
+    }
     public void addRole(Role role) {
         this.roles.add(role);
     }
@@ -34,5 +36,11 @@ public class User {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+    public void setName(String name){
+        this.name=name;
+    }
+    public String getName(){
+        return name;
     }
 }
