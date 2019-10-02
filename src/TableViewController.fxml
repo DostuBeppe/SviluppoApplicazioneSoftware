@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thunder.TableController">
+   <columns>
+      <TableColumn fx:id="title" prefWidth="111.0" text="titolo" />
+      <TableColumn fx:id="time" prefWidth="89.0" text="tempo" />
+      <TableColumn fx:id="quantity" prefWidth="74.0" text="quantità" />
+      <TableColumn fx:id="number" minWidth="0.0" prefWidth="82.0" text="numero" />
+      <TableColumn fx:id="name" maxWidth="243.0" prefWidth="243.0" text="nome" />
+   </columns>
+</TableView>

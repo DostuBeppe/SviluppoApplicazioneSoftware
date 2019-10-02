@@ -41,8 +41,8 @@ public class TitleController {
             try {
                 FXMLLoader sheetLoader = new FXMLLoader(getClass().getResource("summary_sheet.fxml"));
                 Parent sheet = sheetLoader.load();
-                SummarySheetController sheetController = sheetLoader.getController();
-                sheetController.initialize(main);
+                TableViewController sheetController = sheetLoader.getController();
+                sheetController.initialize();
                 main.getControllPane().setCenter(sheet);
 
             } catch (IOException exc) {

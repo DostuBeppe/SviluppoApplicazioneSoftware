@@ -10,6 +10,7 @@ public class SummarySheet  {
     private Map<Integer,Shift> shifts;
     private Map<Integer,ShiftTask> stList;
     private Map<Integer,Task> tasks;
+    private ShiftTask currentShiftTask;
 
     public SummarySheet(String title){
         this.title=title;
@@ -26,4 +27,11 @@ public class SummarySheet  {
         shifts= CateringAppManager.dataManager.loadShifts(eventDate);
    }
 
+    public ShiftTask getCurrentShiftTask() {
+        return currentShiftTask;
+    }
+
+    public void setCurrentShiftTask(ShiftTask currentShiftTask) {
+        this.currentShiftTask = currentShiftTask;
+    }
 }
