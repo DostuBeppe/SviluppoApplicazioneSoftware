@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Ott 01, 2019 alle 15:42
+-- Creato il: Ott 02, 2019 alle 16:16
 -- Versione del server: 10.1.41-MariaDB-0+deb9u1
--- Versione PHP: 7.2.19-1+0~20190531112637.22+stretch~1.gbp75765b
+-- Versione PHP: 7.2.22-1+0~20190902.26+debian9~1.gbpd64eb7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -61,8 +61,8 @@ CREATE TABLE `Events` (
 --
 
 INSERT INTO `Events` (`id`, `menu`, `chef_id`, `event_date`, `event_name`, `summary_sheet_id`) VALUES
-(1, 1, 2, '25/09/2019', 'Primo evento', NULL),
-(2, 3, 5, '26/09/2019', 'Secondo evento', NULL);
+(1, 1, 2, '01/10/2019', 'Primo evento', NULL),
+(2, 3, 5, '01/10/2019', 'Secondo evento', NULL);
 
 -- --------------------------------------------------------
 
@@ -174,6 +174,14 @@ CREATE TABLE `rel_shift_busy` (
   `busy_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dump dei dati per la tabella `rel_shift_busy`
+--
+
+INSERT INTO `rel_shift_busy` (`id`, `shift_id`, `busy_id`) VALUES
+(1, 1, 1),
+(2, 3, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -273,17 +281,18 @@ CREATE TABLE `shifts` (
   `id` int(11) NOT NULL,
   `date` varchar(255) DEFAULT NULL,
   `start` varchar(255) DEFAULT NULL,
-  `end` varchar(255) DEFAULT NULL
+  `end` varchar(255) DEFAULT NULL,
+  `number` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `shifts`
 --
 
-INSERT INTO `shifts` (`id`, `date`, `start`, `end`) VALUES
-(1, '01/10/2019', '10:52', '11:52'),
-(2, '01/10/2019', '12:52', '13:52'),
-(3, '01/10/2019', '14:52', '15:52');
+INSERT INTO `shifts` (`id`, `date`, `start`, `end`, `number`) VALUES
+(1, '01/10/2019', '10:52', '11:52', 1),
+(2, '01/10/2019', '12:52', '13:52', 2),
+(3, '01/10/2019', '14:52', '15:52', 3);
 
 -- --------------------------------------------------------
 
@@ -541,7 +550,7 @@ ALTER TABLE `Recipes`
 -- AUTO_INCREMENT per la tabella `rel_shift_busy`
 --
 ALTER TABLE `rel_shift_busy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT per la tabella `rel_shift_staff`
 --
