@@ -460,7 +460,8 @@ public class DataManager {
         Statement st = null;
         Shift shift=null;
         Map<Integer,Staff> staffMap= null;
-        String query = "SELECT staff_id FROM rel_shift_staff where rel_shift_staff.shift_id="+shiftId;
+        String query = "select staff_id from rel_shift_staff where rel_shift_staff.shift_id="+shiftId+" and rel_shift_staff.staff_id not in" +
+                "(select busy.staff_id from busy join rel_shift_busy on (busy.id=rel_shift_busy.busy_id) where rel_shift_busy.shift_id="+shiftId+")";
         try {
             st = this.connection.createStatement();
             ResultSet rs = st.executeQuery(query);
