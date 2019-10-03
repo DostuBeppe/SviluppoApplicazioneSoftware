@@ -819,7 +819,7 @@ public class DataManager {
        // verifico se l'ho già caricato in precedenza
        Recipe rec = this.idToRecipeObject.get(idRec);
        if (rec != null) return rec;
-
+sdfbdghfr
        Statement st = null;
 
        String query = "SELECT * FROM Recipes WHERE Recipes.id = " + idRec;
