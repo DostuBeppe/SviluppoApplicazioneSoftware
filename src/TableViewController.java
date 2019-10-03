@@ -24,6 +24,7 @@ public class TableViewController {
     private TableColumn<Staff, String>  name;
     private ObservableList<ShiftTask> stList;
     private SummarySheet ss;
+
     public void initialize(String name){
         if(name!=null){
             sheetName.setText(name);
