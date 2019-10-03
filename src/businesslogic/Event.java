@@ -17,6 +17,7 @@ public class Event implements Cloneable {
     private int eventId;
     private int menuId;
     private Menu menu;
+    private SummarySheet currentSummarySheet;
     public Event(String title) {
         this.title= title;
     }
@@ -89,4 +90,12 @@ public class Event implements Cloneable {
         ss.loadShift(getDateFormatted());
         return ss;
    }
+
+    public SummarySheet getCurrentSummarySheet() {
+        return currentSummarySheet;
+    }
+
+    public void setCurrentSummarySheet(SummarySheet currentSummarySheet) {
+        this.currentSummarySheet = currentSummarySheet;
+    }
 }

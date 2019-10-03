@@ -33,7 +33,7 @@ public class Main extends Application {
         MainController mainController = mainLoader.getController();
 
         primaryStage.setScene(mainScene);
-        primaryStage.setWidth(800);
+        primaryStage.setWidth(1600);
         primaryStage.setHeight(600);
         // primaryStage.setMaximized(true);
         primaryStage.show();

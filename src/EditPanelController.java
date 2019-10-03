@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
@@ -13,6 +14,10 @@ public class EditPanelController {
 
     @FXML
     private BorderPane mainPane;
+    @FXML
+    private BorderPane controlPane;
+    @FXML
+    private BorderPane shiftPane;
     @FXML
     private TextField userName;
     @FXML
@@ -50,8 +55,19 @@ public class EditPanelController {
                 titleController.initialize(this);
                 System.out.println("main: "+mainPane.getId());
                 System.out.println("title: "+title.getId());
-                mainPane.setCenter(title);
+                controlPane.setCenter(title);
             } catch (IOException exc) {
+                exc.printStackTrace();
+            }
+        }
+        if(obj.getId().equals(shifts.getId())){
+            try {
+                FXMLLoader shiftsLoader = new FXMLLoader(getClass().getResource("shifts.fxml"));
+                Parent shift = shiftsLoader.load();
+                ShiftsController shiftController = shiftsLoader.getController();
+                shiftController.initialize(this);
+                shiftPane.setLeft(shift);
+            }  catch (IOException exc) {
                 exc.printStackTrace();
             }
         }
@@ -59,5 +75,11 @@ public class EditPanelController {
     }
     public BorderPane getMainPane(){
         return this.mainPane;
+    }
+    public BorderPane getControllPane(){
+        return this.controlPane;
+    }
+    public BorderPane getShiftPane(){
+        return this.shiftPane;
     }
 }

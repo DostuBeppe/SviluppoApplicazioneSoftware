@@ -16,6 +16,6 @@
       <Button fx:id="send" mnemonicParsing="false" onAction="#handleButtonAction" text="Crea" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <TextField prefHeight="25.0" prefWidth="224.0" BorderPane.alignment="CENTER" />
+      <TextField fx:id="sheetName" prefHeight="25.0" prefWidth="224.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
