@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class DataManager {
     private String userName = "root";
-    private String password = "";           //da cambiare
+    private String password = "1123581321";           //da cambiare
     private String serverName = "localhost";
     private String portNumber = "3306";
 
