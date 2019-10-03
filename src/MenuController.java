@@ -47,6 +47,7 @@ public class MenuController {
 
         menuItemList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedItem = menuItemList.getSelectionModel().getSelectedItem();
+            CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().addShiftTask(selectedItem);
 
         });
         System.out.println("loaded menu controller");
