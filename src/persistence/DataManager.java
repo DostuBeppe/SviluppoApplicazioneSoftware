@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class DataManager {
     private String userName = "root";
-    private String password = "1123581321";           //da cambiare
+    private String password = "";           //da cambiare
     private String serverName = "localhost";
     private String portNumber = "3306";
 
@@ -912,7 +912,6 @@ public class DataManager {
        // verifico se l'ho già caricato in precedenza
        Recipe rec = this.idToRecipeObject.get(idRec);
        if (rec != null) return rec;
-sdfbdghfr
        Statement st = null;
 
        String query = "SELECT * FROM Recipes WHERE Recipes.id = " + idRec;
