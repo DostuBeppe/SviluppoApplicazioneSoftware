@@ -1,5 +1,10 @@
 package businesslogic;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +19,13 @@ public class SummarySheet  {
     private int taskId=0;
     private int stListId=0;
     private int shiftId=0;
+    private ObservableList<ShiftTask> observableList;
     public SummarySheet(String title){
         this.title=title;
         shifts= new HashMap<>();
         stList= new HashMap<>();
         tasks= new HashMap<>();
+
     }
    /* public Task addTask(int quantity,int estimateTime,MenuItem item){
         Task task= new Task();
@@ -47,7 +54,22 @@ public class SummarySheet  {
     public ShiftTask addShiftTask(MenuItem item){
        ShiftTask st= new ShiftTask(CateringAppManager.eventManager.getCurrentEvent().getEventId());
        st.setTask(addTask(item));
+       stList.put(stListId,st);
+        ArrayList<ShiftTask> a= new ArrayList<>(stList.values());
+        observableList = FXCollections.observableList(a);
+        observableList.addListener(new ListChangeListener() {
+
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                System.out.println("Detected a change! ");
+            }
+        });
+       stListId++;
        return st;
+    }
+
+    public ObservableList<ShiftTask> getObservableList() {
+        return observableList;
     }
 
     public Map<Integer, ShiftTask> getStList() {
