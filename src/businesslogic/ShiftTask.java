@@ -60,4 +60,10 @@ public class ShiftTask  {
         }
         setShift(shift);
     }
+
+    @Override
+    public String toString() {
+        System.out.println("task:: "+task.getItem().toString());
+        return task.getItem().toString();
+    }
 }
