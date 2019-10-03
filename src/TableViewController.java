@@ -40,9 +40,8 @@ public class TableViewController {
 
     }
     public void loadStList(){
-        stArray= new ArrayList<>(CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getStList().values());
-        stList = FXCollections.observableList(stArray);
-        table.setItems(stList);
+
+        table.setItems(CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getObservableList());
     }
     /*@Override
     public void initialize(URL url, ResourceBundle rb) {
