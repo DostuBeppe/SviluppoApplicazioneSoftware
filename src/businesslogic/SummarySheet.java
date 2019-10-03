@@ -11,7 +11,9 @@ public class SummarySheet  {
     private Map<Integer,ShiftTask> stList;
     private Map<Integer,Task> tasks;
     private ShiftTask currentShiftTask;
-
+    private int taskId=0;
+    private int stListId=0;
+    private int shiftId=0;
     public SummarySheet(String title){
         this.title=title;
         /*shifts= new HashMap<>();
@@ -33,5 +35,22 @@ public class SummarySheet  {
 
     public void setCurrentShiftTask(ShiftTask currentShiftTask) {
         this.currentShiftTask = currentShiftTask;
+    }
+    public Task addTask(MenuItem item){
+       Task t= new Task();
+       t.setItem(item);
+       t.setTaskId(taskId);
+       tasks.put(taskId,t);
+       taskId++;
+       return  t;
+    }
+    public ShiftTask addShiftTask(MenuItem item){
+       ShiftTask st= new ShiftTask(CateringAppManager.eventManager.getCurrentEvent().getEventId());
+       st.setTask(addTask(item));
+       return st;
+    }
+
+    public Map<Integer, ShiftTask> getStList() {
+        return stList;
     }
 }
