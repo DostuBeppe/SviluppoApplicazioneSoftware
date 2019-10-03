@@ -20,11 +20,15 @@ public class SummarySheet  {
     private int stListId=0;
     private int shiftId=0;
     private ObservableList<ShiftTask> observableList;
+    private ArrayList<ShiftTask> a;
     public SummarySheet(String title){
         this.title=title;
         shifts= new HashMap<>();
         stList= new HashMap<>();
         tasks= new HashMap<>();
+        a= new ArrayList<>();
+        observableList = FXCollections.observableList(a);
+
 
     }
    /* public Task addTask(int quantity,int estimateTime,MenuItem item){
@@ -55,15 +59,8 @@ public class SummarySheet  {
        ShiftTask st= new ShiftTask(CateringAppManager.eventManager.getCurrentEvent().getEventId());
        st.setTask(addTask(item));
        stList.put(stListId,st);
-        ArrayList<ShiftTask> a= new ArrayList<>(stList.values());
-        observableList = FXCollections.observableList(a);
-        observableList.addListener(new ListChangeListener() {
-
-            @Override
-            public void onChanged(ListChangeListener.Change change) {
-                System.out.println("Detected a change! ");
-            }
-        });
+       observableList.add(st);
+        System.out.println("added shifttask:"+stListId);
        stListId++;
        return st;
     }
