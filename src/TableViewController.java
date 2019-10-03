@@ -1,14 +1,15 @@
 import businesslogic.*;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
-public class TableViewController {
+import java.util.Map;
 
+public class TableViewController {
+    @FXML
+    private Label sheetName;
     @FXML
     private TableView<ShiftTask> table;
     @FXML
@@ -21,13 +22,22 @@ public class TableViewController {
     private TableColumn<Shift, Integer>  number;
     @FXML
     private TableColumn<Staff, String>  name;
-
-    public void initialize(){
+    private ObservableList<ShiftTask> stList;
+    private SummarySheet ss;
+    public void initialize(String name){
+        if(name!=null){
+            sheetName.setText(name);
+        }
+        ss= new SummarySheet(name);
+        CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
                 CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(newSelection));
 
     }
-
+    public void loadStList(){
+        String date= CateringAppManager.eventManager.getCurrentEvent().getDateFormatted();
+        Map shiftMap= CateringAppManager.billboardManager.showShifts(date);
+    }
     /*@Override
     public void initialize(URL url, ResourceBundle rb) {
         id.setCellValueFactory(
