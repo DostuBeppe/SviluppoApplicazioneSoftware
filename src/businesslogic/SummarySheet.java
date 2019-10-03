@@ -16,9 +16,9 @@ public class SummarySheet  {
     private int shiftId=0;
     public SummarySheet(String title){
         this.title=title;
-        /*shifts= new HashMap<>();
+        shifts= new HashMap<>();
         stList= new HashMap<>();
-        tasks= new HashMap<>();*/
+        tasks= new HashMap<>();
     }
    /* public Task addTask(int quantity,int estimateTime,MenuItem item){
         Task task= new Task();
