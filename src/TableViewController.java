@@ -17,7 +17,7 @@ public class TableViewController {
     @FXML
     private TableView<ShiftTask> table;
     @FXML
-    private TableColumn<ShiftTask, String> title;
+    private TableColumn<Task, String> title;
     @FXML
     private TableColumn<Task, Integer>  time;
     @FXML
