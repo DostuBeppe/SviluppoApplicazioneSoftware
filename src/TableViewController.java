@@ -45,6 +45,7 @@ public class TableViewController {
             @Override
             public void onChanged(ListChangeListener.Change change) {
                 System.out.println("Detected a change! ");
+                table.setItems(stList);
             }
         });
 
