@@ -1,5 +1,6 @@
 import businesslogic.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -16,7 +17,7 @@ public class TableViewController {
     @FXML
     private TableView<ShiftTask> table;
     @FXML
-    private TableColumn<Task, String> title;
+    private TableColumn<ShiftTask, String> title;
     @FXML
     private TableColumn<Task, Integer>  time;
     @FXML
@@ -36,13 +37,23 @@ public class TableViewController {
         CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
                 CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(newSelection));
+
         loadStList();
+        table.setItems(stList);
+        stList.addListener(new ListChangeListener() {
+
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                System.out.println("Detected a change! ");
+                table.setItems(stList);
+            }
+        });
+
 
     }
     public void loadStList(){
-        stArray= new ArrayList<>(CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getStList().values());
-        stList = FXCollections.observableList(stArray);
-        table.setItems(stList);
+        stList= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getObservableList();
+
     }
     /*@Override
     public void initialize(URL url, ResourceBundle rb) {
