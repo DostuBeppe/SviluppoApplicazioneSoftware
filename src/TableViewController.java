@@ -15,9 +15,7 @@ public class TableViewController {
     @FXML
     private Label sheetName;
     @FXML
-    private TableView<ShiftTask> table;
-    @FXML
-    private TableColumn<Task, String> title;
+    private TableColumn<Task, String> title= new TableColumn<Task,String>("Title");
     @FXML
     private TableColumn<Task, Integer>  time;
     @FXML
@@ -26,6 +24,13 @@ public class TableViewController {
     private TableColumn<Shift, Integer>  number;
     @FXML
     private TableColumn<Staff, String>  name;
+    @FXML
+    private TableView<ShiftTask> table;
+
+
+
+
+
     private ObservableList<ShiftTask> stList;
     private SummarySheet ss;
     private List<ShiftTask> stArray;
@@ -36,7 +41,7 @@ public class TableViewController {
         ss= new SummarySheet(name);
         CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
-                CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(newSelection));
+                CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentS(newSelection));
 
         loadStList();
         table.setItems(stList);
@@ -46,6 +51,11 @@ public class TableViewController {
             public void onChanged(ListChangeListener.Change change) {
                 System.out.println("Detected a change! ");
                 table.setItems(stList);
+                System.out.println("inizio stampa");
+                //table.toString();
+                //stList.toString();
+                table.refresh();
+                System.out.println("Fine stampa");
             }
         });
 

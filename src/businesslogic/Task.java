@@ -7,10 +7,11 @@ import javafx.beans.property.StringProperty;
 
 public class Task {
 
-    private int taskId;
     private final IntegerProperty estimatedTime= new SimpleIntegerProperty();
     private final IntegerProperty quantity= new SimpleIntegerProperty();
     private final StringProperty title= new SimpleStringProperty();
+
+    private int taskId;
     private MenuItem item;
 
     public Task() {
@@ -62,4 +63,8 @@ public class Task {
         setItem(item);
         return this;
     }
+
+    public IntegerProperty estimatedTimeProperty(){return estimatedTime;}
+    public IntegerProperty quantityProperty(){return quantity;}
+    public StringProperty titleProperty(){return title;}
 }
