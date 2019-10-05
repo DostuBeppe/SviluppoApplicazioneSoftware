@@ -31,7 +31,7 @@ public class EditPanelController {
     @FXML
     private Button eventBillBoard;
 
-
+    private boolean firstShift=true;
     private MainController main;
 
     @FXML
@@ -61,14 +61,21 @@ public class EditPanelController {
             }
         }
         if(obj.getId().equals(shifts.getId())){
-            try {
-                FXMLLoader shiftsLoader = new FXMLLoader(getClass().getResource("shifts.fxml"));
-                Parent shift = shiftsLoader.load();
-                ShiftsController shiftController = shiftsLoader.getController();
-                shiftController.initialize(this);
-                shiftPane.setLeft(shift);
-            }  catch (IOException exc) {
-                exc.printStackTrace();
+            if(firstShift) {
+                try {
+                    FXMLLoader shiftsLoader = new FXMLLoader(getClass().getResource("shifts.fxml"));
+                    Parent shift = shiftsLoader.load();
+                    ShiftsController shiftController = shiftsLoader.getController();
+                    shiftController.initialize(this);
+                    shiftPane.setLeft(shift);
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                }
+                firstShift=false;
+            }else {
+                shiftPane.setLeft(null);
+                shiftPane.setRight(null);
+                firstShift=true;
             }
         }
 

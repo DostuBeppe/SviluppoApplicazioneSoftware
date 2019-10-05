@@ -17,5 +17,8 @@ public class UserManager {
     public User getCurrentUser() {
         return currentUser;
     }
-    public void setCurrentUser(User usr){this.currentUser=usr;}
+    public void setCurrentUser(User usr){
+        this.currentUser=usr;
+        CateringAppManager.eventManager.loadUserEvents(usr.getUserId());
+    }
 }

@@ -22,7 +22,7 @@ public class MainController {
     private Button backButton;
     @FXML
     private Button forwardButton;
-
+    private boolean first=true;
     @FXML
     public void initialize() {
 
@@ -34,15 +34,17 @@ public class MainController {
         if(obj.getId().equals(loginButton.getId())){
             String userText=userName.getText();
             CateringAppManager.userManager.setCurrentUser(CateringAppManager.dataManager.loadUser(userText));
-
-            try {
-                FXMLLoader eventListLoader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
-                Parent eventList = eventListLoader.load();
-                EventListController eventListController = eventListLoader.getController();
-                eventListController.initialize(this);
-                mainPane.setCenter(eventList);
-            } catch (IOException exc) {
-                exc.printStackTrace();
+            if(first) {
+                try {
+                    FXMLLoader eventListLoader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
+                    Parent eventList = eventListLoader.load();
+                    EventListController eventListController = eventListLoader.getController();
+                    eventListController.initialize(this);
+                    mainPane.setCenter(eventList);
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                }
+                first=false;
             }
         }else if(obj.getId().equals(backButton.getId())){
             System.out.println("indietro");

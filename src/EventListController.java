@@ -2,6 +2,7 @@ import businesslogic.CateringAppManager;
 import businesslogic.Event;
 import businesslogic.Menu;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,21 +60,27 @@ public class EventListController {
               exc.printStackTrace();
           }
         });
+        observableEvents.addListener(new ListChangeListener() {
+
+            @Override
+            public void onChanged(ListChangeListener.Change change) {
+                System.out.println("Detected a change! added "+observableEvents.size());
+                eventList.refresh();
+            }
+        });
         System.out.println("loaded event list controller");
     }
 
     private void resetEventList() {
-        events = CateringAppManager.eventManager.getAllEvents();
-        System.out.println(events.size());
-        observableEvents = FXCollections.observableList(events);
+        observableEvents = CateringAppManager.eventManager.getObservableEvents();
         eventList.setItems(observableEvents);
     }
-    private void loadEventList() {
+ /*   private void loadEventList() {
         eventList= new ListView<>();
         events = CateringAppManager.eventManager.getAllEvents();
         observableEvents = FXCollections.observableList(events);
         eventList.setItems(observableEvents);
-    }
+    }*/
     @FXML
     private void handleButtonAction(ActionEvent event) {
 

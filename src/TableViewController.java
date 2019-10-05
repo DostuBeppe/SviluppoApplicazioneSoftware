@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class TableViewController {
     @FXML
     private TableView<ShiftTask> table;
     @FXML
-    private TableColumn<Task, String> title;
+    private TableColumn<ShiftTask, String> title;
     @FXML
     private TableColumn<Task, Integer>  time;
     @FXML
@@ -30,6 +31,7 @@ public class TableViewController {
     private SummarySheet ss;
     private List<ShiftTask> stArray;
     public void initialize(String name){
+        title.setCellValueFactory(new PropertyValueFactory<>("name"));
         if(name!=null){
             sheetName.setText(name);
         }
