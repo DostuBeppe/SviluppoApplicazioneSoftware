@@ -13,7 +13,7 @@
 
 <BorderPane fx:id="mainContainer" style="-fx-border-color: transparent; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TableViewController">
     <center>
-    <BorderPane fx:id="menuListPane">
+    <BorderPane fx:id="mainPane">
         <center>
             <TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
                 <columns>
@@ -21,7 +21,7 @@
                     <TableColumn fx:id="time" prefWidth="104.0" text="stima tempo" />
                     <TableColumn fx:id="quantity" prefWidth="90.0" text="quantità" />
                     <TableColumn fx:id="number" minWidth="0.0" prefWidth="61.0" text="turno" />
-                    <TableColumn fx:id="name" maxWidth="243.0" prefWidth="159.0" text="nome" />
+                    <TableColumn fx:id="nameStaff" maxWidth="243.0" prefWidth="159.0" text="nome" />
                 </columns>
             </TableView>
         </center>

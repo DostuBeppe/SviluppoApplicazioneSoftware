@@ -8,9 +8,9 @@ import javafx.beans.property.StringProperty;
 public class Task {
 
     private int taskId;
-    private final IntegerProperty estimatedTime= new SimpleIntegerProperty();
-    private final IntegerProperty quantity= new SimpleIntegerProperty();
-    private final StringProperty title= new SimpleStringProperty();
+    private int estimatedTime;
+    private int quantity;
+    private String title;
     private MenuItem item;
 
     public Task() {
@@ -23,20 +23,20 @@ public class Task {
         this.taskId = taskId;
     }
 
-    public final int getEstimatedTime() {
-        return estimatedTime.get();
+    public  int getEstimatedTime() {
+        return estimatedTime;
     }
 
-    public final void setEstimatedTime(int estimatedTime) {
-        this.estimatedTime.set(estimatedTime);
+    public  void setEstimatedTime(int estimatedTime) {
+        this.estimatedTime=estimatedTime;
     }
 
-    public final int getQuantity() {
-        return quantity.get();
+    public  int getQuantity() {
+        return quantity;
     }
 
-    public final void setQuantity(int quantity) {
-        this.quantity.set(quantity);
+    public  void setQuantity(int quantity) {
+        this.quantity=quantity;
     }
 
     public MenuItem getItem() {
@@ -47,12 +47,12 @@ public class Task {
         this.item = item;
     }
 
-    public StringProperty getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public final void setTitle(String title) {
-        this.title.set(title);
+    public  void setTitle(String title) {
+        this.title=title;
     }
 
     public Task modifyTask(String title,int quantity,int estimatedTime,MenuItem item){

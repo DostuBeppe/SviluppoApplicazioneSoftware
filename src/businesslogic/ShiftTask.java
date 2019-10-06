@@ -9,6 +9,10 @@ public class ShiftTask  {
     private Date date;
     private int eventId;
     private String name;
+    private int estimatedTime;
+    private int quantity;
+    private int numberShift;
+    private String nameStaff;
     private HashMap<Integer,Staff> staffList;
     public ShiftTask(int eventId){
         this.eventId= eventId;
@@ -45,10 +49,14 @@ public class ShiftTask  {
     }
 
     public void setShift(Shift shift) {
+
         this.shift = shift;
+        setNumberShift(shift.getNumber());
     }
     public void setChoosenStaff(Staff staff){
+
         staffList.put(staff.getUserId(),staff);
+        setNameStaff(staff.getName());
     }
     public HashMap<Integer,Staff> getChoosenStaff(){
         return staffList;
@@ -75,5 +83,39 @@ public class ShiftTask  {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getEstimatedTime() {
+        return task.getEstimatedTime();
+    }
+
+    public void setEstimatedTime(int estimatedTime) {
+        this.estimatedTime = estimatedTime;
+        task.setEstimatedTime(estimatedTime);
+    }
+
+    public int getQuantity() {
+        return task.getQuantity();
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+        task.setQuantity(quantity);
+    }
+
+    public int getNumberShift() {
+        return numberShift;
+    }
+
+    public void setNumberShift(int numberShift) {
+        this.numberShift = numberShift;
+    }
+
+    public String getNameStaff() {
+        return nameStaff;
+    }
+
+    public void setNameStaff(String nameStaff) {
+        this.nameStaff = this.nameStaff+" "+nameStaff;
     }
 }

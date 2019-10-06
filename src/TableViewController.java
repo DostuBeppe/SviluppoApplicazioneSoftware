@@ -3,11 +3,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,40 +18,62 @@ public class TableViewController {
     @FXML
     private Label sheetName;
     @FXML
+    private BorderPane mainContainer;
+    @FXML
     private TableView<ShiftTask> table;
     @FXML
     private TableColumn<ShiftTask, String> title;
     @FXML
-    private TableColumn<Task, Integer>  time;
+    private TableColumn<ShiftTask, String>  time;
     @FXML
-    private TableColumn<Task, Integer>  quantity;
+    private TableColumn<ShiftTask, String>  quantity;
     @FXML
-    private TableColumn<Shift, Integer>  number;
+    private TableColumn<ShiftTask, String>  number;
     @FXML
-    private TableColumn<Staff, String>  name;
+    private TableColumn<ShiftTask, String>  nameStaff;
     private ObservableList<ShiftTask> stList;
     private SummarySheet ss;
     private List<ShiftTask> stArray;
     public void initialize(String name){
         title.setCellValueFactory(new PropertyValueFactory<>("name"));
+        time.setCellValueFactory(new PropertyValueFactory<>("estimatedTime"));
+        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        number.setCellValueFactory(new PropertyValueFactory<>("numberShift"));
+        nameStaff.setCellValueFactory(new PropertyValueFactory<>("nameStaff"));
+
         if(name!=null){
             sheetName.setText(name);
         }
         ss= new SummarySheet(name);
         CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
+        CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setTable(table);
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
-                CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(newSelection));
+        {
+            CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(newSelection);
+           // CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentTask(newSelection.getTask());
+            try {
+              //  System.out.println("load staff");
+                FXMLLoader editLoader = new FXMLLoader(getClass().getResource("edittask.fxml"));
+                Parent edit = editLoader.load();
+                EditTaskController editTaskController = editLoader.getController();
+                editTaskController.initialize(this);
+                mainContainer.setBottom(edit);
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
+
+        });
 
         loadStList();
         table.setItems(stList);
-        stList.addListener(new ListChangeListener() {
+       /* stList.addListener(new ListChangeListener() {
 
             @Override
             public void onChanged(ListChangeListener.Change change) {
                 System.out.println("Detected a change! ");
                 table.setItems(stList);
             }
-        });
+        });*/
 
 
     }
@@ -57,15 +81,7 @@ public class TableViewController {
         stList= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getObservableList();
 
     }
-    /*@Override
-    public void initialize(URL url, ResourceBundle rb) {
-        id.setCellValueFactory(
-                new PropertyValueFactory<Email, String>("id"));
-        object.setCellValueFactory(
-                new PropertyValueFactory<Email, String>("argument"));
-        sender.setCellValueFactory(
-                new PropertyValueFactory<Email, String>("sender"));
-        date.setCellValueFactory(
-                new PropertyValueFactory<Email, String>("date"));
-    }*/
+    public TableView getTable(){
+        return  table;
+    }
 }
