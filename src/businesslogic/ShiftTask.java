@@ -13,6 +13,7 @@ public class ShiftTask  {
     private int quantity;
     private int numberShift;
     private String nameStaff;
+    private String status;
     private HashMap<Integer,Staff> staffList;
     public ShiftTask(int eventId){
         this.eventId= eventId;
@@ -83,6 +84,14 @@ public class ShiftTask  {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getEstimatedTime() {
