@@ -8,6 +8,7 @@ public class ShiftTask  {
     private Shift shift;
     private Date date;
     private int eventId;
+    private String name;
     private HashMap<Integer,Staff> staffList;
     public ShiftTask(int eventId){
         this.eventId= eventId;
@@ -20,6 +21,7 @@ public class ShiftTask  {
 
     public void setTask(Task task) {
         this.task = task;
+        name="Preparare: "+task.getItem().toString();
     }
 
     public Date getDate() {
@@ -65,5 +67,13 @@ public class ShiftTask  {
     public String toString() {
         System.out.println("task:: "+task.getItem().toString());
         return task.getItem().toString();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

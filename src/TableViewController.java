@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 
 import java.util.ArrayList;
@@ -15,7 +16,9 @@ public class TableViewController {
     @FXML
     private Label sheetName;
     @FXML
-    private TableColumn<Task, String> title= new TableColumn<Task,String>("Title");
+    private TableView<ShiftTask> table;
+    @FXML
+    private TableColumn<ShiftTask, String> title;
     @FXML
     private TableColumn<Task, Integer>  time;
     @FXML
@@ -24,24 +27,18 @@ public class TableViewController {
     private TableColumn<Shift, Integer>  number;
     @FXML
     private TableColumn<Staff, String>  name;
-    @FXML
-    private TableView<ShiftTask> table;
-
-
-
-
-
     private ObservableList<ShiftTask> stList;
     private SummarySheet ss;
     private List<ShiftTask> stArray;
     public void initialize(String name){
+        title.setCellValueFactory(new PropertyValueFactory<>("name"));
         if(name!=null){
             sheetName.setText(name);
         }
         ss= new SummarySheet(name);
         CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
-                CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentS(newSelection));
+                CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(newSelection));
 
         loadStList();
         table.setItems(stList);
@@ -51,11 +48,6 @@ public class TableViewController {
             public void onChanged(ListChangeListener.Change change) {
                 System.out.println("Detected a change! ");
                 table.setItems(stList);
-                System.out.println("inizio stampa");
-                //table.toString();
-                //stList.toString();
-                table.refresh();
-                System.out.println("Fine stampa");
             }
         });
 

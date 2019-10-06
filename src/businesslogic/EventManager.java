@@ -1,16 +1,20 @@
 package businesslogic;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class EventManager {
 
-    private List<Event> allEvents;
+    private List<Event> events=null;
     private Event currentEvent;
     private List<EventManagerReceiver> receivers;
-
+    private ObservableList<Event> obEvent;
     public EventManager() {
         receivers = new ArrayList<>();
+        obEvent= FXCollections.observableArrayList();
        /* receivers.add(new BaseEventReceiver() {
             @Override
             public void notifyMenuCreated(Event m) {
@@ -33,7 +37,7 @@ public class EventManager {
     // l'UC che abbiamo analizzato partiva dal presupposto che l'utente
     // avesse già davanti la lista dei menu disponibili. Quindi questa
     // parte va aggiunta direttamente nel codice.
-    public List<Event> getAllEvents() {
+  /*  public List<Event> getAllEvents() {
         if (allEvents == null) {
             allEvents = new ArrayList<>();
             allEvents.addAll(CateringAppManager.dataManager.loadChefEvents(CateringAppManager.userManager.getCurrentUser().getUserId()));
@@ -45,6 +49,9 @@ public class EventManager {
         ret.addAll(allEvents);
         return ret;
 
+    }*/
+    public ObservableList getObservableEvents(){
+        return obEvent;
     }
 
     public Event createEvent(String title) {
@@ -58,7 +65,14 @@ public class EventManager {
             return currentEvent;
         }
     }
-
+    public void loadUserEvents(int userId){
+        if(events!=null){
+            obEvent.removeAll(events);
+        }
+        events=CateringAppManager.dataManager.loadChefEvents(userId);
+        obEvent.addAll(events);
+        System.out.println("obEvent: "+obEvent.size());
+    }
     public Event getCurrentEvent() {
         return currentEvent;
     }
