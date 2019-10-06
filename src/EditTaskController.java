@@ -25,6 +25,8 @@ public class EditTaskController {
 
     @FXML
     private Button buttonEditTask;
+    @FXML
+    private Button deleteAssign;
 
     private TableViewController tabel;
     @FXML
@@ -53,6 +55,9 @@ public class EditTaskController {
 
 
            tabel.getTable().refresh();
+        }else if(obj.getId().equals(deleteAssign.getId())){
+            CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getCurrentShiftTask().deleteAssign();
+            CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getTable().refresh();
         }
 
     }

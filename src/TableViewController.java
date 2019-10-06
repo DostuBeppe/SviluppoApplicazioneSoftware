@@ -31,6 +31,8 @@ public class TableViewController {
     private TableColumn<ShiftTask, String>  number;
     @FXML
     private TableColumn<ShiftTask, String>  nameStaff;
+    @FXML
+    private Button saveButton;
     private ObservableList<ShiftTask> stList;
     private SummarySheet ss;
     private List<ShiftTask> stArray;
