@@ -123,4 +123,10 @@ public class ShiftTask  {
         }
 
     }
+    public void deleteAssign(){
+        staffList.clear();
+        shift=null;
+        numberShift=0;
+        this.nameStaff="";
+    }
 }

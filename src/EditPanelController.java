@@ -23,8 +23,6 @@ public class EditPanelController {
     @FXML
     private Button createSheet;
     @FXML
-    private Button editSheet;
-    @FXML
     private Button openSheet;
     @FXML
     private Button shifts;
