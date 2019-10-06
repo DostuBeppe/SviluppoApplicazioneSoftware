@@ -84,7 +84,7 @@ public class EditPanelController{
             }
         }
         if(obj.getText().equals("tabellone evento")){
-            System.out.println("Bottone cliccato= "+obj.getText());
+            System.out.println("Bottone tabellone evento cliccato");
             Platform.runLater(()->{
                 PoPup popup=new PoPup();
                 try {
