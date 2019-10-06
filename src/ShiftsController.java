@@ -51,7 +51,9 @@ public class ShiftsController {
 
         shiftList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedShift = shiftList.getSelectionModel().getSelectedItem();
+            CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getCurrentShiftTask().setShift(selectedShift);
             CateringAppManager.billboardManager.setCurrentShift(selectedShift);
+            CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getTable().refresh();
             try {
                 System.out.println("load staff");
                 FXMLLoader staffLoader = new FXMLLoader(getClass().getResource("staffs.fxml"));
