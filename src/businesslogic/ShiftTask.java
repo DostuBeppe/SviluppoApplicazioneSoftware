@@ -116,6 +116,11 @@ public class ShiftTask  {
     }
 
     public void setNameStaff(String nameStaff) {
-        this.nameStaff = this.nameStaff+" "+nameStaff;
+        if(this.nameStaff!=null){
+            this.nameStaff = this.nameStaff+","+nameStaff;
+        }else{
+            this.nameStaff = nameStaff;
+        }
+
     }
 }
