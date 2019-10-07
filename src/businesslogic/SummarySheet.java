@@ -23,6 +23,7 @@ public class SummarySheet  {
     private int taskId=0;
     private int stListId=0;
     private int shiftId=0;
+    private int chefId;
     private ObservableList<ShiftTask> observableList;
     public SummarySheet(String title){
         this.title=title;
@@ -95,5 +96,13 @@ public class SummarySheet  {
 
     public void setTable(TableView table) {
         this.table = table;
+    }
+
+    public int getChefId() {
+        return chefId;
+    }
+
+    public void setChefId(int chefId) {
+        this.chefId = chefId;
     }
 }

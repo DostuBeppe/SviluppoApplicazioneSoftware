@@ -49,6 +49,7 @@ public class TableViewController {
         ss= new SummarySheet(name);
         CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
         CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setTable(table);
+        ss.setChefId(CateringAppManager.userManager.getCurrentUser().getUserId());
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
         {
             CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(newSelection);
