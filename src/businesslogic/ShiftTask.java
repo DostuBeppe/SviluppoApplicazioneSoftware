@@ -63,7 +63,7 @@ public class ShiftTask  {
 
     @Override
     public String toString() {
-        System.out.println("task:: "+task.getItem().toString());
+        System.out.println("task: "+task.getItem().toString());
         return task.getItem().toString();
     }
 }

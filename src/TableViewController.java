@@ -38,8 +38,10 @@ public class TableViewController {
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
                 CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(newSelection));
 
-        loadStList();
+
+        System.out.println(stList.toString());
         table.setItems(stList);
+        System.out.println("passo di qua");
         stList.addListener(new ListChangeListener() {
 
             @Override
@@ -49,11 +51,9 @@ public class TableViewController {
             }
         });
 
-
     }
     public void loadStList(){
         stList= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getObservableList();
-
     }
     /*@Override
     public void initialize(URL url, ResourceBundle rb) {
