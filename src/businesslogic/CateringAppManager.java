@@ -35,9 +35,9 @@ public class CateringAppManager {
             // Rimando l'eccezione a terminale
             exc.printStackTrace();
         }
-        CateringAppManager.userManager.initialize();
         //CateringAppManager.menuManager.initialize();
         CateringAppManager.eventManager.initialize();
+        CateringAppManager.userManager.initialize();
         CateringAppManager.billboardManager.initialize();
     }
 

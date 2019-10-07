@@ -3,6 +3,7 @@ package businesslogic;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,16 +16,21 @@ public class SummarySheet  {
     private Map<Integer,Shift> shifts;
     private Map<Integer,ShiftTask> stList;
     private Map<Integer,Task> tasks;
+    private Map<Integer,Staff> staffList;
     private ShiftTask currentShiftTask;
+    private TableView table;
+    private Task currentTask;
     private int taskId=0;
     private int stListId=0;
     private int shiftId=0;
+    private int chefId;
     private ObservableList<ShiftTask> observableList;
     public SummarySheet(String title){
         this.title=title;
         shifts= new HashMap<>();
         stList= new HashMap<>();
         tasks= new HashMap<>();
+        staffList= new HashMap<>();
         observableList = FXCollections.observableArrayList();
 
     }
@@ -62,11 +68,41 @@ public class SummarySheet  {
        return st;
     }
 
+    public void addStaff(Staff staff){
+       staffList.put(staff.getStaffId(),staff);
+    }
+    public List getStaff(){
+       return new ArrayList<Staff>(staffList.values());
+    }
     public ObservableList<ShiftTask> getObservableList() {
         return observableList;
     }
 
     public Map<Integer, ShiftTask> getStList() {
         return stList;
+    }
+
+    public Task getCurrentTask() {
+        return currentTask;
+    }
+
+    public void setCurrentTask(Task currentTask) {
+        this.currentTask = currentTask;
+    }
+
+    public TableView getTable() {
+        return table;
+    }
+
+    public void setTable(TableView table) {
+        this.table = table;
+    }
+
+    public int getChefId() {
+        return chefId;
+    }
+
+    public void setChefId(int chefId) {
+        this.chefId = chefId;
     }
 }

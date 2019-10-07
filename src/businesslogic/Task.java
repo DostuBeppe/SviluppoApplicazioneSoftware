@@ -1,5 +1,10 @@
 package businesslogic;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Task {
 
     private int taskId;
@@ -18,20 +23,20 @@ public class Task {
         this.taskId = taskId;
     }
 
-    public int getEstimatedTime() {
+    public  int getEstimatedTime() {
         return estimatedTime;
     }
 
-    public void setEstimatedTime(int estimatedTime) {
-        this.estimatedTime = estimatedTime;
+    public  void setEstimatedTime(int estimatedTime) {
+        this.estimatedTime=estimatedTime;
     }
 
-    public int getQuantity() {
+    public  int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public  void setQuantity(int quantity) {
+        this.quantity=quantity;
     }
 
     public MenuItem getItem() {
@@ -46,8 +51,8 @@ public class Task {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public  void setTitle(String title) {
+        this.title=title;
     }
 
     public Task modifyTask(String title,int quantity,int estimatedTime,MenuItem item){

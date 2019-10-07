@@ -19,11 +19,12 @@
             <TextField fx:id="textTitle" />
             <TextField fx:id="textTime" layoutX="10.0" layoutY="10.0" />
             <TextField fx:id="textQuantity" layoutX="10.0" layoutY="35.0" />
-            <Button fx:id="buttonEditTask" mnemonicParsing="false" prefHeight="22.0" prefWidth="195.0" text="Modifica">
+            <Button fx:id="buttonEditTask" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="22.0" prefWidth="195.0" text="Modifica">
                <VBox.margin>
                   <Insets right="10.0" top="10.0" />
                </VBox.margin>
             </Button>
+            <Button fx:id="deleteAssign" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="194.0" text="Elimina assegnaimento" />
          </children>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

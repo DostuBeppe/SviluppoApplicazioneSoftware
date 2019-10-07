@@ -1,16 +1,23 @@
 import businesslogic.CateringAppManager;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.application.Application;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class EditPanelController {
+public class EditPanelController{
 
     @FXML
     private BorderPane mainPane;
@@ -23,15 +30,13 @@ public class EditPanelController {
     @FXML
     private Button createSheet;
     @FXML
-    private Button editSheet;
-    @FXML
     private Button openSheet;
     @FXML
     private Button shifts;
     @FXML
     private Button eventBillBoard;
 
-
+    private boolean firstShift=true;
     private MainController main;
 
     @FXML
@@ -61,18 +66,38 @@ public class EditPanelController {
             }
         }
         if(obj.getId().equals(shifts.getId())){
-            try {
-                FXMLLoader shiftsLoader = new FXMLLoader(getClass().getResource("shifts.fxml"));
-                Parent shift = shiftsLoader.load();
-                ShiftsController shiftController = shiftsLoader.getController();
-                shiftController.initialize(this);
-                shiftPane.setLeft(shift);
-            }  catch (IOException exc) {
-                exc.printStackTrace();
+            if(firstShift) {
+                try {
+                    FXMLLoader shiftsLoader = new FXMLLoader(getClass().getResource("shifts.fxml"));
+                    Parent shift = shiftsLoader.load();
+                    ShiftsController shiftController = shiftsLoader.getController();
+                    shiftController.initialize(this);
+                    shiftPane.setLeft(shift);
+                } catch (IOException exc) {
+                    exc.printStackTrace();
+                }
+                firstShift=false;
+            }else {
+                shiftPane.setLeft(null);
+                shiftPane.setRight(null);
+                firstShift=true;
             }
         }
+        if(obj.getText().equals("tabellone evento")){
+            System.out.println("Bottone tabellone evento cliccato");
+            Platform.runLater(()->{
+                PoPup popup=new PoPup();
+                try {
+                    popup.start(new Stage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
 
     }
+
     public BorderPane getMainPane(){
         return this.mainPane;
     }
