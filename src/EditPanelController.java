@@ -96,8 +96,6 @@ public class EditPanelController{
             });
             //  eventBillBoard.setDisable(true);
         }
-
-
     }
 
     public BorderPane getMainPane(){
