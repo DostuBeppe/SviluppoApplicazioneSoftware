@@ -2,6 +2,7 @@ import businesslogic.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -42,14 +43,15 @@ public class TableViewController {
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         number.setCellValueFactory(new PropertyValueFactory<>("numberShift"));
         nameStaff.setCellValueFactory(new PropertyValueFactory<>("nameStaff"));
-
-        if(name!=null){
-            sheetName.setText(name);
-        }
         ss= new SummarySheet(name);
         CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
         CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setTable(table);
         ss.setChefId(CateringAppManager.userManager.getCurrentUser().getUserId());
+        if(name!=null){
+            sheetName.setText(name);
+            ss.setTitle(name);
+        }
+
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
         {
             CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(newSelection);
@@ -78,6 +80,16 @@ public class TableViewController {
             }
         });*/
 
+
+    }
+    @FXML
+    private void handleButtonAction(ActionEvent event) {
+
+        Button obj=(Button)event.getSource();
+        if(obj.getId().equals(saveButton.getId())){
+            System.out.println("save sheet");
+            CateringAppManager.dataManager.uploadSummarySheet();
+        }
 
     }
     public void loadStList(){

@@ -10,6 +10,7 @@ public class Task {
     private int taskId;
     private int estimatedTime;
     private int quantity;
+    private boolean status;
     private String title;
     private MenuItem item;
 
@@ -61,5 +62,13 @@ public class Task {
         setQuantity(quantity);
         setItem(item);
         return this;
+    }
+
+    public boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

@@ -33,7 +33,7 @@
       </Label>
    </top>
          <bottom>
-            <Button fx:id="saveButton" mnemonicParsing="false" text="Salva" BorderPane.alignment="CENTER" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Salva" BorderPane.alignment="CENTER" />
          </bottom>
     </BorderPane>
     </center>

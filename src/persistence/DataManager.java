@@ -547,6 +547,217 @@ public class DataManager {
         }
         return staff;
     }
+    //UPLOAD
+    public void uploadSummarySheet(){
+        SummarySheet ss= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet();
+        String sql = "INSERT INTO summary_sheets(title,note,chef_id) " +
+                "VALUES(?,?,?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        try {
+
+            pstmt = this.connection.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, ss.getTitle());
+            pstmt.setString(2, ss.getNote());
+            pstmt.setInt(3, ss.getChefId());
+            pstmt.executeUpdate();
+            ResultSet rs=pstmt.getGeneratedKeys();
+            if(rs.next()){
+                id=rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        System.out.println("uploaded sheet : "+id);
+        uploadShiftTask(id);
+
+    }
+    public int uploadShiftTask(int summaryShettId){
+        String sql = "INSERT INTO shift_task(summary_sheet_id) " +
+                "VALUES(?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        Map stMap= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getStList();
+        System.out.println("shifts: "+stMap.size());
+        List<ShiftTask> stList= new ArrayList<>(stMap.values());
+        try {
+            for (ShiftTask st:stList
+                 ) {
+                pstmt = this.connection.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                pstmt.setInt(1, summaryShettId);
+                pstmt.executeUpdate();
+                ResultSet rs=pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    id=rs.getInt(1);
+                }
+                rs.close();
+                pstmt.close();
+                uploadTaskST(id,st);
+                uploadShiftST(id,st);
+                uploadStaffST(id,st);
+            }
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return id;
+    }
+    public int uploadShiftST(int stId,ShiftTask st){
+        String sql = "INSERT INTO rel_st_shift(shift_id,st_id) " +
+                "VALUES(?,?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        Map shiftMap= st.getShifts();
+        List<Shift> shiftList= new ArrayList<>(shiftMap.values());
+        try {
+            for (Shift sh:shiftList
+                 ) {
+                pstmt = this.connection.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                pstmt.setInt(1, sh.getShiftId());
+                pstmt.setInt(2, stId);
+                pstmt.executeUpdate();
+                ResultSet rs=pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    id=rs.getInt(1);
+                }
+                rs.close();
+                pstmt.close();
+            }
+
+
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return id;
+    }
+    public int uploadStaffST(int stId,ShiftTask st){
+        String sql = "INSERT INTO rel_st_staff(staff_id,st_id) " +
+                "VALUES(?,?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        Map staffMap = st.getChoosenStaff();
+        List<Staff>staffList= new ArrayList<>(staffMap.values());
+        try {
+            for (Staff staff:staffList
+                 ) {
+                pstmt = this.connection.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                pstmt.setInt(1, staff.getStaffId());
+                pstmt.setInt(2, stId);
+                pstmt.executeUpdate();
+                ResultSet rs=pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    id=rs.getInt(1);
+                }
+                rs.close();
+                pstmt.close();
+            }
+
+
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return id;
+    }
+    public int uploadTaskST(int stId,ShiftTask st){
+        String sql = "INSERT INTO rel_st_task(task_id,st_id) " +
+                "VALUES(?,?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        Task t= st.getTask();
+        int taskId=uploadTask(t);
+        try {
+
+            pstmt = this.connection.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1, taskId);
+            pstmt.setInt(2, stId);
+            pstmt.executeUpdate();
+            ResultSet rs=pstmt.getGeneratedKeys();
+            if(rs.next()){
+                id=rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return id;
+    }
+    public int uploadTask(Task task){
+        String sql = "INSERT INTO tasks(item_id,estimated_time,quantity,status,title) " +
+                "VALUES(?,?,?,?,?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        try {
+
+            pstmt = this.connection.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1, task.getItem().getItemId());
+            pstmt.setInt(2, task.getEstimatedTime());
+            pstmt.setInt(3, task.getQuantity());
+            pstmt.setInt(4, (task.getStatus())?1:0);
+            pstmt.setString(5,task.getTitle());
+            pstmt.executeUpdate();
+            ResultSet rs=pstmt.getGeneratedKeys();
+            if(rs.next()){
+                id=rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return id;
+    }
 /*
     private int writeNewMenu(Event m) {
 

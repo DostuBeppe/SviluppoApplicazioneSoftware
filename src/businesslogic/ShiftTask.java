@@ -2,22 +2,25 @@ package businesslogic;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ShiftTask  {
     private Task task;
     private Shift shift;
+    private Map<Integer,Shift> shifts;
     private Date date;
     private int eventId;
     private String name;
     private int estimatedTime;
     private int quantity;
-    private int numberShift;
+    private String numberShift;
     private String nameStaff;
-    private String status;
+    private boolean status;
     private HashMap<Integer,Staff> staffList;
     public ShiftTask(int eventId){
         this.eventId= eventId;
         staffList= new HashMap<>();
+        shifts= new HashMap<>();
     }
 
     public Task getTask() {
@@ -51,8 +54,8 @@ public class ShiftTask  {
 
     public void setShift(Shift shift) {
 
-        this.shift = shift;
-        setNumberShift(shift.getNumber());
+        shifts.put(shift.getShiftId(),shift);
+        setNumberShift(Integer.toString(shift.getNumber()));
     }
     public void setChoosenStaff(Staff staff){
 
@@ -86,12 +89,14 @@ public class ShiftTask  {
         this.name = name;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
+
         this.status = status;
+        task.setStatus(status);
     }
 
     public int getEstimatedTime() {
@@ -112,13 +117,10 @@ public class ShiftTask  {
         task.setQuantity(quantity);
     }
 
-    public int getNumberShift() {
+    public String getNumberShift() {
         return numberShift;
     }
 
-    public void setNumberShift(int numberShift) {
-        this.numberShift = numberShift;
-    }
 
     public String getNameStaff() {
         return nameStaff;
@@ -132,10 +134,22 @@ public class ShiftTask  {
         }
 
     }
+    public void setNumberShift(String numberShift) {
+        if(this.numberShift!=null){
+            this.numberShift = this.numberShift+","+numberShift;
+        }else{
+            this.numberShift = numberShift;
+        }
+
+    }
     public void deleteAssign(){
         staffList.clear();
         shift=null;
-        numberShift=0;
+        numberShift="";
         this.nameStaff="";
+    }
+
+    public Map<Integer, Shift> getShifts() {
+        return shifts;
     }
 }
