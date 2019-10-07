@@ -31,7 +31,7 @@ public class PoPup extends Application {
 
     private ObservableList<ShiftTask> stList;
 
-    public void initialize(String name){
+    public void initialize(){
         colShitTask.setCellValueFactory(new PropertyValueFactory<>("name"));
         colStaff.setCellValueFactory(new PropertyValueFactory<>("nameStaff"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
@@ -51,5 +51,7 @@ public class PoPup extends Application {
 
         stage.setScene(mainScene);
         stage.show();
+
     }
+
 }

@@ -18,7 +18,7 @@ public class TableViewController {
     @FXML
     private Label sheetName;
     @FXML
-    private BorderPane mainContainer;
+    private BorderPane mainPane;
     @FXML
     private TableView<ShiftTask> table;
     @FXML
@@ -60,7 +60,7 @@ public class TableViewController {
                 Parent edit = editLoader.load();
                 EditTaskController editTaskController = editLoader.getController();
                 editTaskController.initialize(this);
-                mainContainer.setBottom(edit);
+                mainPane.setBottom(edit);
             } catch (IOException exc) {
                 exc.printStackTrace();
             }
