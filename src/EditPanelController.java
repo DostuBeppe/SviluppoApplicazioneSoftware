@@ -83,7 +83,7 @@ public class EditPanelController{
                 firstShift=true;
             }
         }
-        if(obj.getText().equals("tabellone evento")){
+        if(obj.getId().equals(eventBillBoard.getId())){
             System.out.println("Bottone tabellone evento cliccato");
             Platform.runLater(()->{
                 PoPup popup=new PoPup();

@@ -20,24 +20,6 @@ public class PoPup extends Application {
     private Stage stage;
     private CateringAppManager app;
 
-    @FXML
-    private TableView<ShiftTask> table;
-    @FXML
-    private TableColumn<ShiftTask, String> colShitTask;
-    @FXML
-    private TableColumn<ShiftTask, String>  colStaff;
-    @FXML
-    private TableColumn<ShiftTask, String>  colStatus;
-
-    private ObservableList<ShiftTask> stList;
-
-    public void initialize(String name){
-        colShitTask.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colStaff.setCellValueFactory(new PropertyValueFactory<>("nameStaff"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-    }
-
-
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -46,6 +28,7 @@ public class PoPup extends Application {
         this.stage = stage;
         this.app = CateringAppManager.getInstance();
         FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("popup.fxml"));
+        PopupController pc=mainLoader.getController();
         Parent main = mainLoader.load();
         Scene mainScene = new Scene(main);
 
