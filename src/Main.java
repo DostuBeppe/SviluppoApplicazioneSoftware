@@ -2,11 +2,14 @@ import businesslogic.CateringAppManager;
 import businesslogic.Recipe;
 import businesslogic.User;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -36,9 +39,14 @@ public class Main extends Application {
         primaryStage.setWidth(1600);
         primaryStage.setHeight(800);
         // primaryStage.setMaximized(true);
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                Platform.exit();
+            }
+        });
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         Application.launch(args);

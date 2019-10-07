@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,39 +18,34 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 public class PoPup extends Application {
 
+    private static PoPup singleInstance;
     private Stage stage;
     private CateringAppManager app;
+    private Boolean alive=true;
 
-    @FXML
-    private TableView<ShiftTask> table;
-    @FXML
-    private TableColumn<ShiftTask, String> colShitTask;
-    @FXML
-    private TableColumn<ShiftTask, String>  colStaff;
-    @FXML
-    private TableColumn<ShiftTask, String>  colStatus;
-
-    private ObservableList<ShiftTask> stList;
-
-    public void initialize(String name){
-        colShitTask.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colStaff.setCellValueFactory(new PropertyValueFactory<>("nameStaff"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+    public static PoPup getInstance() {
+        if (PoPup.singleInstance == null){
+            PoPup.singleInstance = new PoPup();
+        }
+        return PoPup.singleInstance;
     }
-
 
     @Override
     public void start(Stage stage) throws Exception {
 
-        System.out.println("Entro in popup");
+        if(alive) {
+            System.out.println("Entro in popup");
 
-        this.stage = stage;
-        this.app = CateringAppManager.getInstance();
-        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("popup.fxml"));
-        Parent main = mainLoader.load();
-        Scene mainScene = new Scene(main);
+            this.stage = stage;
+            this.app = CateringAppManager.getInstance();
+            FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("popup.fxml"));
+            PopupController pc = mainLoader.getController();
+            Parent main = mainLoader.load();
+            Scene mainScene = new Scene(main);
 
-        stage.setScene(mainScene);
-        stage.show();
+            stage.setScene(mainScene);
+            stage.show();
+            alive=false;
+        }
     }
 }
