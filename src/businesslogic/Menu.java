@@ -42,13 +42,19 @@ public class Menu implements Cloneable {
         return this.addItem(rec, sect, null);
     }
 
-    public MenuItem addItem(Recipe rec, Section sect, String desc) {
+    public MenuItem addItem(int id,Recipe rec, Section sect, String desc) {
         MenuItem it = (desc == null ? new MenuItem(rec) : new MenuItem(rec, desc));
+        it.setItemId(id);
             this.itemsWithoutSection.add(it);
 
         return it;
     }
+    public MenuItem addItem(Recipe rec, Section sect, String desc) {
+        MenuItem it = (desc == null ? new MenuItem(rec) : new MenuItem(rec, desc));
+        this.itemsWithoutSection.add(it);
 
+        return it;
+    }
     // Accessor methods (set/get)
     public boolean isPublished() {
         return published;
