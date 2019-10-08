@@ -37,11 +37,9 @@ public class PopupController {
         CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setTable1(table);
         loadStList();
         table.setItems(stList);
-
     }
 
     public void loadStList(){
         stList= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getObservableList();
-
     }
 }

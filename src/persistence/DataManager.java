@@ -12,7 +12,7 @@ public class DataManager {
     private String serverName = "localhost";
     private String portNumber = "3306";
 
-//beppe
+//beppeGiovanni
     private Connection connection;
 
     // Il DataManager deve tener traccia di quali oggetti in memoria

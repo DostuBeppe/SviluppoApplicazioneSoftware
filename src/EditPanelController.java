@@ -96,7 +96,6 @@ public class EditPanelController{
                     e.printStackTrace();
                 }
             });
-            //  eventBillBoard.setDisable(true);
         }
         if(obj.getId().equals(openSheet.getId())){
 
