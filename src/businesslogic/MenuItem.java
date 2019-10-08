@@ -8,7 +8,9 @@ public class MenuItem implements Cloneable {
         this.recipe = rec;
         this.description = desc;
     }
-
+    public MenuItem(String desc) {
+        this.description = desc;
+    }
     public MenuItem(Recipe rec) {
         this(rec, null);
         this.description = rec.getName();

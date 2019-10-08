@@ -1,24 +1,23 @@
 package businesslogic;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ShiftTask  {
     private Task task;
     private Shift shift;
+    private int id;
     private Map<Integer,Shift> shifts;
     private Date date;
-    private int eventId;
+    private int summarySheetId;
     private String name;
     private int estimatedTime;
     private int quantity;
     private String numberShift;
     private String nameStaff;
     private boolean status;
-    private HashMap<Integer,Staff> staffList;
-    public ShiftTask(int eventId){
-        this.eventId= eventId;
+    private Map<Integer,Staff> staffList;
+    public ShiftTask(int ssId){
+        this.summarySheetId= ssId;
         staffList= new HashMap<>();
         shifts= new HashMap<>();
     }
@@ -40,14 +39,6 @@ public class ShiftTask  {
         this.date = date;
     }
 
-    public int getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
-    }
-
     public Shift getShift() {
         return shift;
     }
@@ -62,7 +53,10 @@ public class ShiftTask  {
         staffList.put(staff.getUserId(),staff);
         setNameStaff(staff.getName());
     }
-    public HashMap<Integer,Staff> getChoosenStaff(){
+    public void setAllChosenStaff(Map csm){
+        this.staffList=csm;
+    }
+    public Map<Integer,Staff> getChoosenStaff(){
         return staffList;
     }
     public void modifyAssign(Shift shift,Task task,Staff choosenStaff){
@@ -118,11 +112,29 @@ public class ShiftTask  {
     }
 
     public String getNumberShift() {
+        List<Shift> list= new ArrayList<>(shifts.values());
+        for (Shift s:list
+        ) {
+            if(this.numberShift!=null){
+                this.numberShift = this.numberShift+","+s.getNumber();
+            }else{
+                this.numberShift = Integer.toString(s.getNumber());
+            }
+        }
         return numberShift;
     }
 
 
     public String getNameStaff() {
+        List<Staff> list= new ArrayList<>(staffList.values());
+        for (Staff s:list
+             ) {
+            if(this.nameStaff!=null){
+                this.nameStaff = this.nameStaff+","+s.getName();
+            }else{
+                this.nameStaff = s.getName();
+            }
+        }
         return nameStaff;
     }
 
@@ -144,12 +156,32 @@ public class ShiftTask  {
     }
     public void deleteAssign(){
         staffList.clear();
+        shifts.clear();
         shift=null;
-        numberShift="";
+        this.numberShift="";
         this.nameStaff="";
     }
 
     public Map<Integer, Shift> getShifts() {
         return shifts;
+    }
+
+    public int getSummarySheetId() {
+        return summarySheetId;
+    }
+
+    public void setSummarySheetId(int summarySheetId) {
+        this.summarySheetId = summarySheetId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setShifts(Map shm){
+        shifts=shm;
     }
 }

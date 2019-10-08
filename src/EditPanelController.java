@@ -1,4 +1,6 @@
 import businesslogic.CateringAppManager;
+import businesslogic.SummarySheet;
+import businesslogic.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -50,7 +52,6 @@ public class EditPanelController{
     private void handlButtonAction(ActionEvent event) {
 
         Button obj=(Button)event.getSource();
-        System.out.println("load title");
         if(obj.getId().equals(createSheet.getId())){
 
             try {
@@ -95,6 +96,34 @@ public class EditPanelController{
                 }
             });
             //  eventBillBoard.setDisable(true);
+        }
+        if(obj.getId().equals(openSheet.getId())){
+
+            User u= CateringAppManager.userManager.getCurrentUser();
+            SummarySheet ss=CateringAppManager.dataManager.loadChefSummarySheet(u.getUserId());
+            CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
+            System.out.println("open sheet: "+ss.getTitle());
+
+            try {
+                FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
+                Parent menu = menuLoader.load();
+                MenuController menuController = menuLoader.getController();
+                menuController.initialize(this);
+               controlPane.setLeft(menu);
+
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
+            try {
+                FXMLLoader sheetLoader = new FXMLLoader(getClass().getResource("summary_sheet.fxml"));
+                Parent sheet = sheetLoader.load();
+                TableViewController sheetController = sheetLoader.getController();
+                sheetController.initialize(ss.getTitle());
+                controlPane.setCenter(sheet);
+
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
         }
     }
 

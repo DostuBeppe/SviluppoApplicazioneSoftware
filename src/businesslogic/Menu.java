@@ -44,11 +44,8 @@ public class Menu implements Cloneable {
 
     public MenuItem addItem(Recipe rec, Section sect, String desc) {
         MenuItem it = (desc == null ? new MenuItem(rec) : new MenuItem(rec, desc));
-        if (sect == null) {
             this.itemsWithoutSection.add(it);
-        } else {
-            sect.addItem(it);
-        }
+
         return it;
     }
 

@@ -26,7 +26,7 @@
       <VBox prefHeight="400.0" prefWidth="118.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="createSheet" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="212.0" text="crea foglio" />
-            <Button fx:id="openSheet" mnemonicParsing="false" prefHeight="25.0" prefWidth="217.0" text="apri foglio" />
+            <Button fx:id="openSheet" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="217.0" text="apri foglio" />
             <Button fx:id="shifts" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="211.0" text="turni" />
             <Button fx:id="eventBillBoard" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="211.0" text="tabellone evento" />
          </children>

@@ -43,15 +43,18 @@ public class TableViewController {
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         number.setCellValueFactory(new PropertyValueFactory<>("numberShift"));
         nameStaff.setCellValueFactory(new PropertyValueFactory<>("nameStaff"));
-        ss= new SummarySheet(name);
-        CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
-        CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setTable(table);
-        ss.setChefId(CateringAppManager.userManager.getCurrentUser().getUserId());
-        if(name!=null){
-            sheetName.setText(name);
-            ss.setTitle(name);
-        }
+        SummarySheet css=CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet();
+        if(css==null) {
+            ss = new SummarySheet(name);
+            CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
 
+            ss.setChefId(CateringAppManager.userManager.getCurrentUser().getUserId());
+            if (name != null) {
+                sheetName.setText(name);
+                ss.setTitle(name);
+            }
+        }
+        CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setTable(table);
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
         {
             CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(newSelection);

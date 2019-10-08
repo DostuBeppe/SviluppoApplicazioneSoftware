@@ -13,6 +13,7 @@ import java.util.Map;
 public class SummarySheet  {
     private String title;
     private String note;
+    private int id;
     private Map<Integer,Shift> shifts;
     private Map<Integer,ShiftTask> stList;
     private Map<Integer,Task> tasks;
@@ -66,6 +67,11 @@ public class SummarySheet  {
         System.out.println("added shifttask:"+stListId);
        stListId++;
        return st;
+    }
+    public void addShiftTask(ShiftTask st){
+       System.out.println("added from db: "+st.getId());
+        stList.put(stListId,st);
+        observableList.add(st);
     }
 
     public void addStaff(Staff staff){
@@ -130,4 +136,11 @@ public class SummarySheet  {
         shifts.put(shift.getShiftId(),shift);
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
