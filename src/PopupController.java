@@ -33,7 +33,8 @@ public class PopupController {
         System.out.println("ARRIVO QUI //////////////////////////////////////");
         colShiftTask.setCellValueFactory(new PropertyValueFactory<>("name"));
         colStaff.setCellValueFactory(new PropertyValueFactory<>("nameStaff"));
-        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("statusString"));
+        CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setTable1(table);
         loadStList();
         table.setItems(stList);
 

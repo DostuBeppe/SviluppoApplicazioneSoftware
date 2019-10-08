@@ -1,23 +1,26 @@
 package businesslogic;
 
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 
 public class ShiftTask  {
     private Task task;
     private Shift shift;
+    private int id;
+    private Map<Integer,Shift> shifts;
     private Date date;
-    private int eventId;
+    private int summarySheetId;
     private String name;
     private int estimatedTime;
     private int quantity;
-    private int numberShift;
+    private String numberShift;
     private String nameStaff;
-    private String status;
-    private HashMap<Integer,Staff> staffList;
-    public ShiftTask(int eventId){
-        this.eventId= eventId;
+    private boolean status;
+    private String statusString;
+    private Map<Integer,Staff> staffList;
+    public ShiftTask(int ssId){
+        this.summarySheetId= ssId;
         staffList= new HashMap<>();
+        shifts= new HashMap<>();
     }
 
     public Task getTask() {
@@ -37,29 +40,24 @@ public class ShiftTask  {
         this.date = date;
     }
 
-    public int getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
-    }
-
     public Shift getShift() {
         return shift;
     }
 
     public void setShift(Shift shift) {
 
-        this.shift = shift;
-        setNumberShift(shift.getNumber());
+        shifts.put(shift.getShiftId(),shift);
+        setNumberShift(Integer.toString(shift.getNumber()));
     }
     public void setChoosenStaff(Staff staff){
 
         staffList.put(staff.getUserId(),staff);
         setNameStaff(staff.getName());
     }
-    public HashMap<Integer,Staff> getChoosenStaff(){
+    public void setAllChosenStaff(Map csm){
+        this.staffList=csm;
+    }
+    public Map<Integer,Staff> getChoosenStaff(){
         return staffList;
     }
     public void modifyAssign(Shift shift,Task task,Staff choosenStaff){
@@ -86,12 +84,14 @@ public class ShiftTask  {
         this.name = name;
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
+
         this.status = status;
+        task.setStatus(status);
     }
 
     public int getEstimatedTime() {
@@ -112,15 +112,30 @@ public class ShiftTask  {
         task.setQuantity(quantity);
     }
 
-    public int getNumberShift() {
+    public String getNumberShift() {
+        List<Shift> list= new ArrayList<>(shifts.values());
+        for (Shift s:list
+        ) {
+            if(this.numberShift!=null){
+                this.numberShift = this.numberShift+","+s.getNumber();
+            }else{
+                this.numberShift = Integer.toString(s.getNumber());
+            }
+        }
         return numberShift;
     }
 
-    public void setNumberShift(int numberShift) {
-        this.numberShift = numberShift;
-    }
 
     public String getNameStaff() {
+        List<Staff> list= new ArrayList<>(staffList.values());
+        for (Staff s:list
+             ) {
+            if(this.nameStaff!=null){
+                this.nameStaff = this.nameStaff+","+s.getName();
+            }else{
+                this.nameStaff = s.getName();
+            }
+        }
         return nameStaff;
     }
 
@@ -132,10 +147,50 @@ public class ShiftTask  {
         }
 
     }
+    public void setNumberShift(String numberShift) {
+        if(this.numberShift!=null){
+            this.numberShift = this.numberShift+","+numberShift;
+        }else{
+            this.numberShift = numberShift;
+        }
+
+    }
     public void deleteAssign(){
         staffList.clear();
+        shifts.clear();
         shift=null;
-        numberShift=0;
+        this.numberShift="";
         this.nameStaff="";
+    }
+
+    public Map<Integer, Shift> getShifts() {
+        return shifts;
+    }
+
+    public int getSummarySheetId() {
+        return summarySheetId;
+    }
+
+    public void setSummarySheetId(int summarySheetId) {
+        this.summarySheetId = summarySheetId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setShifts(Map shm){
+        shifts=shm;
+    }
+
+    public String getStatusString() {
+        return task.getStatusString();
+    }
+
+    public void setStatusString(String statusString) {
+        this.statusString = statusString;
     }
 }

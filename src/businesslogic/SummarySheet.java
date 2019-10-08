@@ -13,12 +13,14 @@ import java.util.Map;
 public class SummarySheet  {
     private String title;
     private String note;
+    private int id;
     private Map<Integer,Shift> shifts;
     private Map<Integer,ShiftTask> stList;
     private Map<Integer,Task> tasks;
     private Map<Integer,Staff> staffList;
     private ShiftTask currentShiftTask;
     private TableView table;
+    private TableView table1;
     private Task currentTask;
     private int taskId=0;
     private int stListId=0;
@@ -67,6 +69,11 @@ public class SummarySheet  {
        stListId++;
        return st;
     }
+    public void addShiftTask(ShiftTask st){
+       System.out.println("added from db: "+st.getId());
+        stList.put(stListId,st);
+        observableList.add(st);
+    }
 
     public void addStaff(Staff staff){
        staffList.put(staff.getStaffId(),staff);
@@ -104,5 +111,45 @@ public class SummarySheet  {
 
     public void setChefId(int chefId) {
         this.chefId = chefId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public Map<Integer, Shift> getShifts() {
+        return shifts;
+    }
+
+    public void addShift(Shift shift) {
+        shifts.put(shift.getShiftId(),shift);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public TableView getTable1() {
+        return table1;
+    }
+
+    public void setTable1(TableView table1) {
+        this.table1 = table1;
     }
 }

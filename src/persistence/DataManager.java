@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class DataManager {
     private String userName = "root";
-    private String password = "";           //da cambiare
+    private String password = "1123581321";           //da cambiare
     private String serverName = "localhost";
     private String portNumber = "3306";
 
@@ -546,6 +546,459 @@ public class DataManager {
             }
         }
         return staff;
+    }
+    public SummarySheet loadChefSummarySheet(int chefId){
+        PreparedStatement pst = null;
+        String sql = "select * from summary_sheets where summary_sheets.chef_id=?";
+        SummarySheet ss=null;
+
+        try {
+            pst = this.connection.prepareStatement(sql);
+            pst.setInt(1,chefId);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int id= rs.getInt("id");
+                String title= rs.getString("title");
+                String note= rs.getString("note");
+                int chefIdD= rs.getInt("chef_id");
+                ss= new SummarySheet(title);
+                ss.setNote(note);
+                ss.setChefId(chefIdD);
+                ss.setId(id);
+
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        loadShiftTask(ss);
+        System.out.println("loaded: "+ss.getTitle());
+        return ss;
+    }
+    public void loadShiftTask(SummarySheet ss){
+        PreparedStatement pst = null;
+        String sql = "select * from shift_task where shift_task.summary_sheet_id=?";
+        ShiftTask st=null;
+        Map<Integer,ShiftTask> stMap=new HashMap<>();
+
+        try {
+            pst = this.connection.prepareStatement(sql);
+            pst.setInt(1,ss.getId());
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int id= rs.getInt("id");
+                int ssId= rs.getInt("summary_sheet_id");
+                st=new ShiftTask(ssId);
+                st.setId(id);
+                loadShiftST(st);
+                loadTaskST(st);
+                ss.addShiftTask(st);
+                loadStaffST(st);
+                System.out.println("added st from db: "+st.getId());
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+
+    }
+    public void loadShiftST(ShiftTask st){
+        PreparedStatement pst = null;
+        String sql = "select * from rel_st_shift where rel_st_shift.st_id=?";
+        Shift s=null;
+        Map<Integer,Shift> shiftMap=new HashMap<>();
+
+        try {
+            pst = this.connection.prepareStatement(sql);
+            pst.setInt(1,st.getId());
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int stId= rs.getInt("st_id");
+                int shiftId= rs.getInt("shift_id");
+                shiftMap.put(shiftId,loadShift(shiftId));
+
+
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        st.setShifts(shiftMap);
+    }
+    public void loadTaskST(ShiftTask st){
+        PreparedStatement pst = null;
+        String sql = "select * from rel_st_task where rel_st_task.st_id=?";
+        try {
+            pst = this.connection.prepareStatement(sql);
+            pst.setInt(1,st.getId());
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int taskId= rs.getInt("task_id");
+                st.setTask(loadTask(taskId));
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+    }
+    public void loadStaffST(ShiftTask st){
+        PreparedStatement pst = null;
+        String sql = "select * from rel_st_staff where rel_st_staff.st_id=?";
+        Map<Integer,Staff> staffMap= new HashMap<>();
+        try {
+            pst = this.connection.prepareStatement(sql);
+            pst.setInt(1,st.getId());
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int staffId= rs.getInt("staff_id");
+
+                staffMap.put(staffId,loadSingleStaff(staffId));
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        st.setAllChosenStaff(staffMap);
+    }
+    public Shift loadShift(int shiftId){
+        PreparedStatement pst = null;
+        String sql = "select * from shifts where shifts.id=?";
+        Shift s=null;
+        Map<Integer,Shift> shiftMap=new HashMap<>();
+
+        try {
+            pst = this.connection.prepareStatement(sql);
+            pst.setInt(1,shiftId);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int id= rs.getInt("id");
+                String date= rs.getString("date");
+                String start= rs.getString("start");
+                String end= rs.getString("end");
+                int number= rs.getInt("number");
+                s= new Shift(number,id,date,start,end);
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return s;
+    }
+    public Task loadTask(int taskId){
+        PreparedStatement pst = null;
+        String sql = "select * from tasks where tasks.id=?";
+        Task t=null;
+        Map<Integer,Shift> shiftMap=new HashMap<>();
+
+        try {
+            pst = this.connection.prepareStatement(sql);
+            pst.setInt(1,taskId);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int id= rs.getInt("id");
+                String title= rs.getString("title");
+                int itemId= rs.getInt("item_id");
+                int estimatedTime= rs.getInt("estimated_time");
+                int quantity= rs.getInt("quantity");
+                int status= rs.getInt("status");
+                t=new Task();
+                t.setTitle(title);
+                t.setEstimatedTime(estimatedTime);
+                t.setQuantity(quantity);
+                t.setStatus((status==1)?true:false);
+                t.setItem(loadMenuItem(itemId));
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return t;
+    }
+    private MenuItem loadMenuItem(int itemId) {
+        // Caricamento voci
+        // Non verifichiamo se un MenuItem è già stato creato perché
+        // questo può avvenire solo nel contesto del caricamento di un Event
+        // e il MenuItem può essere già creato solo se il Event è stato creato;
+        // il controllo sul Event avviene già in loadMenus
+        Statement st = null;
+        String query = "SELECT * FROM MenuItems WHERE MenuItems.id=" +itemId;
+        MenuItem it= null;
+        try {
+            st = this.connection.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                String description = rs.getString("description");
+                System.out.println("item desc: "+description);
+                int idSec = rs.getInt("section");
+                int idIt = rs.getInt("id");
+                int idRec = rs.getInt("recipe");
+                Recipe rec = this.innerLoadRecipe(idRec);
+                 it= new MenuItem(description);
+                it.setItemId(idIt);
+            }
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (st != null) st.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return it;
+    }
+    //UPLOAD
+    public void uploadSummarySheet(){
+        SummarySheet ss= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet();
+        String sql = "INSERT INTO summary_sheets(title,note,chef_id) " +
+                "VALUES(?,?,?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        try {
+
+            pstmt = this.connection.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, ss.getTitle());
+            pstmt.setString(2, ss.getNote());
+            pstmt.setInt(3, ss.getChefId());
+            pstmt.executeUpdate();
+            ResultSet rs=pstmt.getGeneratedKeys();
+            if(rs.next()){
+                id=rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        System.out.println("uploaded sheet : "+id);
+        uploadShiftTask(id);
+
+    }
+    public int uploadShiftTask(int summaryShettId){
+        String sql = "INSERT INTO shift_task(summary_sheet_id) " +
+                "VALUES(?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        Map stMap= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getStList();
+        System.out.println("shifts: "+stMap.size());
+        List<ShiftTask> stList= new ArrayList<>(stMap.values());
+        try {
+            for (ShiftTask st:stList
+                 ) {
+                pstmt = this.connection.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                pstmt.setInt(1, summaryShettId);
+                pstmt.executeUpdate();
+                ResultSet rs=pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    id=rs.getInt(1);
+                }
+                rs.close();
+                pstmt.close();
+                uploadTaskST(id,st);
+                uploadShiftST(id,st);
+                uploadStaffST(id,st);
+            }
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return id;
+    }
+    public int uploadShiftST(int stId,ShiftTask st){
+        String sql = "INSERT INTO rel_st_shift(shift_id,st_id) " +
+                "VALUES(?,?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        Map shiftMap= st.getShifts();
+        List<Shift> shiftList= new ArrayList<>(shiftMap.values());
+        try {
+            for (Shift sh:shiftList
+                 ) {
+                pstmt = this.connection.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                pstmt.setInt(1, sh.getShiftId());
+                pstmt.setInt(2, stId);
+                pstmt.executeUpdate();
+                ResultSet rs=pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    id=rs.getInt(1);
+                }
+                rs.close();
+                pstmt.close();
+            }
+
+
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return id;
+    }
+    public int uploadStaffST(int stId,ShiftTask st){
+        String sql = "INSERT INTO rel_st_staff(staff_id,st_id) " +
+                "VALUES(?,?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        Map staffMap = st.getChoosenStaff();
+        List<Staff>staffList= new ArrayList<>(staffMap.values());
+        try {
+            for (Staff staff:staffList
+                 ) {
+                pstmt = this.connection.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                pstmt.setInt(1, staff.getStaffId());
+                pstmt.setInt(2, stId);
+                pstmt.executeUpdate();
+                ResultSet rs=pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    id=rs.getInt(1);
+                }
+                rs.close();
+                pstmt.close();
+            }
+
+
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return id;
+    }
+    public int uploadTaskST(int stId,ShiftTask st){
+        String sql = "INSERT INTO rel_st_task(task_id,st_id) " +
+                "VALUES(?,?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        Task t= st.getTask();
+        int taskId=uploadTask(t);
+        try {
+
+            pstmt = this.connection.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1, taskId);
+            pstmt.setInt(2, stId);
+            pstmt.executeUpdate();
+            ResultSet rs=pstmt.getGeneratedKeys();
+            if(rs.next()){
+                id=rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return id;
+    }
+    public int uploadTask(Task task){
+        String sql = "INSERT INTO tasks(item_id,estimated_time,quantity,status,title) " +
+                "VALUES(?,?,?,?,?)";
+        int id = -1;
+        PreparedStatement pstmt = null;
+        try {
+
+            pstmt = this.connection.prepareStatement(sql,
+                    Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1, task.getItem().getItemId());
+            pstmt.setInt(2, task.getEstimatedTime());
+            pstmt.setInt(3, task.getQuantity());
+            pstmt.setInt(4, (task.getStatusBool())?1:0);
+            pstmt.setString(5,task.getTitle());
+            pstmt.executeUpdate();
+            ResultSet rs=pstmt.getGeneratedKeys();
+            if(rs.next()){
+                id=rs.getInt(1);
+            }
+            rs.close();
+            pstmt.close();
+
+
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return id;
     }
 /*
     private int writeNewMenu(Event m) {
