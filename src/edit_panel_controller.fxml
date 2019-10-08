@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" style="-fx-border-color: transparent; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditPanelController">
+<BorderPane fx:id="mainPane" style="-fx-border-color: transparent; -fx-border-width: 5;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="EditPanelController">
     <center>
     <BorderPane fx:id="controlPane" prefHeight="200.0" prefWidth="200.0" />
     </center>
@@ -28,7 +23,7 @@
             <Button fx:id="createSheet" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="212.0" text="crea foglio" />
             <Button fx:id="openSheet" mnemonicParsing="false" prefHeight="25.0" prefWidth="217.0" text="apri foglio" />
             <Button fx:id="shifts" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="211.0" text="turni" />
-            <Button fx:id="eventBillBoard" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="211.0" text="tabellone evento" />
+            <Button fx:id="eventBillBoard" disable="true" mnemonicParsing="false" onAction="#handlButtonAction" prefHeight="25.0" prefWidth="211.0" text="tabellone evento" />
          </children>
       </VBox>
    </left>

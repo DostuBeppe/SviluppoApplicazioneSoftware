@@ -60,6 +60,7 @@ public class EditPanelController{
                 titleController.initialize(this);
                 System.out.println("main: "+mainPane.getId());
                 System.out.println("title: "+title.getId());
+                disableButton(false);
                 controlPane.setCenter(title);
             } catch (IOException exc) {
                 exc.printStackTrace();
@@ -106,5 +107,8 @@ public class EditPanelController{
     }
     public BorderPane getShiftPane(){
         return this.shiftPane;
+    }
+    public void disableButton(boolean action){
+        eventBillBoard.setDisable(action);
     }
 }

@@ -36,6 +36,7 @@ public class PopupController {
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         loadStList();
         table.setItems(stList);
+
     }
 
     public void loadStList(){
