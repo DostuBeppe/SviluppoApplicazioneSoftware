@@ -20,6 +20,7 @@ public class SummarySheet  {
     private Map<Integer,Staff> staffList;
     private ShiftTask currentShiftTask;
     private TableView table;
+    private TableView table1;
     private Task currentTask;
     private int taskId=0;
     private int stListId=0;
@@ -142,5 +143,13 @@ public class SummarySheet  {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public TableView getTable1() {
+        return table1;
+    }
+
+    public void setTable1(TableView table1) {
+        this.table1 = table1;
     }
 }

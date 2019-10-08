@@ -52,6 +52,7 @@ public class ShiftsController {
         shiftList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedShift = shiftList.getSelectionModel().getSelectedItem();
             CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getCurrentShiftTask().setShift(selectedShift);
+            System.out.println("selected shift");
             //CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().addShift(selectedShift);
             CateringAppManager.billboardManager.setCurrentShift(selectedShift);
             CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getTable().refresh();

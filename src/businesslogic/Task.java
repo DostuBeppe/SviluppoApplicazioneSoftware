@@ -11,6 +11,7 @@ public class Task {
     private int estimatedTime;
     private int quantity;
     private boolean status;
+    private String statusString;
     private String title;
     private MenuItem item;
 
@@ -64,11 +65,25 @@ public class Task {
         return this;
     }
 
-    public boolean getStatus() {
+    public String getStatus() {
+
+        return (status)?"TERMINATO":"ATTIVO";
+    }
+    public boolean getStatusBool(){
         return status;
     }
 
     public void setStatus(boolean status) {
+
         this.status = status;
+        setStatusString(status);
+    }
+
+    public String getStatusString() {
+        return statusString;
+    }
+
+    public void setStatusString(boolean status) {
+        this.statusString = (status)?"TERMINATO":"ATTIVO";
     }
 }

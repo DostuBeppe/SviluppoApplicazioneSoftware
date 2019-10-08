@@ -15,6 +15,7 @@ public class ShiftTask  {
     private String numberShift;
     private String nameStaff;
     private boolean status;
+    private String statusString;
     private Map<Integer,Staff> staffList;
     public ShiftTask(int ssId){
         this.summarySheetId= ssId;
@@ -183,5 +184,13 @@ public class ShiftTask  {
     }
     public void setShifts(Map shm){
         shifts=shm;
+    }
+
+    public String getStatusString() {
+        return task.getStatusString();
+    }
+
+    public void setStatusString(String statusString) {
+        this.statusString = statusString;
     }
 }

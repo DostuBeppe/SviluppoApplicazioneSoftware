@@ -978,7 +978,7 @@ public class DataManager {
             pstmt.setInt(1, task.getItem().getItemId());
             pstmt.setInt(2, task.getEstimatedTime());
             pstmt.setInt(3, task.getQuantity());
-            pstmt.setInt(4, (task.getStatus())?1:0);
+            pstmt.setInt(4, (task.getStatusBool())?1:0);
             pstmt.setString(5,task.getTitle());
             pstmt.executeUpdate();
             ResultSet rs=pstmt.getGeneratedKeys();
