@@ -114,9 +114,10 @@ public class ShiftTask  {
 
     public String getNumberShift() {
         List<Shift> list= new ArrayList<>(shifts.values());
+        this.numberShift="";
         for (Shift s:list
         ) {
-            if(this.numberShift!=null){
+            if(this.numberShift!=""){
                 this.numberShift = this.numberShift+","+s.getNumber();
             }else{
                 this.numberShift = Integer.toString(s.getNumber());
@@ -128,9 +129,10 @@ public class ShiftTask  {
 
     public String getNameStaff() {
         List<Staff> list= new ArrayList<>(staffList.values());
+        this.nameStaff="";
         for (Staff s:list
              ) {
-            if(this.nameStaff!=null){
+            if(this.nameStaff!=""){
                 this.nameStaff = this.nameStaff+","+s.getName();
             }else{
                 this.nameStaff = s.getName();
