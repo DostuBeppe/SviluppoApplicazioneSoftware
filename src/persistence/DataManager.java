@@ -12,7 +12,7 @@ public class DataManager {
     private String serverName = "localhost";
     private String portNumber = "3306";
 
-//fede
+//beppeGiovanni
     private Connection connection;
 
     // Il DataManager deve tener traccia di quali oggetti in memoria
@@ -1365,7 +1365,6 @@ public class DataManager {
        // verifico se l'ho già caricato in precedenza
        Recipe rec = this.idToRecipeObject.get(idRec);
        if (rec != null) return rec;
-
        Statement st = null;
 
        String query = "SELECT * FROM Recipes WHERE Recipes.id = " + idRec;

@@ -41,6 +41,5 @@ public class PopupController {
 
     public void loadStList(){
         stList= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getObservableList();
-
     }
 }
