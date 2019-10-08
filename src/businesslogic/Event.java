@@ -32,7 +32,7 @@ public class Event implements Cloneable {
         return date;
     }
     public void setDate(String date) {
-       String []splitted= date.split("/");
+       String [] splitted= date.split("/");
        int dd= Integer.parseInt(splitted[0]);
        int MM= Integer.parseInt(splitted[1]);
        int yyyy= Integer.parseInt(splitted[2]);
