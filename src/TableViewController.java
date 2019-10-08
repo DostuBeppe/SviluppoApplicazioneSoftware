@@ -34,6 +34,9 @@ public class TableViewController {
     private TableColumn<ShiftTask, String>  nameStaff;
     @FXML
     private Button saveButton;
+    @FXML
+    private BorderPane bottomPane;
+
     private ObservableList<ShiftTask> stList;
     private SummarySheet ss;
     private List<ShiftTask> stArray;
@@ -65,7 +68,7 @@ public class TableViewController {
                 Parent edit = editLoader.load();
                 EditTaskController editTaskController = editLoader.getController();
                 editTaskController.initialize(this);
-                mainPane.setBottom(edit);
+                bottomPane.setCenter(edit);
             } catch (IOException exc) {
                 exc.printStackTrace();
             }
