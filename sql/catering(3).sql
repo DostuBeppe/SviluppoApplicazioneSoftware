@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Ott 02, 2019 alle 16:16
+-- Creato il: Ott 08, 2019 alle 15:58
 -- Versione del server: 10.1.41-MariaDB-0+deb9u1
 -- Versione PHP: 7.2.22-1+0~20190902.26+debian9~1.gbpd64eb7
 
@@ -207,26 +207,69 @@ INSERT INTO `rel_shift_staff` (`id`, `shift_id`, `staff_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `rel_shift_summary_sheet`
+-- Struttura della tabella `rel_st_shift`
 --
 
-CREATE TABLE `rel_shift_summary_sheet` (
+CREATE TABLE `rel_st_shift` (
   `id` int(11) NOT NULL,
-  `shift_id` int(11) DEFAULT NULL,
-  `summary_sheet_id` int(11) DEFAULT NULL
+  `st_id` int(11) DEFAULT NULL,
+  `shift_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `rel_st_shift`
+--
+
+INSERT INTO `rel_st_shift` (`id`, `st_id`, `shift_id`) VALUES
+(5, 11, 1),
+(6, 11, 2),
+(7, 12, 1),
+(8, 13, 2);
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `rel_shift_task`
+-- Struttura della tabella `rel_st_staff`
 --
 
-CREATE TABLE `rel_shift_task` (
+CREATE TABLE `rel_st_staff` (
   `id` int(11) NOT NULL,
-  `shift_id` int(11) DEFAULT NULL,
-  `shift_task_id` int(11) DEFAULT NULL
+  `st_id` int(11) DEFAULT NULL,
+  `staff_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `rel_st_staff`
+--
+
+INSERT INTO `rel_st_staff` (`id`, `st_id`, `staff_id`) VALUES
+(10, 10, 2),
+(11, 10, 3),
+(12, 11, 2),
+(13, 11, 3),
+(14, 12, 2),
+(15, 13, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `rel_st_task`
+--
+
+CREATE TABLE `rel_st_task` (
+  `id` int(11) NOT NULL,
+  `task_id` int(11) DEFAULT NULL,
+  `st_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `rel_st_task`
+--
+
+INSERT INTO `rel_st_task` (`id`, `task_id`, `st_id`) VALUES
+(11, 7, 11),
+(12, 8, 12),
+(13, 9, 13);
 
 -- --------------------------------------------------------
 
@@ -302,10 +345,17 @@ INSERT INTO `shifts` (`id`, `date`, `start`, `end`, `number`) VALUES
 
 CREATE TABLE `shift_task` (
   `id` int(11) NOT NULL,
-  `task_id` int(11) DEFAULT NULL,
-  `event_id` int(11) DEFAULT NULL,
-  `date` varchar(255) DEFAULT NULL
+  `summary_sheet_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `shift_task`
+--
+
+INSERT INTO `shift_task` (`id`, `summary_sheet_id`) VALUES
+(11, 8),
+(12, 8),
+(13, 8);
 
 -- --------------------------------------------------------
 
@@ -339,8 +389,15 @@ CREATE TABLE `summary_sheets` (
   `id` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `note` varchar(255) DEFAULT NULL,
-  `chaf_id` int(11) DEFAULT NULL
+  `chef_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `summary_sheets`
+--
+
+INSERT INTO `summary_sheets` (`id`, `title`, `note`, `chef_id`) VALUES
+(8, 'Evento 2', NULL, 5);
 
 -- --------------------------------------------------------
 
@@ -351,11 +408,26 @@ CREATE TABLE `summary_sheets` (
 CREATE TABLE `tasks` (
   `id` int(11) NOT NULL,
   `item_id` int(11) DEFAULT NULL,
-  `estimate_time` int(11) DEFAULT NULL,
+  `estimated_time` int(11) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dump dei dati per la tabella `tasks`
+--
+
+INSERT INTO `tasks` (`id`, `item_id`, `estimated_time`, `quantity`, `status`, `title`) VALUES
+(1, 0, 0, 0, 0, NULL),
+(2, 0, 0, 0, 0, NULL),
+(3, 0, 0, 0, 0, NULL),
+(4, 0, 0, 0, 0, NULL),
+(5, 0, 0, 0, 0, NULL),
+(6, 0, 0, 0, 0, NULL),
+(7, 1, 20, 4, 0, NULL),
+(8, 2, 10, 3, 0, NULL),
+(9, 3, 30, 6, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -455,15 +527,21 @@ ALTER TABLE `rel_shift_staff`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indici per le tabelle `rel_shift_summary_sheet`
+-- Indici per le tabelle `rel_st_shift`
 --
-ALTER TABLE `rel_shift_summary_sheet`
+ALTER TABLE `rel_st_shift`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indici per le tabelle `rel_shift_task`
+-- Indici per le tabelle `rel_st_staff`
 --
-ALTER TABLE `rel_shift_task`
+ALTER TABLE `rel_st_staff`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indici per le tabelle `rel_st_task`
+--
+ALTER TABLE `rel_st_task`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -557,15 +635,20 @@ ALTER TABLE `rel_shift_busy`
 ALTER TABLE `rel_shift_staff`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT per la tabella `rel_shift_summary_sheet`
+-- AUTO_INCREMENT per la tabella `rel_st_shift`
 --
-ALTER TABLE `rel_shift_summary_sheet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `rel_st_shift`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT per la tabella `rel_shift_task`
+-- AUTO_INCREMENT per la tabella `rel_st_staff`
 --
-ALTER TABLE `rel_shift_task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `rel_st_staff`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT per la tabella `rel_st_task`
+--
+ALTER TABLE `rel_st_task`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT per la tabella `Sections`
 --
@@ -580,7 +663,7 @@ ALTER TABLE `shifts`
 -- AUTO_INCREMENT per la tabella `shift_task`
 --
 ALTER TABLE `shift_task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT per la tabella `staff`
 --
@@ -590,12 +673,12 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT per la tabella `summary_sheets`
 --
 ALTER TABLE `summary_sheets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT per la tabella `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT per la tabella `Users`
 --
