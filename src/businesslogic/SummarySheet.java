@@ -50,7 +50,9 @@ public class SummarySheet  {
     }
 
     public void setCurrentShiftTask(ShiftTask currentShiftTask) {
-        this.currentShiftTask = currentShiftTask;
+
+       this.currentShiftTask = currentShiftTask;
+       System.out.println("currentSt: "+this.currentShiftTask.getId());
     }
     public Task addTask(MenuItem item){
        Task t= new Task();
@@ -63,6 +65,7 @@ public class SummarySheet  {
     public ShiftTask addShiftTask(MenuItem item){
        ShiftTask st= new ShiftTask(CateringAppManager.eventManager.getCurrentEvent().getEventId());
        st.setTask(addTask(item));
+       st.setId(stListId);
        stList.put(stListId,st);
        observableList.add(st);
         System.out.println("added shifttask:"+stListId);
@@ -151,5 +154,12 @@ public class SummarySheet  {
 
     public void setTable1(TableView table1) {
         this.table1 = table1;
+    }
+    public void removeST(int stId){
+       int oldSize=observableList.size();
+       ShiftTask st= stList.get(stId);
+       observableList.remove(st);
+       stList.remove(stId);
+       System.out.println("removed st: "+stId+" old: "+oldSize+" new: "+observableList.size());
     }
 }

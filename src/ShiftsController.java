@@ -73,6 +73,7 @@ public class ShiftsController {
         if(obj.getId().equals(importButton.getId())){
             ShiftTask st=CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getCurrentShiftTask();
             if(st!=null){
+                System.out.println("currentST shift: "+st.getId());
                 Staff currentStaff=CateringAppManager.billboardManager.getCurrentStaff();
                 st.setChoosenStaff(currentStaff);
                 st.setShift(selectedShift);
