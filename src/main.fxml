@@ -14,6 +14,7 @@
             <Label text="Utente attuale:" />
             <TextField fx:id="userName" />
             <Button fx:id="loginButton" mnemonicParsing="false" onAction="#handleButtonAction" text="Login" />
+            <Label fx:id="errorLabel" prefHeight="15.0" prefWidth="246.0" />
          </children>
       </FlowPane>
    </top>

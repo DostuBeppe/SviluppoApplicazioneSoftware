@@ -1,9 +1,11 @@
 import businesslogic.CateringAppManager;
+import businesslogic.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
@@ -22,29 +24,40 @@ public class MainController {
     private Button backButton;
     @FXML
     private Button forwardButton;
+    @FXML
+    private Label errorLabel;
     private boolean first=true;
+    private User u=null;
     @FXML
     public void initialize() {
 
     }
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        System.out.println("pressed");
         Button obj=(Button)event.getSource();
         if(obj.getId().equals(loginButton.getId())){
+            System.out.println("pressed");
             String userText=userName.getText();
-            CateringAppManager.userManager.setCurrentUser(CateringAppManager.dataManager.loadUser(userText));
-            if(first) {
-                try {
-                    FXMLLoader eventListLoader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
-                    Parent eventList = eventListLoader.load();
-                    EventListController eventListController = eventListLoader.getController();
-                    eventListController.initialize(this);
-                    mainPane.setCenter(eventList);
-                } catch (IOException exc) {
-                    exc.printStackTrace();
+            u=CateringAppManager.dataManager.loadUser(userText);
+            System.out.println("name: "+u.getName()+" role: "+u.getRole());
+            if(u.getRole().equals("c")) {
+                CateringAppManager.userManager.setCurrentUser(u);
+                if (first) {
+                    try {
+                        FXMLLoader eventListLoader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
+                        Parent eventList = eventListLoader.load();
+                        EventListController eventListController = eventListLoader.getController();
+                        eventListController.initialize(this);
+                        mainPane.setCenter(eventList);
+                    } catch (IOException exc) {
+                        exc.printStackTrace();
+                    }
+                    first = false;
+                    errorLabel.setText("");
                 }
-                first=false;
+            }else{
+                first=true;
+                errorLabel.setText("non sei un utente autorizzato");
             }
         }else if(obj.getId().equals(backButton.getId())){
             System.out.println("indietro");

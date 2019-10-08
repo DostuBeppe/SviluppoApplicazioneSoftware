@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class DataManager {
     private String userName = "root";
-    private String password = "";           //da cambiare
+    private String password = "1123581321";           //da cambiare
     private String serverName = "localhost";
     private String portNumber = "3306";
 
@@ -339,7 +339,9 @@ public class DataManager {
                 if (u == null) {
                     u = new User(userName);
                     int id = rs.getInt("id");
+                    String role= rs.getString("role");
                     u.setUserId(id);
+                    u.setRole(role);
                     this.userObjects.put(u, id);
                     this.idToUserObject.put(id, u);
                 }

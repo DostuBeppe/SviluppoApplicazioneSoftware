@@ -1,7 +1,5 @@
-import businesslogic.CateringAppManager;
-import businesslogic.MenuItem;
-import businesslogic.Shift;
-import businesslogic.Staff;
+import businesslogic.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,7 +38,9 @@ public class ShiftsController {
 
     private BorderPane eventEditPane;
     @FXML
-    private Button selectEventButton;
+    private Button importButton;
+    @FXML
+    private Label errorLabel;
 
     @FXML
     public void initialize(EditPanelController main) {
@@ -51,11 +52,7 @@ public class ShiftsController {
 
         shiftList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedShift = shiftList.getSelectionModel().getSelectedItem();
-            CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getCurrentShiftTask().setShift(selectedShift);
-            System.out.println("selected shift");
-            //CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().addShift(selectedShift);
             CateringAppManager.billboardManager.setCurrentShift(selectedShift);
-            CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getTable().refresh();
             try {
                 System.out.println("load staff");
                 FXMLLoader staffLoader = new FXMLLoader(getClass().getResource("staffs.fxml"));
@@ -69,7 +66,25 @@ public class ShiftsController {
         });
         System.out.println("loaded shift controller");
     }
+    @FXML
+    private void handlButtonAction(ActionEvent event) {
 
+        Button obj=(Button)event.getSource();
+        if(obj.getId().equals(importButton.getId())){
+            ShiftTask st=CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getCurrentShiftTask();
+            if(st!=null){
+                Staff currentStaff=CateringAppManager.billboardManager.getCurrentStaff();
+                st.setChoosenStaff(currentStaff);
+                st.setShift(selectedShift);
+                CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getTable().refresh();
+                errorLabel.setText("");
+            }else {
+                errorLabel.setText("selezionare prima una mansione");
+            }
+
+        }
+
+    }
     private void resetShiftList() {
        // menuName.setText(CateringAppManager.eventManager.getCurrentEvent().getMenu().getTitle());
         Map shiftMap = CateringAppManager.billboardManager.showShifts(eventDate);
@@ -78,51 +93,5 @@ public class ShiftsController {
         observableShifts = FXCollections.observableList(shifts);
         shiftList.setItems(observableShifts);
     }
-   /* private void loadEventList() {
-        eventList= new ListView<>();
-        events = CateringAppManager.eventManager.getAllEvents();
-        observableEvents = FXCollections.observableList(events);
-        eventList.setItems(observableEvents);
-    }*/
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
 
-
-    }
-/*
-    @FXML
-    private void newMenuAction() {
-        TextInputDialog dialog = new TextInputDialog("");
-        dialog.setTitle("Nuovo menu");
-        dialog.setHeaderText("Creazione di un menu");
-        dialog.setContentText("Inserisci opzionalmente un titolo:");
-        Optional<String> result = dialog.showAndWait();
-
-        result.ifPresent(title -> {
-            CateringAppManager.menuManager.createMenu(title);
-            menuEditController.setup();
-            mainContainer.setCenter(menuEditPane);
-        });
-    }
-
-    @FXML
-    private void editMenuAction() {
-        CateringAppManager.menuManager.chooseMenu(this.selectedEvent);
-        menuEditController.setup();
-        mainContainer.setCenter(menuEditPane);
-    }
-
-    @FXML
-    private void copyMenuAction() {
-        CateringAppManager.menuManager.copyMenu(this.selectedEvent);
-        menuEditController.setup();
-        mainContainer.setCenter(menuEditPane);
-
-    }
-
-    @FXML
-    private void deleteMenuAction() {
-        CateringAppManager.menuManager.deleteMenu(this.selectedEvent);
-        this.resetMenuList();
-    }*/
 }

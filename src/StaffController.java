@@ -47,8 +47,7 @@ public class StaffController {
 
         staffListView.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedStaff = staffListView.getSelectionModel().getSelectedItem();
-            CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getCurrentShiftTask().setChoosenStaff(selectedStaff);
-            CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getTable().refresh();
+            CateringAppManager.billboardManager.setCurrentStaff(selectedStaff);
             //CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().addStaff(selectedStaff);
 
         });

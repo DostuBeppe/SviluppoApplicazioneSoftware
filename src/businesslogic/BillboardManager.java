@@ -7,6 +7,7 @@ import java.util.Map;
 public class BillboardManager {
     private BillboardShifts bilboardShift;
     private Shift currentShift;
+    private Staff currentStaff;
     public BillboardManager(){}
     public void initialize(){}
     public Map showShifts(String eventDate){
@@ -20,5 +21,13 @@ public class BillboardManager {
 
     public void setCurrentShift(Shift currentShift) {
         this.currentShift = currentShift;
+    }
+
+    public Staff getCurrentStaff() {
+        return currentStaff;
+    }
+
+    public void setCurrentStaff(Staff currentStaff) {
+        this.currentStaff = currentStaff;
     }
 }

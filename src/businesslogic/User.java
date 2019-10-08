@@ -7,10 +7,19 @@ import java.util.Set;
 public class User {
 
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public static enum Role {Cuoco, Chef, Organizzatore, Servizio};
 
     private String name;
     private Set<Role> roles;
+    private String role;
     private int userId;
     public User(String name) {
         this.name = name;
