@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.application.Application;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -84,19 +85,18 @@ public class EditPanelController{
                 firstShift=true;
             }
         }
-        if(obj.getId().equals(eventBillBoard.getId())){
+        if(obj.getId().equals(eventBillBoard.getId()) && CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet()!=null){
             System.out.println("Bottone tabellone evento cliccato");
             Platform.runLater(()->{
-                PoPup popup=new PoPup();
+                PoPup popup= PoPup.getInstance();
                 try {
                     popup.start(new Stage());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             });
+            //  eventBillBoard.setDisable(true);
         }
-
-
     }
 
     public BorderPane getMainPane(){
