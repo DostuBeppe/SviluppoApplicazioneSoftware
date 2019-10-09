@@ -52,7 +52,7 @@ public class SummarySheet  {
     public void setCurrentShiftTask(ShiftTask currentShiftTask) {
 
        this.currentShiftTask = currentShiftTask;
-       System.out.println("currentSt: "+this.currentShiftTask.getId());
+       //System.out.println("currentSt: "+this.currentShiftTask.getId());
     }
     public Task addTask(MenuItem item){
        Task t= new Task();
