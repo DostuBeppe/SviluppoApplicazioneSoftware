@@ -68,6 +68,7 @@ public class SummarySheet  {
        st.setId(stListId);
        stList.put(stListId,st);
        observableList.add(st);
+       st.setPosition(observableList.size()-1);
         System.out.println("added shifttask:"+stListId+" item id: "+item.getItemId());
        stListId++;
        return st;

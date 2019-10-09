@@ -60,6 +60,7 @@ public class ShiftTask  {
     }
 
     public void setPosition(int position) {
+        System.out.println("st: "+id+" position: "+position);
         this.position = position;
     }
     public void setAllChosenStaff(Map csm){
