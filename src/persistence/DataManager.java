@@ -384,9 +384,10 @@ public class DataManager {
                     // la sezione a questo punto dovrebbe essere già stata aggiunta
                     sec = this.idToSectionObject.get(idSec);
                 }
-                MenuItem it = m.addItem(id,rec, sec, description);
+                MenuItem it = m.addItem(idIt,rec, sec, description);
                 this.itemObjects.put(it, idIt);
                 this.idToItemObject.put(idIt, it);
+                System.out.println("item loaded id: "+idIt);
             }
             System.out.println("item loaded: "+m.getItemsWithoutSectionCount());
         } catch (SQLException exc) {

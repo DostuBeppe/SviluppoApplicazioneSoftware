@@ -86,11 +86,17 @@ public class EditPanelController{
                 firstShift=true;
             }
         }
-        if(obj.getId().equals(eventBillBoard.getId()) && CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet()!=null){
+        if(obj.getId().equals(eventBillBoard.getId())){
             System.out.println("Bottone tabellone evento cliccato");
+            User u= CateringAppManager.userManager.getCurrentUser();
+            SummarySheet ss=CateringAppManager.dataManager.loadChefSummarySheet(u.getUserId());
+            CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
+            System.out.println("open sheet: "+ss.getTitle());
             Platform.runLater(()->{
-                PoPup popup= PoPup.getInstance();
+                PoPup popup= new PoPup();
+                popup.setConatainer(this);
                 try {
+                    disableButton(true);
                     popup.start(new Stage());
                 } catch (Exception e) {
                     e.printStackTrace();

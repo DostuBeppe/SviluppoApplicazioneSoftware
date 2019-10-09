@@ -18,22 +18,22 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 public class PoPup extends Application {
     /**/
-    private static PoPup singleInstance;
+   // private static PoPup singleInstance;
     private Stage stage;
     private CateringAppManager app;
     private Boolean alive=true;
+    private EditPanelController edit;
 
-    public static PoPup getInstance() {
+   /* public static PoPup getInstance() {
         if (PoPup.singleInstance == null){
             PoPup.singleInstance = new PoPup();
         }
         return PoPup.singleInstance;
-    }
+    }*/
 
     @Override
     public void start(Stage stage) throws Exception {
 
-        if(alive) {
             System.out.println("Entro in popup");
 
             this.stage = stage;
@@ -42,10 +42,16 @@ public class PoPup extends Application {
             PopupController pc = mainLoader.getController();
             Parent main = mainLoader.load();
             Scene mainScene = new Scene(main);
-
+            stage.setOnCloseRequest(event -> {
+                System.out.println("bill is closing");
+                edit.disableButton(false);
+                // Save file
+            });
             stage.setScene(mainScene);
             stage.show();
-            alive=false;
-        }
     }
+    public void setConatainer(EditPanelController edit){
+        this.edit=edit;
+    }
+
 }

@@ -68,13 +68,13 @@ public class SummarySheet  {
        st.setId(stListId);
        stList.put(stListId,st);
        observableList.add(st);
-        System.out.println("added shifttask:"+stListId);
+        System.out.println("added shifttask:"+stListId+" item id: "+item.getItemId());
        stListId++;
        return st;
     }
     public void addShiftTask(ShiftTask st){
        System.out.println("added from db: "+st.getId());
-        stList.put(stListId,st);
+        stList.put(st.getId(),st);
         observableList.add(st);
     }
 
@@ -160,6 +160,9 @@ public class SummarySheet  {
        ShiftTask st= stList.get(stId);
        observableList.remove(st);
        stList.remove(stId);
+       if(st==null){
+           System.out.println("null ");
+       }
        System.out.println("removed st: "+stId+" old: "+oldSize+" new: "+observableList.size());
     }
 }
