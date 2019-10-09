@@ -586,7 +586,7 @@ public class DataManager {
     }
     public void loadShiftTask(SummarySheet ss){
         PreparedStatement pst = null;
-        String sql = "select * from shift_task where shift_task.summary_sheet_id=?";
+        String sql = "select * from shift_task where shift_task.summary_sheet_id=? order by position";
         ShiftTask st=null;
         Map<Integer,ShiftTask> stMap=new HashMap<>();
 
@@ -793,43 +793,76 @@ public class DataManager {
         return it;
     }
     //UPLOAD
-    public void uploadSummarySheet(){
-        SummarySheet ss= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet();
-        String sql = "INSERT INTO summary_sheets(title,note,chef_id) " +
-                "VALUES(?,?,?)";
-        int id = -1;
-        PreparedStatement pstmt = null;
+    public boolean controllSSExist(int chefId){
+        PreparedStatement pst = null;
+        String sql = "select * from summary_sheets where summary_sheets.chef_id=?";
+        boolean exist=false;
+
         try {
-
-            pstmt = this.connection.prepareStatement(sql,
-                    Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, ss.getTitle());
-            pstmt.setString(2, ss.getNote());
-            pstmt.setInt(3, ss.getChefId());
-            pstmt.executeUpdate();
-            ResultSet rs=pstmt.getGeneratedKeys();
-            if(rs.next()){
-                id=rs.getInt(1);
+            pst = this.connection.prepareStatement(sql);
+            pst.setInt(1,chefId);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                exist=true;
             }
-            rs.close();
-            pstmt.close();
-
+            pst.close();
         } catch (SQLException exc) {
             exc.printStackTrace();
         } finally {
             try {
-                if (pstmt != null) pstmt.close();
+                if (pst != null) pst.close();
             } catch (SQLException exc2) {
                 exc2.printStackTrace();
             }
         }
-        System.out.println("uploaded sheet : "+id);
-        uploadShiftTask(id);
+        return exist;
+    }
+    public void uploadSummarySheet(){
+        SummarySheet ss= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet();
+        String sql=null;
+        boolean exist= controllSSExist(ss.getChefId());
+        if(!exist) {
+            sql = "INSERT INTO summary_sheets(title,note,chef_id) " +
+                    "VALUES(?,?,?)";
+        }else{
+            sql="update summary_sheets set title=?,note=? where summary_sheets.chef_id=?";
+            System.out.println("exist");
+        }
+            int id = -1;
+            PreparedStatement pstmt = null;
+            try {
+
+                pstmt = this.connection.prepareStatement(sql,
+                        Statement.RETURN_GENERATED_KEYS);
+                pstmt.setString(1, ss.getTitle());
+                pstmt.setString(2, ss.getNote());
+                pstmt.setInt(3, ss.getChefId());
+                pstmt.executeUpdate();
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    id = rs.getInt(1);
+                }
+                rs.close();
+                pstmt.close();
+
+            } catch (SQLException exc) {
+                exc.printStackTrace();
+            } finally {
+                try {
+                    if (pstmt != null) pstmt.close();
+                } catch (SQLException exc2) {
+                    exc2.printStackTrace();
+                }
+            }
+            System.out.println("uploaded sheet : " + id);
+            uploadShiftTask(id,exist);
+
 
     }
-    public int uploadShiftTask(int summaryShettId){
-        String sql = "INSERT INTO shift_task(summary_sheet_id) " +
-                "VALUES(?)";
+    public int uploadShiftTask(int summaryShettId,boolean exist){//0 not exist 1 exist
+        String sql=null;
+        sql = "INSERT INTO shift_task(summary_sheet_id) " +
+                    "VALUES(?)";
         int id = -1;
         PreparedStatement pstmt = null;
         Map stMap= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getStList();
@@ -848,9 +881,9 @@ public class DataManager {
                 }
                 rs.close();
                 pstmt.close();
-                uploadTaskST(id,st);
-                uploadShiftST(id,st);
-                uploadStaffST(id,st);
+                uploadTaskST(id,st,exist);
+                uploadShiftST(id,st,exist);
+                uploadStaffST(id,st,exist);
             }
 
         } catch (SQLException exc) {
@@ -864,9 +897,15 @@ public class DataManager {
         }
         return id;
     }
-    public int uploadShiftST(int stId,ShiftTask st){
-        String sql = "INSERT INTO rel_st_shift(shift_id,st_id) " +
-                "VALUES(?,?)";
+    public int uploadShiftST(int stId,ShiftTask st,boolean exist){
+        String sql=null;
+        if(!exist){
+            sql= "INSERT INTO rel_st_shift(shift_id,st_id) " +
+                    "VALUES(?,?)";
+        }else{
+            sql="update rel_st_shift set shift_id=? where rel_st_shift.st_id=?";
+        }
+
         int id = -1;
         PreparedStatement pstmt = null;
         Map shiftMap= st.getShifts();
@@ -900,9 +939,15 @@ public class DataManager {
         }
         return id;
     }
-    public int uploadStaffST(int stId,ShiftTask st){
-        String sql = "INSERT INTO rel_st_staff(staff_id,st_id) " +
-                "VALUES(?,?)";
+    public int uploadStaffST(int stId,ShiftTask st,boolean exist){
+        String sql=null;
+        if(!exist){
+            sql = "INSERT INTO rel_st_staff(staff_id,st_id) " +
+                    "VALUES(?,?)";
+        }else{
+            sql = "update rel_st_staff set staff_id=? where rel_st_staff.st_id=?";
+        }
+
         int id = -1;
         PreparedStatement pstmt = null;
         Map staffMap = st.getChoosenStaff();
@@ -936,13 +981,13 @@ public class DataManager {
         }
         return id;
     }
-    public int uploadTaskST(int stId,ShiftTask st){
+    public int uploadTaskST(int stId,ShiftTask st,boolean exist){
         String sql = "INSERT INTO rel_st_task(task_id,st_id) " +
                 "VALUES(?,?)";
         int id = -1;
         PreparedStatement pstmt = null;
         Task t= st.getTask();
-        int taskId=uploadTask(t);
+        int taskId=uploadTask(t,exist);
         try {
 
             pstmt = this.connection.prepareStatement(sql,
@@ -969,20 +1014,32 @@ public class DataManager {
         }
         return id;
     }
-    public int uploadTask(Task task){
-        String sql = "INSERT INTO tasks(item_id,estimated_time,quantity,status,title) " +
-                "VALUES(?,?,?,?,?)";
+    public int uploadTask(Task task,boolean exist){
+        String sql=null;
+        if(!exist) {
+            sql = "INSERT INTO tasks(item_id,estimated_time,quantity,status,title) " +
+                    "VALUES(?,?,?,?,?)";
+        }else{
+            sql="update tasks set estimated_time=?,quantity=?,title=? where tasks.id=?";
+        }
         int id = -1;
         PreparedStatement pstmt = null;
         try {
 
             pstmt = this.connection.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, task.getItem().getItemId());
-            pstmt.setInt(2, task.getEstimatedTime());
-            pstmt.setInt(3, task.getQuantity());
-            pstmt.setInt(4, (task.getStatusBool())?1:0);
-            pstmt.setString(5,task.getTitle());
+            if(!exist) {
+                pstmt.setInt(1, task.getItem().getItemId());
+                pstmt.setInt(2, task.getEstimatedTime());
+                pstmt.setInt(3, task.getQuantity());
+                pstmt.setInt(4, (task.getStatusBool()) ? 1 : 0);
+                pstmt.setString(5, task.getTitle());
+            }else{
+                pstmt.setInt(1, task.getEstimatedTime());
+                pstmt.setInt(2, task.getQuantity());
+                pstmt.setString(3, task.getTitle());
+                pstmt.setInt(4, task.getTaskId());
+            }
             pstmt.executeUpdate();
             ResultSet rs=pstmt.getGeneratedKeys();
             if(rs.next()){
