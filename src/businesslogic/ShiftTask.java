@@ -16,6 +16,7 @@ public class ShiftTask  {
     private String nameStaff;
     private boolean status;
     private String statusString;
+    private int position;
     private Map<Integer,Staff> staffList;
     public ShiftTask(int ssId){
         this.summarySheetId= ssId;
@@ -53,6 +54,13 @@ public class ShiftTask  {
 
         staffList.put(staff.getUserId(),staff);
         setNameStaff(staff.getName());
+    }
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
     public void setAllChosenStaff(Map csm){
         this.staffList=csm;
