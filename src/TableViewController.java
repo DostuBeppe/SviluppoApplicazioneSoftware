@@ -11,9 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TableViewController {
     @FXML
@@ -136,12 +134,10 @@ public class TableViewController {
     }
 
     public void inverti(int sotto,int sopra){
-        ShiftTask tmpSotto=stList.get(sotto);
-        ShiftTask tmpSopra=stList.get(sopra);
-        stList.set(sotto,tmpSopra);
-        stList.set(sopra,tmpSotto);
-        stList.get(sopra).setPosition(sopra);
-        stList.get(sotto).setPosition(sotto);
+        Collections.swap(stList,sotto,sopra);
+        stList.get(sopra).setPosition(stList.get(sotto).getPosition());
+        stList.get(sotto).setPosition(stList.get(sopra).getPosition());
+        CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(stList.get(sopra));
         table.refresh();
     }
 }
