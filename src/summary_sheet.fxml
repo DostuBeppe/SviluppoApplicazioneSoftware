@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -34,6 +35,18 @@
          </font>
       </Label>
    </top>
+         <right>
+            <VBox prefHeight="400.0" prefWidth="39.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="buttonUp" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="72.0" text="Su">
+                     <VBox.margin>
+                        <Insets top="170.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="buttonDown" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="127.0" text="Giù" />
+               </children>
+            </VBox>
+         </right>
     </BorderPane>
     </center>
    <bottom>
