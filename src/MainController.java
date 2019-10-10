@@ -64,7 +64,15 @@ public class MainController {
                 errorLabel.setText("non sei un utente del sistema");
             }
         }else if(obj.getId().equals(backButton.getId())){
-            mainPane.setCenter(null);
+            try {
+                FXMLLoader eventListLoader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
+                Parent eventList = eventListLoader.load();
+                EventListController eventListController = eventListLoader.getController();
+                eventListController.initialize(this);
+                mainPane.setCenter(eventList);
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
             System.out.println("indietro");
         }
 
