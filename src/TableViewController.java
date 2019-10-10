@@ -61,8 +61,10 @@ public class TableViewController {
                 sheetName.setText(name);
                 ss.setTitle(name);
             }
-            if(ss.getNote()!=null)
-                noteArea.setText(ss.getNote());
+
+        }else{
+            ss=css;
+            noteArea.setText(ss.getNote());
         }
         CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setTable(table);
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
@@ -102,8 +104,9 @@ public class TableViewController {
 
         if(obj.getId().equals(saveButton.getId())){
             System.out.println("save sheet");
-            CateringAppManager.dataManager.uploadSummarySheet();
             ss.setNote(noteArea.getText());
+            CateringAppManager.dataManager.uploadSummarySheet();
+
         }
         else if(obj.getId().equals(buttonUp.getId())){
             int sotto=table.getSelectionModel().getSelectedIndex();
@@ -135,9 +138,9 @@ public class TableViewController {
 
     public void inverti(int sotto,int sopra){
         Collections.swap(stList,sotto,sopra);
-        stList.get(sopra).setPosition(stList.get(sotto).getPosition());
-        stList.get(sotto).setPosition(stList.get(sopra).getPosition());
-        CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(stList.get(sopra));
+        stList.get(sopra).setPosition(stList.get(sopra).getPosition());
+        stList.get(sotto).setPosition(stList.get(sotto).getPosition());
+        //CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(stList.get(sopra));
         table.refresh();
     }
 }

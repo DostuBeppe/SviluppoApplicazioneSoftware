@@ -47,13 +47,20 @@ public class EditPanelController{
         this.main=main;
         System.out.println("loaded edit panel controller");
         System.out.println(createSheet.getId());
+        User u= CateringAppManager.userManager.getCurrentUser();
+        boolean exist= CateringAppManager.dataManager.controllSSExist(u.getUserId());
+        if(!exist){
+            disableOpen(true);
+        }else{
+            disableOpen(false);
+        }
     }
     @FXML
     private void handlButtonAction(ActionEvent event) {
 
         Button obj=(Button)event.getSource();
         if(obj.getId().equals(createSheet.getId())){
-
+            disableOpen(true);
             try {
                 System.out.println("load title");
                 FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("title.fxml"));
@@ -109,7 +116,7 @@ public class EditPanelController{
             SummarySheet ss=CateringAppManager.dataManager.loadChefSummarySheet(u.getUserId());
             CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
             System.out.println("open sheet: "+ss.getTitle());
-
+            disableCreate(true);
             try {
                 FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
                 Parent menu = menuLoader.load();
@@ -144,5 +151,10 @@ public class EditPanelController{
     }
     public void disableButton(boolean action){
         eventBillBoard.setDisable(action);
+    }
+    public void disableOpen(boolean action){
+        openSheet.setDisable(action);
+    }    public void disableCreate(boolean action){
+        createSheet.setDisable(action);
     }
 }

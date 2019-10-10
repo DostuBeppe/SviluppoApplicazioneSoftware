@@ -45,11 +45,10 @@ public class EventListController {
 
         eventList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         this.resetEventList();
-
-
       eventList.getSelectionModel().selectedIndexProperty().addListener((observable) -> {
             selectedEvent = eventList.getSelectionModel().getSelectedItem();
             CateringAppManager.eventManager.setCurrentEvent(selectedEvent);
+            CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(null);
           try {
               FXMLLoader controlPanelLoader = new FXMLLoader(getClass().getResource("edit_panel_controller.fxml"));
               Parent panel = controlPanelLoader.load();

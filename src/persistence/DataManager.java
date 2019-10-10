@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class DataManager {
     private String userName = "root";
-    private String password = "";           //da cambiare
+    private String password = "1123581321";           //da cambiare
     private String serverName = "localhost";
     private String portNumber = "3306";
 
@@ -597,8 +597,10 @@ public class DataManager {
             while (rs.next()) {
                 int id= rs.getInt("id");
                 int ssId= rs.getInt("summary_sheet_id");
+                int position= rs.getInt("position");
                 st=new ShiftTask(ssId);
                 st.setId(id);
+                st.setPosition(position);
                 loadShiftST(st);
                 loadTaskST(st);
                 ss.addShiftTask(st);
@@ -746,6 +748,7 @@ public class DataManager {
                 t.setQuantity(quantity);
                 t.setStatus((status==1)?true:false);
                 t.setItem(loadMenuItem(itemId));
+                t.setTaskId(taskId);
             }
             pst.close();
         } catch (SQLException exc) {
@@ -817,18 +820,91 @@ public class DataManager {
         }
         return exist;
     }
+    public boolean controllShiftExist(int stId){
+        PreparedStatement pst = null;
+        String sql = "select * from rel_st_shift where rel_st_shift.st_id=?";
+        boolean exist=false;
+
+        try {
+            pst = this.connection.prepareStatement(sql);
+            pst.setInt(1,stId);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                exist=true;
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return exist;
+    }
+    public boolean controllStaffExist(int stId){
+        PreparedStatement pst = null;
+        String sql = "select * from rel_st_staff where rel_st_staff.staff_id=?";
+        boolean exist=false;
+
+        try {
+            pst = this.connection.prepareStatement(sql);
+            pst.setInt(1,stId);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                exist=true;
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return exist;
+    }
+    public boolean controllSTExist(int sId){
+        PreparedStatement pst = null;
+        String sql = "select * from shift_task where shift_task.summary_sheet_id=?";
+        boolean exist=false;
+
+        try {
+            pst = this.connection.prepareStatement(sql);
+            pst.setInt(1,sId);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                exist=true;
+            }
+            pst.close();
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+        } finally {
+            try {
+                if (pst != null) pst.close();
+            } catch (SQLException exc2) {
+                exc2.printStackTrace();
+            }
+        }
+        return exist;
+    }
     public void uploadSummarySheet(){
         SummarySheet ss= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet();
         String sql=null;
         boolean exist= controllSSExist(ss.getChefId());
+        int id = -1;
         if(!exist) {
             sql = "INSERT INTO summary_sheets(title,note,chef_id) " +
                     "VALUES(?,?,?)";
         }else{
             sql="update summary_sheets set title=?,note=? where summary_sheets.chef_id=?";
             System.out.println("exist");
+            id=ss.getId();
         }
-            int id = -1;
             PreparedStatement pstmt = null;
             try {
 
@@ -860,46 +936,59 @@ public class DataManager {
 
     }
     public int uploadShiftTask(int summaryShettId,boolean exist){//0 not exist 1 exist
-        String sql=null;
-        sql = "INSERT INTO shift_task(summary_sheet_id) " +
-                    "VALUES(?)";
         int id = -1;
-        PreparedStatement pstmt = null;
-        Map stMap= CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getStList();
-        System.out.println("shifts: "+stMap.size());
-        List<ShiftTask> stList= new ArrayList<>(stMap.values());
-        try {
-            for (ShiftTask st:stList
-                 ) {
-                pstmt = this.connection.prepareStatement(sql,
-                        Statement.RETURN_GENERATED_KEYS);
-                pstmt.setInt(1, summaryShettId);
-                pstmt.executeUpdate();
-                ResultSet rs=pstmt.getGeneratedKeys();
-                if(rs.next()){
-                    id=rs.getInt(1);
+        String sql = null;
+        if(!controllSTExist(summaryShettId)) {
+
+            sql = "INSERT INTO shift_task(summary_sheet_id,position) " +
+                    "VALUES(?,?)";
+            System.out.println("not exist shift t");
+        }else{
+            sql="update shift_task set summary_sheet_id=?,position=? where shift_task.id=?";
+            System.out.println("exist shift t");
+        }
+            PreparedStatement pstmt = null;
+            Map stMap = CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getStList();
+            System.out.println("shifts: " + stMap.size());
+            List<ShiftTask> stList = new ArrayList<>(stMap.values());
+            try {
+                for (ShiftTask st : stList
+                ) {
+                    pstmt = this.connection.prepareStatement(sql,
+                            Statement.RETURN_GENERATED_KEYS);
+                    pstmt.setInt(1, summaryShettId);
+                    pstmt.setInt(2, st.getPosition());
+                    if(exist){
+                        pstmt.setInt(3, st.getId());
+                    }
+                    pstmt.executeUpdate();
+                    ResultSet rs = pstmt.getGeneratedKeys();
+                    if (rs.next()) {
+                        id = rs.getInt(1);
+                    }
+                    rs.close();
+                    pstmt.close();
+                    uploadTaskST(st.getId(), st, exist);
+                    uploadShiftST(st.getId(), st, exist);
+                    uploadStaffST(st.getId(), st, exist);
+                    System.out.println("update shift t");
                 }
-                rs.close();
-                pstmt.close();
-                uploadTaskST(id,st,exist);
-                uploadShiftST(id,st,exist);
-                uploadStaffST(id,st,exist);
+
+            } catch (SQLException exc) {
+                exc.printStackTrace();
+            } finally {
+                try {
+                    if (pstmt != null) pstmt.close();
+                } catch (SQLException exc2) {
+                    exc2.printStackTrace();
+                }
             }
 
-        } catch (SQLException exc) {
-            exc.printStackTrace();
-        } finally {
-            try {
-                if (pstmt != null) pstmt.close();
-            } catch (SQLException exc2) {
-                exc2.printStackTrace();
-            }
-        }
         return id;
     }
     public int uploadShiftST(int stId,ShiftTask st,boolean exist){
         String sql=null;
-        if(!exist){
+        if(!controllShiftExist(stId)){
             sql= "INSERT INTO rel_st_shift(shift_id,st_id) " +
                     "VALUES(?,?)";
         }else{
@@ -924,6 +1013,7 @@ public class DataManager {
                 }
                 rs.close();
                 pstmt.close();
+                System.out.println("shift: "+sh.getShiftId()+" "+stId+" uploaded");
             }
 
 
@@ -941,7 +1031,7 @@ public class DataManager {
     }
     public int uploadStaffST(int stId,ShiftTask st,boolean exist){
         String sql=null;
-        if(!exist){
+        if(!controllStaffExist(stId)){
             sql = "INSERT INTO rel_st_staff(staff_id,st_id) " +
                     "VALUES(?,?)";
         }else{
@@ -988,6 +1078,7 @@ public class DataManager {
         PreparedStatement pstmt = null;
         Task t= st.getTask();
         int taskId=uploadTask(t,exist);
+        if(!exist){
         try {
 
             pstmt = this.connection.prepareStatement(sql,
@@ -1011,6 +1102,7 @@ public class DataManager {
             } catch (SQLException exc2) {
                 exc2.printStackTrace();
             }
+        }
         }
         return id;
     }

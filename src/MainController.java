@@ -35,34 +35,45 @@ public class MainController {
     @FXML
     private void handleButtonAction(ActionEvent event) {
         Button obj=(Button)event.getSource();
-        if(obj.getId().equals(loginButton.getId())){
+        if(obj.getId().equals(loginButton.getId())) {
             System.out.println("pressed");
-            String userText=userName.getText();
-            u=CateringAppManager.dataManager.loadUser(userText);
-            System.out.println("name: "+u.getName()+" role: "+u.getRole());
-            if(u.getRole().equals("c")) {
-                CateringAppManager.userManager.setCurrentUser(u);
-                if (first) {
-                    try {
-                        FXMLLoader eventListLoader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
-                        Parent eventList = eventListLoader.load();
-                        EventListController eventListController = eventListLoader.getController();
-                        eventListController.initialize(this);
-                        mainPane.setCenter(eventList);
-                    } catch (IOException exc) {
-                        exc.printStackTrace();
+            String userText = userName.getText();
+            u = CateringAppManager.dataManager.loadUser(userText);
+            if (u != null) {
+                if (u.getRole().equals("c")) {
+                    CateringAppManager.userManager.setCurrentUser(u);
+                    if (first) {
+                        try {
+                            FXMLLoader eventListLoader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
+                            Parent eventList = eventListLoader.load();
+                            EventListController eventListController = eventListLoader.getController();
+                            eventListController.initialize(this);
+                            mainPane.setCenter(eventList);
+                        } catch (IOException exc) {
+                            exc.printStackTrace();
+                        }
+                        first = false;
+                        errorLabel.setText("");
                     }
-                    first = false;
-                    errorLabel.setText("");
+                } else {
+                    first = true;
+                    errorLabel.setText("non sei un utente autorizzato");
                 }
-            }else{
-                first=true;
-                errorLabel.setText("non sei un utente autorizzato");
+            } else{
+                first = true;
+                errorLabel.setText("non sei un utente del sistema");
             }
         }else if(obj.getId().equals(backButton.getId())){
+            try {
+                FXMLLoader eventListLoader = new FXMLLoader(getClass().getResource("eventlist.fxml"));
+                Parent eventList = eventListLoader.load();
+                EventListController eventListController = eventListLoader.getController();
+                eventListController.initialize(this);
+                mainPane.setCenter(eventList);
+            } catch (IOException exc) {
+                exc.printStackTrace();
+            }
             System.out.println("indietro");
-        }else if(obj.getId().equals(forwardButton.getId())){
-            System.out.println("avanti");
         }
 
     }
