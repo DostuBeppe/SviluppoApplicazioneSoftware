@@ -11,9 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TableViewController {
     @FXML
@@ -35,11 +33,18 @@ public class TableViewController {
     @FXML
     private Button saveButton;
     @FXML
+    private Button buttonUp;
+    @FXML
+    private Button buttonDown;
+    @FXML
     private BorderPane bottomPane;
+    @FXML
+    private TextArea noteArea;
 
     private ObservableList<ShiftTask> stList;
     private SummarySheet ss;
     private List<ShiftTask> stArray;
+
     public void initialize(String name){
         title.setCellValueFactory(new PropertyValueFactory<>("name"));
         time.setCellValueFactory(new PropertyValueFactory<>("estimatedTime"));
@@ -56,6 +61,8 @@ public class TableViewController {
                 sheetName.setText(name);
                 ss.setTitle(name);
             }
+            if(ss.getNote()!=null)
+                noteArea.setText(ss.getNote());
         }
         CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setTable(table);
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->
@@ -92,9 +99,29 @@ public class TableViewController {
     private void handleButtonAction(ActionEvent event) {
 
         Button obj=(Button)event.getSource();
+
         if(obj.getId().equals(saveButton.getId())){
             System.out.println("save sheet");
             CateringAppManager.dataManager.uploadSummarySheet();
+            ss.setNote(noteArea.getText());
+        }
+        else if(obj.getId().equals(buttonUp.getId())){
+            int sotto=table.getSelectionModel().getSelectedIndex();
+            int sopra= sotto-1;
+            System.out.println(sotto+"   "+sopra);
+            if(sopra>=0){
+                inverti(sotto,sopra);
+            }
+        }
+        else{
+            int sotto=table.getSelectionModel().getSelectedIndex();
+            int sopra= sotto+1;
+            int dim=stList.size();
+            System.out.println(sotto+"   "+sopra);
+            if(sopra<dim){
+                inverti(sotto,sopra);
+            }
+
         }
 
     }
@@ -104,5 +131,13 @@ public class TableViewController {
     }
     public TableView getTable(){
         return  table;
+    }
+
+    public void inverti(int sotto,int sopra){
+        Collections.swap(stList,sotto,sopra);
+        stList.get(sopra).setPosition(stList.get(sotto).getPosition());
+        stList.get(sotto).setPosition(stList.get(sopra).getPosition());
+        CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setCurrentShiftTask(stList.get(sopra));
+        table.refresh();
     }
 }
