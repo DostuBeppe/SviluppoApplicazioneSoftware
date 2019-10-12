@@ -65,6 +65,7 @@ public class TableViewController {
         }else{
             ss=css;
             noteArea.setText(ss.getNote());
+            sheetName.setText(ss.getTitle());
         }
         CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().setTable(table);
         table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) ->

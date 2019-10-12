@@ -931,21 +931,23 @@ public class DataManager {
                 }
             }
             System.out.println("uploaded sheet : " + id);
-            uploadShiftTask(id,exist);
+            uploadShiftTask(id);
 
 
     }
-    public int uploadShiftTask(int summaryShettId,boolean exist){//0 not exist 1 exist
+    public int uploadShiftTask(int summaryShettId){//0 not exist 1 exist
         int id = -1;
+        int idForDB;
         String sql = null;
-        if(!controllSTExist(summaryShettId)) {
+        boolean exist=controllSTExist(summaryShettId);
+        if(!exist) {
 
             sql = "INSERT INTO shift_task(summary_sheet_id,position) " +
                     "VALUES(?,?)";
-            System.out.println("not exist shift t");
+            System.out.println("not exist st");
         }else{
             sql="update shift_task set summary_sheet_id=?,position=? where shift_task.id=?";
-            System.out.println("exist shift t");
+            System.out.println("exist st");
         }
             PreparedStatement pstmt = null;
             Map stMap = CateringAppManager.eventManager.getCurrentEvent().getCurrentSummarySheet().getStList();
@@ -968,10 +970,11 @@ public class DataManager {
                     }
                     rs.close();
                     pstmt.close();
-                    uploadTaskST(st.getId(), st, exist);
-                    uploadShiftST(st.getId(), st, exist);
-                    uploadStaffST(st.getId(), st, exist);
-                    System.out.println("update shift t");
+                    idForDB=(id!=-1)?id:st.getId();
+                    uploadTaskST(idForDB, st,exist);
+                    uploadShiftST(idForDB, st);
+                    uploadStaffST(idForDB, st);
+                    System.out.println("update st");
                 }
 
             } catch (SQLException exc) {
@@ -986,9 +989,10 @@ public class DataManager {
 
         return id;
     }
-    public int uploadShiftST(int stId,ShiftTask st,boolean exist){
+    public int uploadShiftST(int stId,ShiftTask st){
         String sql=null;
-        if(!controllShiftExist(stId)){
+        boolean exist=controllShiftExist(stId);
+        if(!exist){
             sql= "INSERT INTO rel_st_shift(shift_id,st_id) " +
                     "VALUES(?,?)";
         }else{
@@ -1029,9 +1033,10 @@ public class DataManager {
         }
         return id;
     }
-    public int uploadStaffST(int stId,ShiftTask st,boolean exist){
+    public int uploadStaffST(int stId,ShiftTask st){
         String sql=null;
-        if(!controllStaffExist(stId)){
+        boolean exist=controllStaffExist(stId);
+        if(!exist){
             sql = "INSERT INTO rel_st_staff(staff_id,st_id) " +
                     "VALUES(?,?)";
         }else{

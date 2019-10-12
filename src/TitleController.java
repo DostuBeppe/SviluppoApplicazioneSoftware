@@ -21,13 +21,14 @@ public class TitleController {
     @FXML
     public void initialize(EditPanelController main) {
         this.main=main;
+
     }
     @FXML
     private void handleButtonAction(ActionEvent event) {
 
         Button obj=(Button)event.getSource();
         if(obj.getId().equals(send.getId())){
-
+            main.disableShift(false);
             try {
                     FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
                     Parent menu = menuLoader.load();
