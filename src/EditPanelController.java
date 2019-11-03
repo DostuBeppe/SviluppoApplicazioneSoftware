@@ -55,6 +55,7 @@ public class EditPanelController{
         }else{
             disableOpen(false);
             disableButton(false);
+            disableCreate(true);
         }
     }
     @FXML
