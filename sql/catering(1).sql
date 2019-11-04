@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Creato il: Ott 09, 2019 alle 14:55
+-- Creato il: Nov 03, 2019 alle 21:54
 -- Versione del server: 10.1.41-MariaDB-0+deb9u1
 -- Versione PHP: 7.2.22-1+0~20190902.26+debian9~1.gbpd64eb7
 
@@ -221,23 +221,12 @@ CREATE TABLE `rel_st_shift` (
 --
 
 INSERT INTO `rel_st_shift` (`id`, `st_id`, `shift_id`) VALUES
-(5, 11, 1),
-(6, 11, 2),
-(7, 12, 1),
-(8, 13, 2),
-(9, 14, 1),
-(10, 15, 2),
-(11, 16, 1),
-(12, 16, 2),
-(13, 17, 1),
-(14, 18, 1),
-(15, 19, 2),
-(16, 20, 1),
-(17, 20, 2),
-(18, 21, 1),
-(19, 22, 2),
-(20, 27, 1),
-(21, 28, 2);
+(27, 73, 1),
+(28, 74, 2),
+(29, 75, 2),
+(30, 75, 2),
+(31, 76, 1),
+(32, 77, 2);
 
 -- --------------------------------------------------------
 
@@ -256,25 +245,22 @@ CREATE TABLE `rel_st_staff` (
 --
 
 INSERT INTO `rel_st_staff` (`id`, `st_id`, `staff_id`) VALUES
-(10, 10, 2),
-(11, 10, 3),
-(12, 11, 2),
-(13, 11, 3),
-(14, 12, 2),
-(15, 13, 3),
-(16, 14, 2),
-(17, 15, 3),
-(18, 16, 2),
-(19, 16, 3),
-(20, 17, 2),
-(21, 18, 2),
-(22, 19, 3),
-(23, 20, 2),
-(24, 20, 3),
-(25, 21, 2),
-(26, 22, 3),
-(27, 27, 2),
-(28, 28, 3);
+(33, 73, 2),
+(34, 74, 3),
+(35, 75, 3),
+(36, 73, 2),
+(37, 74, 3),
+(38, 75, 3),
+(39, 73, 2),
+(40, 74, 2),
+(41, 74, 3),
+(42, 75, 3),
+(43, 73, 2),
+(44, 74, 2),
+(45, 74, 3),
+(46, 75, 3),
+(47, 76, 2),
+(48, 77, 3);
 
 -- --------------------------------------------------------
 
@@ -293,25 +279,12 @@ CREATE TABLE `rel_st_task` (
 --
 
 INSERT INTO `rel_st_task` (`id`, `task_id`, `st_id`) VALUES
-(11, 7, 11),
-(12, 8, 12),
-(13, 9, 13),
-(14, 10, 14),
-(15, 11, 15),
-(16, 12, 16),
-(17, 13, 17),
-(18, 14, 18),
-(19, 15, 19),
-(20, 16, 20),
-(21, 17, 21),
-(22, 18, 22),
-(23, 19, 23),
-(24, 20, 24),
-(25, 21, 25),
-(26, 22, 26),
-(27, 23, 27),
-(28, 24, 28),
-(29, 25, 29);
+(71, 50, 73),
+(72, 51, 74),
+(73, 52, 75),
+(74, 53, 76),
+(75, 54, 77),
+(76, 55, 78);
 
 -- --------------------------------------------------------
 
@@ -387,33 +360,21 @@ INSERT INTO `shifts` (`id`, `date`, `start`, `end`, `number`) VALUES
 
 CREATE TABLE `shift_task` (
   `id` int(11) NOT NULL,
-  `summary_sheet_id` int(11) DEFAULT NULL
+  `summary_sheet_id` int(11) DEFAULT NULL,
+  `position` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `shift_task`
 --
 
-INSERT INTO `shift_task` (`id`, `summary_sheet_id`) VALUES
-(11, 8),
-(12, 8),
-(13, 8),
-(14, 9),
-(15, 9),
-(16, 9),
-(17, 9),
-(18, 10),
-(19, 10),
-(20, 10),
-(21, 11),
-(22, 11),
-(23, 11),
-(24, 11),
-(25, 11),
-(26, 11),
-(27, 12),
-(28, 12),
-(29, 12);
+INSERT INTO `shift_task` (`id`, `summary_sheet_id`, `position`) VALUES
+(73, 23, 0),
+(74, 23, 1),
+(75, 23, 2),
+(76, 23, 3),
+(77, 24, 1),
+(78, 24, 2);
 
 -- --------------------------------------------------------
 
@@ -450,13 +411,6 @@ CREATE TABLE `summary_sheets` (
   `chef_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dump dei dati per la tabella `summary_sheets`
---
-
-INSERT INTO `summary_sheets` (`id`, `title`, `note`, `chef_id`) VALUES
-(12, '', NULL, 5);
-
 -- --------------------------------------------------------
 
 --
@@ -477,31 +431,12 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`id`, `item_id`, `estimated_time`, `quantity`, `status`, `title`) VALUES
-(1, 0, 0, 0, 0, NULL),
-(2, 0, 0, 0, 0, NULL),
-(3, 0, 0, 0, 0, NULL),
-(4, 0, 0, 0, 0, NULL),
-(5, 0, 0, 0, 0, NULL),
-(6, 0, 0, 0, 0, NULL),
-(7, 1, 20, 4, 0, NULL),
-(8, 2, 10, 3, 0, NULL),
-(9, 3, 30, 6, 0, NULL),
-(10, 0, 12, 2, 0, NULL),
-(11, 0, 13, 1, 0, NULL),
-(12, 0, 30, 5, 0, NULL),
-(13, 0, 10, 1, 0, NULL),
-(14, 3, 20, 2, 0, NULL),
-(15, 3, 29, 5, 0, NULL),
-(16, 3, 10, 1, 0, NULL),
-(17, 3, 12, 20, 0, NULL),
-(18, 3, 60, 2, 0, NULL),
-(19, 3, 0, 0, 0, NULL),
-(20, 3, 0, 0, 0, NULL),
-(21, 3, 0, 0, 0, NULL),
-(22, 3, 0, 0, 0, NULL),
-(23, 1, 0, 0, 0, NULL),
-(24, 3, 0, 0, 0, NULL),
-(25, 5, 0, 0, 0, NULL);
+(50, 5, 12, 3, 0, NULL),
+(51, 1, 20, 3, 0, NULL),
+(52, 2, 60, 1, 0, NULL),
+(53, 3, 12, 2, 0, NULL),
+(54, 3, 12, 3, 0, NULL),
+(55, 5, 0, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -712,17 +647,17 @@ ALTER TABLE `rel_shift_staff`
 -- AUTO_INCREMENT per la tabella `rel_st_shift`
 --
 ALTER TABLE `rel_st_shift`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT per la tabella `rel_st_staff`
 --
 ALTER TABLE `rel_st_staff`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 --
 -- AUTO_INCREMENT per la tabella `rel_st_task`
 --
 ALTER TABLE `rel_st_task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 --
 -- AUTO_INCREMENT per la tabella `Sections`
 --
@@ -737,7 +672,7 @@ ALTER TABLE `shifts`
 -- AUTO_INCREMENT per la tabella `shift_task`
 --
 ALTER TABLE `shift_task`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 --
 -- AUTO_INCREMENT per la tabella `staff`
 --
@@ -747,12 +682,12 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT per la tabella `summary_sheets`
 --
 ALTER TABLE `summary_sheets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT per la tabella `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 --
 -- AUTO_INCREMENT per la tabella `Users`
 --

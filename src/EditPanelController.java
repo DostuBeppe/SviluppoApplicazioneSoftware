@@ -51,8 +51,11 @@ public class EditPanelController{
         boolean exist= CateringAppManager.dataManager.controllSSExist(u.getUserId());
         if(!exist){
             disableOpen(true);
+            disableButton(true);
         }else{
             disableOpen(false);
+            disableButton(false);
+            disableCreate(true);
         }
     }
     @FXML
@@ -61,6 +64,8 @@ public class EditPanelController{
         Button obj=(Button)event.getSource();
         if(obj.getId().equals(createSheet.getId())){
             disableOpen(true);
+            disableCreate(true);
+            disableShift(true);
             try {
                 System.out.println("load title");
                 FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("title.fxml"));
@@ -69,7 +74,6 @@ public class EditPanelController{
                 titleController.initialize(this);
                 System.out.println("main: "+mainPane.getId());
                 System.out.println("title: "+title.getId());
-                disableButton(false);
                 controlPane.setCenter(title);
             } catch (IOException exc) {
                 exc.printStackTrace();
@@ -113,10 +117,13 @@ public class EditPanelController{
         if(obj.getId().equals(openSheet.getId())){
 
             User u= CateringAppManager.userManager.getCurrentUser();
-            SummarySheet ss=CateringAppManager.dataManager.loadChefSummarySheet(u.getUserId());
+            SummarySheet ss= CateringAppManager.dataManager.loadChefSummarySheet(u.getUserId());
             CateringAppManager.eventManager.getCurrentEvent().setCurrentSummarySheet(ss);
+
             System.out.println("open sheet: "+ss.getTitle());
             disableCreate(true);
+            disableShift(false);
+            disableButton(false);
             try {
                 FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("menu.fxml"));
                 Parent menu = menuLoader.load();
@@ -154,7 +161,11 @@ public class EditPanelController{
     }
     public void disableOpen(boolean action){
         openSheet.setDisable(action);
-    }    public void disableCreate(boolean action){
+    }
+    public void disableCreate(boolean action){
         createSheet.setDisable(action);
+    }
+    public void disableShift(boolean action){
+        shifts.setDisable(action);
     }
 }
